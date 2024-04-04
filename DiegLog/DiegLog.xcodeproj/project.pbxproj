@@ -24,6 +24,7 @@
 		0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */; };
 		0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */; };
 		0AF454762BBEBB44005EBDD9 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0AF454752BBEBB44005EBDD9 /* FSCalendar */; };
+		0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
 		0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewController.swift; sourceTree = "<group>"; };
+		0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				0AF454572BBE58B1005EBDD9 /* UILabelExtension.swift */,
 				0AF454652BBE664C005EBDD9 /* UIButtonExtension.swift */,
 				0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */,
+				0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
 				0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */,
 				0AF454582BBE58B1005EBDD9 /* UILabelExtension.swift in Sources */,
+				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
 				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
 				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
