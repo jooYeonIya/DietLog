@@ -63,6 +63,11 @@ class SignInViewController: BaseUIViewController {
     }
     
     @objc func didTappedSaveButton() {
-        //        UserDefaults.standard.setValue(true, forKey: "isFirstLaunch")
+
+        if nickNameTextField.text != "" {
+            //        UserDefaults.standard.setValue(true, forKey: "isFirstLaunch")
+        } else {
+            showAlertOneButton(title: "", message: "닉네임을 입력해 주세요")
+        }
     }
 }
