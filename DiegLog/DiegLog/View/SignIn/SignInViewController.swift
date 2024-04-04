@@ -67,6 +67,10 @@ class SignInViewController: BaseUIViewController {
         if nickNameTextField.text != "" {
             //        UserDefaults.standard.setValue(true, forKey: "isFirstLaunch")
             UserDefaults.standard.setValue(nickNameTextField.text, forKey: "nickName")
+            let tabBarViewController = AppTabBarController()
+            view.window?.rootViewController = tabBarViewController
+            view.window?.makeKeyAndVisible()
+
         } else {
             showAlertOneButton(title: "", message: "닉네임을 입력해 주세요")
         }
