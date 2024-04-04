@@ -24,8 +24,7 @@ class SignInViewController: BaseUIViewController {
         
         nickNameTextField.placeholder = "닉네임"
         
-        saveButton.setTitle("저장", for: .normal)
-        saveButton.setTitleColor(.blue, for: .normal)
+        saveButton.setUpButton(title: "저장", titleSize: .body)
         
         view.addSubview(welcomTitleLabel)
         view.addSubview(welcomSubTitleLabel)
@@ -53,6 +52,7 @@ class SignInViewController: BaseUIViewController {
         saveButton.snp.makeConstraints { make in
             make.top.equalTo(nickNameTextField.snp.bottom).offset(8)
             make.leading.trailing.equalTo(welcomTitleLabel)
+            make.height.equalTo(40)
         }
     }
     
