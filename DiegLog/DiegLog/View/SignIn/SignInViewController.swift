@@ -55,4 +55,12 @@ class SignInViewController: BaseUIViewController {
             make.leading.trailing.equalTo(welcomTitleLabel)
         }
     }
+    
+    override func setAddTartget() {
+        saveButton.addTarget(self, action: #selector(didTappedSaveButton), for: .touchUpInside)
+    }
+    
+    @objc func didTappedSaveButton() {
+        //        UserDefaults.standard.setValue(true, forKey: "isFirstLaunch")
+    }
 }

@@ -17,6 +17,7 @@ class BaseUIViewController: UIViewController {
         setUI()
         setLayout()
         setDelegate()
+        setAddTartget()
     }
     
     func setupNavigationBar() {}
@@ -26,4 +27,6 @@ class BaseUIViewController: UIViewController {
     func setLayout() {}
     
     func setDelegate() {}
+    
+    func setAddTartget() {}
 }
