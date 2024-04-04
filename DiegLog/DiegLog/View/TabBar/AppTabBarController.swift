@@ -12,20 +12,26 @@ class AppTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBlue
-
-        // Do any additional setup after loading the view.
+        let melaView = MealViewController()
+        let myInfoView = MyInfoViewController()
+        let exerciseView = ExerciseViewController()
+        
+        melaView.tabBarItem = UITabBarItem(title: AppTabBarItem.meal.toTabTitle(),
+                                           image: AppTabBarItem.meal.toTabImage(),
+                                           tag: AppTabBarItem.meal.rawValue)
+        myInfoView.tabBarItem = UITabBarItem(title: AppTabBarItem.myInfo.toTabTitle(),
+                                             image: AppTabBarItem.myInfo.toTabImage(),
+                                             tag: AppTabBarItem.myInfo.rawValue)
+        exerciseView.tabBarItem = UITabBarItem(title: AppTabBarItem.exercise.toTabTitle(),
+                                               image: AppTabBarItem.exercise.toTabImage(),
+                                               tag: AppTabBarItem.exercise.rawValue)
+        
+        let mealNavigationController = UINavigationController(rootViewController: melaView)
+        let myInfoNavigationController = UINavigationController(rootViewController: myInfoView)
+        let exerciseNavigationController = UINavigationController(rootViewController: exerciseView)
+        
+        viewControllers = [mealNavigationController,
+                           myInfoNavigationController,
+                           exerciseNavigationController]
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

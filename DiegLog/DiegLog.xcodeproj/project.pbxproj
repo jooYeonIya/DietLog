@@ -19,6 +19,10 @@
 		0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */; };
 		0AF454662BBE664C005EBDD9 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454652BBE664C005EBDD9 /* UIButtonExtension.swift */; };
 		0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */; };
+		0AF4546C2BBE6D72005EBDD9 /* AppTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4546B2BBE6D72005EBDD9 /* AppTabBarItem.swift */; };
+		0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */; };
+		0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */; };
+		0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +39,10 @@
 		0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 		0AF454652BBE664C005EBDD9 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
+		0AF4546B2BBE6D72005EBDD9 /* AppTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarItem.swift; sourceTree = "<group>"; };
+		0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
+		0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
+		0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +118,7 @@
 		0AF4542E2BBE449F005EBDD9 /* MyInfo */ = {
 			isa = PBXGroup;
 			children = (
+				0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */,
 			);
 			path = MyInfo;
 			sourceTree = "<group>";
@@ -125,6 +134,7 @@
 		0AF454302BBE44AE005EBDD9 /* Meal */ = {
 			isa = PBXGroup;
 			children = (
+				0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */,
 			);
 			path = Meal;
 			sourceTree = "<group>";
@@ -132,6 +142,7 @@
 		0AF454312BBE44B3005EBDD9 /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
+				0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
@@ -160,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */,
+				0AF4546B2BBE6D72005EBDD9 /* AppTabBarItem.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -242,12 +254,16 @@
 			files = (
 				0AF4545A2BBE590E005EBDD9 /* SignInViewController.swift in Sources */,
 				0AF454662BBE664C005EBDD9 /* UIButtonExtension.swift in Sources */,
+				0AF4546C2BBE6D72005EBDD9 /* AppTabBarItem.swift in Sources */,
 				0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */,
 				0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */,
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
 				0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */,
 				0AF454582BBE58B1005EBDD9 /* UILabelExtension.swift in Sources */,
+				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
+				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
 				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
+				0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */,
 				0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
