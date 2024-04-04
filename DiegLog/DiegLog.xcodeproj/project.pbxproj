@@ -18,6 +18,7 @@
 		0AF4545A2BBE590E005EBDD9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454592BBE590E005EBDD9 /* SignInViewController.swift */; };
 		0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */; };
 		0AF454662BBE664C005EBDD9 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454652BBE664C005EBDD9 /* UIButtonExtension.swift */; };
+		0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		0AF454592BBE590E005EBDD9 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 		0AF454652BBE664C005EBDD9 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
+		0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				0AF454552BBE57E1005EBDD9 /* UIFontExtension.swift */,
 				0AF454572BBE58B1005EBDD9 /* UILabelExtension.swift */,
 				0AF454652BBE664C005EBDD9 /* UIButtonExtension.swift */,
+				0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
 				0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */,
 				0AF454582BBE58B1005EBDD9 /* UILabelExtension.swift in Sources */,
+				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
 				0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

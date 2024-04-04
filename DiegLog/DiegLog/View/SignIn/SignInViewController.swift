@@ -23,6 +23,7 @@ class SignInViewController: BaseUIViewController {
         welcomSubTitleLabel.setupLabel(text: "앞으로 사용할 닉네임을 등록해주세요", font: .body)
         
         nickNameTextField.placeholder = "닉네임"
+        nickNameTextField.setUpTextField()
         
         saveButton.setUpButton(title: "저장", titleSize: .body)
         
@@ -47,10 +48,11 @@ class SignInViewController: BaseUIViewController {
         nickNameTextField.snp.makeConstraints { make in
             make.top.equalTo(welcomSubTitleLabel.snp.bottom).offset(60)
             make.leading.trailing.equalTo(welcomTitleLabel)
+            make.height.equalTo(40)
         }
         
         saveButton.snp.makeConstraints { make in
-            make.top.equalTo(nickNameTextField.snp.bottom).offset(8)
+            make.top.equalTo(nickNameTextField.snp.bottom).offset(24)
             make.leading.trailing.equalTo(welcomTitleLabel)
             make.height.equalTo(40)
         }
