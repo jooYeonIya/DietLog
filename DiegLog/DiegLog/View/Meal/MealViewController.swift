@@ -10,25 +10,36 @@ import FSCalendar
 
 class MealViewController: BaseUIViewController {
     
+    // MARK: - Component
     private lazy var calendarView = FSCalendar()
+    private lazy var mealListTebleView = UITableView()
     
+    // MARK: - 변수
+    private var mealList: [UIImage] = [UIImage(systemName: "photo")!]
+    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    // MARK: - Setup
     override func setUI() {
         setCalendarViewUI()
+        setTableViewUI()
     }
     
     override func setLayout() {
         setCalendarViewLayout()
+        setTableViewLayout()
     }
     
     override func setDelegate() {
         setCalendarViewDelegate()
+        setTableViewDelegate()
     }
 }
 
+// MARK: - FSCalendar
 extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     func setCalendarViewUI() {
         calendarView.configure()
@@ -95,5 +106,36 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         } else {
             return ""
         }
+    }
+}
+
+// MARK: - TableView
+extension MealViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func setTableViewUI() {
+        mealListTebleView.isHidden = mealList.count == 0 ? true : false
+        view.addSubview(mealListTebleView)
+    }
+    
+    func setTableViewLayout() {
+        mealListTebleView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(calendarView.snp.bottom).offset(8)
+            make.leading.trailing.equalTo(calendarView)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+    
+    func setTableViewDelegate() {
+        mealListTebleView.delegate = self
+        mealListTebleView.dataSource = self
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return mealList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
     }
 }
