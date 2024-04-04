@@ -16,6 +16,7 @@
 		0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454552BBE57E1005EBDD9 /* UIFontExtension.swift */; };
 		0AF454582BBE58B1005EBDD9 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454572BBE58B1005EBDD9 /* UILabelExtension.swift */; };
 		0AF4545A2BBE590E005EBDD9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454592BBE590E005EBDD9 /* SignInViewController.swift */; };
+		0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		0AF454552BBE57E1005EBDD9 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		0AF454572BBE58B1005EBDD9 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		0AF454592BBE590E005EBDD9 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				0AF454512BBE576F005EBDD9 /* Base */,
+				0AF4545C2BBE5E95005EBDD9 /* TabBar */,
 				0AF4542F2BBE44A5005EBDD9 /* SignIn */,
 				0AF4542E2BBE449F005EBDD9 /* MyInfo */,
 				0AF454312BBE44B3005EBDD9 /* Exercise */,
@@ -145,6 +148,14 @@
 				0AF454572BBE58B1005EBDD9 /* UILabelExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		0AF4545C2BBE5E95005EBDD9 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				0AF4545D2BBE5ED9005EBDD9 /* AppTabBarController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF4545A2BBE590E005EBDD9 /* SignInViewController.swift in Sources */,
+				0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */,
 				0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */,
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
 				0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */,
