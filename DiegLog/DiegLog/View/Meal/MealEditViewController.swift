@@ -33,6 +33,11 @@ class MealEditViewController: BaseUIViewController {
         setMemoTextViewLayout()
     }
     
+    override func setupNavigationBar() {
+        let rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealImage))
+        navigationItem.rightBarButtonItem = rightButton
+    }
+    
     func setDateLabelUI() {
         let text = DateFormatter.toString(from: Date())
         dateLabel.setupLabel(text: text , font: .subTitle)
@@ -132,5 +137,9 @@ class MealEditViewController: BaseUIViewController {
         alert.addAction(okAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func saveMealImage() {
+        print("save meal image")
     }
 }
