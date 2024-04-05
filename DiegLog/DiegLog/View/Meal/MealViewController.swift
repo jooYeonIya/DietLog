@@ -14,6 +14,7 @@ class MealViewController: BaseUIViewController {
     private lazy var calendarView = FSCalendar()
     private lazy var mealListTebleView = UITableView()
     private lazy var floatingButton = UIButton()
+    private lazy var noDataLabel = UILabel()
     
     // MARK: - 변수
     private var mealList: [UIImage] = [UIImage(named: "testImege")!]
@@ -28,13 +29,22 @@ class MealViewController: BaseUIViewController {
         setCalendarViewUI()
         setTableViewUI()
         setButtonUI()
+        
+        noDataLabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
+        noDataLabel.isHidden = mealList.count == 0 ? false : true
+        view.addSubview(noDataLabel)
     }
     
     override func setLayout() {
         setCalendarViewLayout()
         setTableViewLayout()
         setButtonLayout()
-    }
+        
+        noDataLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(calendarView.snp.bottom).offset(8)
+        }
+ }
     
     override func setDelegate() {
         setCalendarViewDelegate()
@@ -159,7 +169,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mealList.count
+        return mealList.count == 0 ? 0 : mealList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
