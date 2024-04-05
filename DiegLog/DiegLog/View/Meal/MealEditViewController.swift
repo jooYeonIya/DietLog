@@ -83,7 +83,7 @@ class MealEditViewController: BaseUIViewController {
     
     func setImageViewLayout() {
         imageLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(12)
+            make.top.equalTo(dateLabel.snp.bottom).offset(32)
             make.leading.trailing.equalTo(dateLabel)
         }
         
@@ -102,12 +102,12 @@ class MealEditViewController: BaseUIViewController {
     
     func setMemoTextViewLayout() {
         memoLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(24)
+            make.top.equalTo(imageView.snp.bottom).offset(32)
             make.leading.trailing.equalTo(imageView)
         }
         
         memoTextView.snp.makeConstraints { make in
-            make.top.equalTo(memoLabel.snp.bottom).offset(8)
+            make.top.equalTo(memoLabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(imageView)
             make.height.equalTo(200)
         }
