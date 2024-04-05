@@ -11,8 +11,10 @@ class MealEditViewController: BaseUIViewController {
     
     private lazy var dateLabel = UILabel()
     private lazy var datePickerView = UIDatePicker()
+    private lazy var imageLabel = UILabel()
     private lazy var imageView = UIImageView()
     private lazy var imageEditButton = UIButton()
+    private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
 
     override func viewDidLoad() {
@@ -44,6 +46,7 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setImageViewUI() {
+        imageLabel.setupLabel(text: "사진 선택", font: .body)
         
         // 기본 이미지 찾은 뒤에 이미지와 버튼 설정 다시 해야한다
         imageView.image = UIImage(named: "testImege")
@@ -56,16 +59,18 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
 
-        view.addSubViews([imageView, imageEditButton])
+        view.addSubViews([imageLabel, imageView, imageEditButton])
     }
     
     func setMemoTextViewUI() {
+        memoLabel.setupLabel(text: "메모", font: .body)
+        
         memoTextView.layer.cornerRadius = 12
         memoTextView.layer.masksToBounds = true
         memoTextView.layer.borderColor = UIColor.black.cgColor
         memoTextView.layer.borderWidth = 1.0
         
-        view.addSubview(memoTextView)
+        view.addSubViews([memoLabel, memoTextView])
     }
     
     func setDateLabelLayout() {
@@ -77,8 +82,13 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setImageViewLayout() {
-        imageView.snp.makeConstraints { make in
+        imageLabel.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalTo(dateLabel)
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.top.equalTo(imageLabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(dateLabel)
             make.height.equalTo(200)
         }
@@ -91,8 +101,13 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setMemoTextViewLayout() {
-        memoTextView.snp.makeConstraints { make in
+        memoLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(24)
+            make.leading.trailing.equalTo(imageView)
+        }
+        
+        memoTextView.snp.makeConstraints { make in
+            make.top.equalTo(memoLabel.snp.bottom).offset(8)
             make.leading.trailing.equalTo(imageView)
             make.height.equalTo(200)
         }
