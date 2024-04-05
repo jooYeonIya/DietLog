@@ -10,6 +10,7 @@ import UIKit
 class MealEditViewController: BaseUIViewController {
     
     private lazy var dateLabel = UILabel()
+    private lazy var datePickerView = UIDatePicker()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +25,14 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setDateLabelUI() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        dateLabel.setupLabel(text: dateFormatter.string(from: Date()) , font: .subTitle)
+        let text = DateFormatter.toString(from: Date())
+        dateLabel.setupLabel(text: text , font: .subTitle)
         dateLabel.textAlignment = .left
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
+        dateLabel.addGestureRecognizer(tapGesture)
+        dateLabel.isUserInteractionEnabled = true
+
         view.addSubview(dateLabel)
     }
     
@@ -38,5 +42,27 @@ class MealEditViewController: BaseUIViewController {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
         }
+    }
+    
+
+    @objc func displayDatePickerView() {
+        let alert = UIAlertController(title: nil, message: "\n\n\n\n\n\n", preferredStyle: .actionSheet)
+        alert.view.addSubview(datePickerView)
+
+        datePickerView.datePickerMode = .date
+        datePickerView.preferredDatePickerStyle = .wheels
+        
+        datePickerView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(32)
+        }
+
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            self.dateLabel.text = DateFormatter.toString(from: self.datePickerView.date)
+        }
+        
+        alert.addAction(okAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
