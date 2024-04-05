@@ -15,7 +15,7 @@ class MealViewController: BaseUIViewController {
     private lazy var mealListTebleView = UITableView()
     
     // MARK: - 변수
-    private var mealList: [UIImage] = [UIImage(systemName: "photo")!]
+    private var mealList: [UIImage] = [UIImage(named: "testImege")!]
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -114,6 +114,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setTableViewUI() {
         mealListTebleView.isHidden = mealList.count == 0 ? true : false
+        mealListTebleView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
         view.addSubview(mealListTebleView)
     }
     
@@ -136,6 +137,13 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell else { return UITableViewCell() }
+        cell.mealImageView.image = mealList[indexPath.row]
+        cell.configre()
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
 }
