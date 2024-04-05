@@ -9,7 +9,8 @@ import UIKit
 
 class ExerciseDetailViewController: BaseUIViewController {
     
-    let tableView = UITableView()
+    private lazy var tableView = UITableView()
+    private lazy var floatingButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,14 +18,34 @@ class ExerciseDetailViewController: BaseUIViewController {
     
     override func setUI() {
         setTableViewUI()
+        setButtonUI()
     }
     
     override func setLayout() {
         setTableLayout()
+        setButtonLayout()
     }
     
     override func setDelegate() {
         setTableDalegate()
+    }
+    
+    func setButtonUI() {
+        floatingButton.setUpFloatingButton()
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+        view.addSubview(floatingButton)
+    }
+    
+    func setButtonLayout() {
+        floatingButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
+            make.trailing.equalToSuperview().inset(12)
+            make.height.width.equalTo(60)
+        }
+    }
+    
+    @objc func didTappedFloatingButton() {
+        print("운동 화면")
     }
 }
 
