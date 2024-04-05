@@ -10,7 +10,6 @@
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
-		0AC3F8192BBFA9A700995AF4 /* MealDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8182BBFA9A700995AF4 /* MealDetailViewController.swift */; };
 		0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */; };
 		0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */; };
 		0AF454212BBE3C88005EBDD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF454202BBE3C88005EBDD9 /* Assets.xcassets */; };
@@ -36,7 +35,6 @@
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		0AC3F8182BBFA9A700995AF4 /* MealDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailViewController.swift; sourceTree = "<group>"; };
 		0AF454142BBE3C87005EBDD9 /* DiegLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiegLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 				0AF454792BBF636F005EBDD9 /* MealListTableViewCell */,
 				0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */,
 				0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */,
-				0AC3F8182BBFA9A700995AF4 /* MealDetailViewController.swift */,
 			);
 			path = Meal;
 			sourceTree = "<group>";
@@ -284,7 +281,6 @@
 			files = (
 				0AF4545A2BBE590E005EBDD9 /* SignInViewController.swift in Sources */,
 				0AF454662BBE664C005EBDD9 /* UIButtonExtension.swift in Sources */,
-				0AC3F8192BBFA9A700995AF4 /* MealDetailViewController.swift in Sources */,
 				0AF4546C2BBE6D72005EBDD9 /* AppTabBarItem.swift in Sources */,
 				0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */,
 				0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */,
