@@ -9,6 +9,14 @@ import UIKit
 
 class ExerciseViewController: BaseUIViewController {
     
+    private lazy var noDatalabel: UILabel = {
+        let label = UILabel()
+        label.setupLabel(text: "데이터를 기록해 주세요", font: .body)
+        label.isHidden = exerciseList.count == 0 ? false : true
+
+        return label
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = cellSpacing
@@ -30,11 +38,15 @@ class ExerciseViewController: BaseUIViewController {
     }
     
     override func setUI() {
-        view.addSubview(collectionView)
+        view.addSubViews([collectionView, noDatalabel])
     }
     
     override func setLayout() {
         setCollectionViewLayout()
+        
+        noDatalabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
     }
     
     override func setDelegate() {
@@ -60,7 +72,7 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
     
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return exerciseList.count
+        return exerciseList.count == 0 ? 0 : exerciseList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
