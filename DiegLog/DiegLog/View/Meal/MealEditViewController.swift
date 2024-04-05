@@ -13,6 +13,7 @@ class MealEditViewController: BaseUIViewController {
     private lazy var datePickerView = UIDatePicker()
     private lazy var imageView = UIImageView()
     private lazy var imageEditButton = UIButton()
+    private lazy var memoTextView = UITextView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,11 +22,13 @@ class MealEditViewController: BaseUIViewController {
     override func setUI() {
         setDateLabelUI()
         setImageViewUI()
+        setMemoTextViewUI()
     }
     
     override func setLayout() {
         setDateLabelLayout()
         setImageViewLayout()
+        setMemoTextViewLayout()
     }
     
     func setDateLabelUI() {
@@ -56,6 +59,15 @@ class MealEditViewController: BaseUIViewController {
         view.addSubViews([imageView, imageEditButton])
     }
     
+    func setMemoTextViewUI() {
+        memoTextView.layer.cornerRadius = 12
+        memoTextView.layer.masksToBounds = true
+        memoTextView.layer.borderColor = UIColor.black.cgColor
+        memoTextView.layer.borderWidth = 1.0
+        
+        view.addSubview(memoTextView)
+    }
+    
     func setDateLabelLayout() {
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
@@ -75,6 +87,14 @@ class MealEditViewController: BaseUIViewController {
             make.top.equalTo(imageView.snp.bottom).inset(48)
             make.trailing.equalTo(imageView)
             make.width.height.equalTo(40)
+        }
+    }
+    
+    func setMemoTextViewLayout() {
+        memoTextView.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(24)
+            make.leading.trailing.equalTo(imageView)
+            make.height.equalTo(200)
         }
     }
     
