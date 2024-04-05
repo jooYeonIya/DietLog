@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class MealEditViewController: BaseUIViewController {
     
@@ -87,6 +88,8 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
         imageEditButton.isHidden = !isEditable
+        
+        imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
 
         view.addSubViews([imageLabel, imageView, imageEditButton])
     }
@@ -170,5 +173,33 @@ class MealEditViewController: BaseUIViewController {
     
     @objc func displayActionSheet() {
         print("display action sheet")
+    }
+}
+
+extension MealEditViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        let itemProvider = results.first?.itemProvider
+        if let itemProvider = itemProvider,
+           itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                DispatchQueue.main.async {
+                    guard let selectedImage = image as? UIImage else { return }
+                    self.imageView.image = selectedImage
+                }
+            }
+        }
+    }
+    
+    @objc func openPhotoLibrary(_ sender: Any) {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .images
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        
+        present(picker, animated: true)
     }
 }
