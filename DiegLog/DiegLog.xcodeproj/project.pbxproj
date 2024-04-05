@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
+		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
+		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
 		0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */; };
 		0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */; };
 		0AF454212BBE3C88005EBDD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF454202BBE3C88005EBDD9 /* Assets.xcassets */; };
@@ -23,9 +26,15 @@
 		0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */; };
 		0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */; };
 		0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */; };
+		0AF454762BBEBB44005EBDD9 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0AF454752BBEBB44005EBDD9 /* FSCalendar */; };
+		0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */; };
+		0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
+		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
+		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		0AF454142BBE3C87005EBDD9 /* DiegLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiegLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +52,8 @@
 		0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
 		0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewController.swift; sourceTree = "<group>"; };
+		0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarExtension.swift; sourceTree = "<group>"; };
+		0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF454502BBE56DB005EBDD9 /* SnapKit in Frameworks */,
+				0AF454762BBEBB44005EBDD9 /* FSCalendar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,7 +146,9 @@
 		0AF454302BBE44AE005EBDD9 /* Meal */ = {
 			isa = PBXGroup;
 			children = (
+				0AF454792BBF636F005EBDD9 /* MealListTableViewCell */,
 				0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */,
+				0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */,
 			);
 			path = Meal;
 			sourceTree = "<group>";
@@ -163,6 +177,9 @@
 				0AF454572BBE58B1005EBDD9 /* UILabelExtension.swift */,
 				0AF454652BBE664C005EBDD9 /* UIButtonExtension.swift */,
 				0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */,
+				0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */,
+				0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */,
+				0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -174,6 +191,14 @@
 				0AF4546B2BBE6D72005EBDD9 /* AppTabBarItem.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		0AF454792BBF636F005EBDD9 /* MealListTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */,
+			);
+			path = MealListTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +219,7 @@
 			name = DiegLog;
 			packageProductDependencies = (
 				0AF4544F2BBE56DB005EBDD9 /* SnapKit */,
+				0AF454752BBEBB44005EBDD9 /* FSCalendar */,
 			);
 			productName = DiegLog;
 			productReference = 0AF454142BBE3C87005EBDD9 /* DiegLog.app */;
@@ -225,6 +251,7 @@
 			mainGroup = 0AF4540B2BBE3C87005EBDD9;
 			packageReferences = (
 				0AF4544E2BBE56DB005EBDD9 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				0AF454742BBEBB44005EBDD9 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 			);
 			productRefGroup = 0AF454152BBE3C87005EBDD9 /* Products */;
 			projectDirPath = "";
@@ -258,11 +285,16 @@
 				0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */,
 				0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */,
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
+				0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */,
 				0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */,
+				0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */,
 				0AF454582BBE58B1005EBDD9 /* UILabelExtension.swift in Sources */,
+				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
 				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
+				0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */,
 				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
+				0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */,
 				0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */,
 				0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */,
 			);
@@ -482,6 +514,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		0AF454742BBEBB44005EBDD9 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -489,6 +529,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0AF4544E2BBE56DB005EBDD9 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		0AF454752BBEBB44005EBDD9 /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0AF454742BBEBB44005EBDD9 /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
