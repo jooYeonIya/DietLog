@@ -9,6 +9,8 @@ import UIKit
 
 class ExerciseViewController: BaseUIViewController {
     
+    private lazy var floatingButton = UIButton()
+    
     private lazy var noDatalabel: UILabel = {
         let label = UILabel()
         label.setupLabel(text: "데이터를 기록해 주세요", font: .body)
@@ -39,10 +41,13 @@ class ExerciseViewController: BaseUIViewController {
     
     override func setUI() {
         view.addSubViews([collectionView, noDatalabel])
+        
+        setButtonUI()
     }
     
     override func setLayout() {
         setCollectionViewLayout()
+        setButtonLayout()
         
         noDatalabel.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
@@ -51,6 +56,24 @@ class ExerciseViewController: BaseUIViewController {
     
     override func setDelegate() {
         setCollectionViewDelegate()
+    }
+    
+    func setButtonUI() {
+        floatingButton.setUpFloatingButton()
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+        view.addSubview(floatingButton)
+    }
+    
+    func setButtonLayout() {
+        floatingButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
+            make.trailing.equalToSuperview().inset(12)
+            make.height.width.equalTo(60)
+        }
+    }
+    
+    @objc func didTappedFloatingButton() {
+        print("운동 화면")
     }
 }
 

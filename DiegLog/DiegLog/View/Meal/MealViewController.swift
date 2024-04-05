@@ -52,19 +52,8 @@ class MealViewController: BaseUIViewController {
     }
     
     func setButtonUI() {
-        floatingButton.layer.cornerRadius = 30
-        floatingButton.backgroundColor = .systemBlue
-        
-        let buttonImage = UIImage(systemName: "plus",
-                                  withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
-        floatingButton.setImage(buttonImage, for: .normal)
-        floatingButton.tintColor = .white
-        
-        floatingButton.layer.shadowRadius = 4
-        floatingButton.layer.shadowOpacity = 0.4
-        
+        floatingButton.setUpFloatingButton()
         floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
-        
         view.addSubview(floatingButton)
     }
     
