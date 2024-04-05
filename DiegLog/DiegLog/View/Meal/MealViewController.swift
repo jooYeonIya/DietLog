@@ -63,6 +63,8 @@ class MealViewController: BaseUIViewController {
         floatingButton.layer.shadowRadius = 4
         floatingButton.layer.shadowOpacity = 0.4
         
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+        
         view.addSubview(floatingButton)
     }
     
@@ -72,6 +74,11 @@ class MealViewController: BaseUIViewController {
             make.trailing.equalToSuperview().inset(12)
             make.height.width.equalTo(60)
         }
+    }
+    
+    @objc func didTappedFloatingButton() {
+        let vc = MealEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
