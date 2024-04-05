@@ -60,8 +60,8 @@ class MealViewController: BaseUIViewController {
         floatingButton.setImage(buttonImage, for: .normal)
         floatingButton.tintColor = .white
         
-        floatingButton.layer.shadowRadius = 8
-        floatingButton.layer.shadowOpacity = 1
+        floatingButton.layer.shadowRadius = 4
+        floatingButton.layer.shadowOpacity = 0.4
         
         view.addSubview(floatingButton)
     }
