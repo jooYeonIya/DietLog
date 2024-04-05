@@ -13,6 +13,7 @@ class MealViewController: BaseUIViewController {
     // MARK: - Component
     private lazy var calendarView = FSCalendar()
     private lazy var mealListTebleView = UITableView()
+    private lazy var floatingButton = UIButton()
     
     // MARK: - 변수
     private var mealList: [UIImage] = [UIImage(named: "testImege")!]
@@ -26,16 +27,41 @@ class MealViewController: BaseUIViewController {
     override func setUI() {
         setCalendarViewUI()
         setTableViewUI()
+        setButtonUI()
     }
     
     override func setLayout() {
         setCalendarViewLayout()
         setTableViewLayout()
+        setButtonLayout()
     }
     
     override func setDelegate() {
         setCalendarViewDelegate()
         setTableViewDelegate()
+    }
+    
+    func setButtonUI() {
+        floatingButton.layer.cornerRadius = 30
+        floatingButton.backgroundColor = .systemBlue
+        
+        let buttonImage = UIImage(systemName: "plus",
+                                  withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
+        floatingButton.setImage(buttonImage, for: .normal)
+        floatingButton.tintColor = .white
+        
+        floatingButton.layer.shadowRadius = 8
+        floatingButton.layer.shadowOpacity = 1
+        
+        view.addSubview(floatingButton)
+    }
+    
+    func setButtonLayout() {
+        floatingButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
+            make.trailing.equalToSuperview().inset(12)
+            make.height.width.equalTo(60)
+        }
     }
 }
 
