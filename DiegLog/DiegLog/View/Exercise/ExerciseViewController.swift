@@ -108,4 +108,9 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
         let width = (view.frame.width - 48 - cellSpacing) / 2
         return CGSize(width: width, height: width)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = ExerciseDetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
