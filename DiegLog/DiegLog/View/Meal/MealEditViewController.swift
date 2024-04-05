@@ -16,7 +16,23 @@ class MealEditViewController: BaseUIViewController {
     private lazy var imageEditButton = UIButton()
     private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
-
+    
+    // model 전까지 dummy data로 사용
+    var mealModel: [Any] = []
+    
+    var isEditable: Bool
+    
+    init(isEditable: Bool, mealModel: [Any]) {
+        self.isEditable = isEditable
+        self.mealModel = mealModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -34,7 +50,14 @@ class MealEditViewController: BaseUIViewController {
     }
     
     override func setupNavigationBar() {
-        let rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealImage))
+        var rightButton = UIBarButtonItem()
+        
+        if isEditable {
+            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealImage))
+        } else {
+            rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
+        }
+        
         navigationItem.rightBarButtonItem = rightButton
     }
     
@@ -45,7 +68,7 @@ class MealEditViewController: BaseUIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
         dateLabel.addGestureRecognizer(tapGesture)
-        dateLabel.isUserInteractionEnabled = true
+        dateLabel.isUserInteractionEnabled = isEditable
 
         view.addSubview(dateLabel)
     }
@@ -63,6 +86,7 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.cornerRadius = 20
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
+        imageEditButton.isHidden = !isEditable
 
         view.addSubViews([imageLabel, imageView, imageEditButton])
     }
@@ -74,6 +98,7 @@ class MealEditViewController: BaseUIViewController {
         memoTextView.layer.masksToBounds = true
         memoTextView.layer.borderColor = UIColor.black.cgColor
         memoTextView.layer.borderWidth = 1.0
+        memoTextView.isUserInteractionEnabled = isEditable
         
         view.addSubViews([memoLabel, memoTextView])
     }
@@ -141,5 +166,9 @@ class MealEditViewController: BaseUIViewController {
     
     @objc func saveMealImage() {
         print("save meal image")
+    }
+    
+    @objc func displayActionSheet() {
+        print("display action sheet")
     }
 }
