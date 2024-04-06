@@ -82,7 +82,6 @@
 			children = (
 				0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */,
 				0AC3F8212BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift */,
-				0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -177,6 +176,7 @@
 				0AC3F81C2BC010BF00995AF4 /* Cells */,
 				0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */,
 				0AC3F81F2BC01D5E00995AF4 /* ExerciseDetailViewController.swift */,
+				0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
