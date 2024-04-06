@@ -12,9 +12,15 @@ class MyInfoViewController: BaseUIViewController {
     
     private lazy var nickNameLabel = UILabel()
     private lazy var calendarView = FSCalendar()
+    private lazy var editButton = UIButton()
+    private lazy var weightTextField = UITextField()
+    private lazy var muscleTextField = UITextField()
+    private lazy var fatTextField = UITextField()
     
     let nickName = "닉네임"
 
+    let myInfo: [String] = ["100", "100", "100"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -23,11 +29,13 @@ class MyInfoViewController: BaseUIViewController {
         setNickNameLabelUI()
         setCalendarViewUI()
         setStackView()
+        setEditButtonUI()
     }
     
     override func setLayout() {
         setNickNameLabelLayot()
         setCalendarViewLayout()
+        setEditButtonLayout()
     }
     
     override func setDelegate() {
@@ -39,6 +47,15 @@ class MyInfoViewController: BaseUIViewController {
         view.addSubview(nickNameLabel)
     }
     
+    func setEditButtonUI() {
+        let title = myInfo.count == 0 ? "저장" : "수정"
+        editButton.setTitle(title, for: .normal)
+        editButton.setTitleColor(.blue, for: .normal)
+        editButton.addTarget(self, action: #selector(editMyInfo), for: .touchUpInside)
+        
+        view.addSubview(editButton)
+    }
+
     func setNickNameLabelLayot() {
         nickNameLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
@@ -46,45 +63,74 @@ class MyInfoViewController: BaseUIViewController {
             make.trailing.equalToSuperview().inset(24)
         }
     }
+    
+    func setEditButtonLayout() {
+        editButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
+            make.trailing.equalToSuperview().inset(12)
+            make.height.width.equalTo(60)
+        }
+    }
 }
 
 extension MyInfoViewController {
     func setStackView() {
         
-        let columnStackView = UIStackView()
-        columnStackView.axis = .vertical
-        columnStackView.distribution = .fillEqually
-        columnStackView.spacing = 24
+        let rowStackView = UIStackView()
+        rowStackView.axis = .vertical
+        rowStackView.distribution = .fillEqually
+        rowStackView.spacing = 24
+
+        let title = ["몸무게", "골격근량", "체지방량"]
+        let textFields = [weightTextField, muscleTextField, fatTextField]
         
-        ["몸무게", "골격근량", "체지방량"].forEach({
-            let label = UILabel()
-            label.setupLabel(text: $0, font: .body)
-            label.textAlignment = .center
+        for i in 0..<title.count {
             
-            let textField = UITextField()
-            textField.setUpTextField()
+            let label1 = UILabel()
+            label1.setupLabel(text: title[i], font: .body)
             
             let label2 = UILabel()
             label2.setupLabel(text: "kg", font: .body)
-            
-            let rowStackView = UIStackView(arrangedSubviews: [label, textField, label2])
-            rowStackView.axis = .horizontal
-            rowStackView.distribution = .fillEqually
-            rowStackView.spacing = 4
-            
-            textField.snp.makeConstraints { make in
-                make.height.equalTo(28)
+        
+            if !myInfo.isEmpty {
+                textFields[i].text = myInfo[i]
+                textFields[i].isUserInteractionEnabled = false
             }
             
-            columnStackView.addArrangedSubview(rowStackView)
-        })
+            textFields[i].setUpTextField()
+            
+            let columnStackView = UIStackView(arrangedSubviews: [label1, textFields[i], label2])
+            columnStackView.axis = .horizontal
+            columnStackView.distribution = .fillEqually
+            columnStackView.spacing = 8
+            
+            rowStackView.addArrangedSubview(columnStackView)
+        }
 
-        view.addSubview(columnStackView)
+        view.addSubview(rowStackView)
         
-        columnStackView.snp.makeConstraints { make in
+        rowStackView.snp.makeConstraints { make in
             make.top.equalTo(calendarView.snp.bottom).offset(12)
             make.leading.trailing.equalTo(nickNameLabel)
         }
+    }
+    
+    @objc func editMyInfo() {
+        print("editMyInfo")
+        
+        let title = editButton.titleLabel?.text
+        
+        if title == "수정" {
+            editButton.setTitle("저장", for: .normal)
+        } else {
+            view.endEditing(true)
+            editButton.setTitle("수정", for: .normal)
+        }
+        
+        weightTextField.isUserInteractionEnabled.toggle()
+        muscleTextField.isUserInteractionEnabled.toggle()
+        fatTextField.isUserInteractionEnabled.toggle()
+
     }
 }
 
