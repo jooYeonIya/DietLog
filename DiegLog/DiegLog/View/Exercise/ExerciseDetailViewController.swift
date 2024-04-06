@@ -45,7 +45,8 @@ class ExerciseDetailViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        print("운동 화면")
+        let vc = ExerciseDetailEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
