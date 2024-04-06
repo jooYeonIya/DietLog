@@ -22,6 +22,7 @@ class MyInfoViewController: BaseUIViewController {
     override func setUI() {
         setNickNameLabelUI()
         setCalendarViewUI()
+        setStackView()
     }
     
     override func setLayout() {
@@ -43,6 +44,46 @@ class MyInfoViewController: BaseUIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
+        }
+    }
+}
+
+extension MyInfoViewController {
+    func setStackView() {
+        
+        let columnStackView = UIStackView()
+        columnStackView.axis = .vertical
+        columnStackView.distribution = .fillEqually
+        columnStackView.spacing = 24
+        
+        ["몸무게", "골격근량", "체지방량"].forEach({
+            let label = UILabel()
+            label.setupLabel(text: $0, font: .body)
+            label.textAlignment = .center
+            
+            let textField = UITextField()
+            textField.setUpTextField()
+            
+            let label2 = UILabel()
+            label2.setupLabel(text: "kg", font: .body)
+            
+            let rowStackView = UIStackView(arrangedSubviews: [label, textField, label2])
+            rowStackView.axis = .horizontal
+            rowStackView.distribution = .fillEqually
+            rowStackView.spacing = 4
+            
+            textField.snp.makeConstraints { make in
+                make.height.equalTo(28)
+            }
+            
+            columnStackView.addArrangedSubview(rowStackView)
+        })
+
+        view.addSubview(columnStackView)
+        
+        columnStackView.snp.makeConstraints { make in
+            make.top.equalTo(calendarView.snp.bottom).offset(12)
+            make.leading.trailing.equalTo(nickNameLabel)
         }
     }
 }
