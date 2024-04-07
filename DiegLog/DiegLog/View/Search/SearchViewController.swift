@@ -10,6 +10,7 @@ import UIKit
 class SearchViewController: BaseUIViewController {
     
     private lazy var searchBar = UISearchBar()
+    private lazy var recentSearchWordLabel = UILabel()
     
     private lazy var recentSearchWordCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -32,16 +33,32 @@ class SearchViewController: BaseUIViewController {
     override func setUI() {
         setSearchBarUI()
         setCollectinoViewUI()
+        setRecentSearchWordLabelUI()
     }
     
     override func setLayout() {
         setSearchBarLayout()
         setCollectinoViewLayout()
+        setRecentSearchWordLabelLayout()
     }
         
     override func setDelegate() {
         setSerachBarDelegate()
         setCollectinoViewDelegate()
+    }
+    
+    func setRecentSearchWordLabelUI() {
+        recentSearchWordLabel.setupLabel(text: "최근 검색어", font: .body)
+        recentSearchWordLabel.textAlignment = .left
+        
+        view.addSubViews([recentSearchWordLabel])
+    }
+    
+    func setRecentSearchWordLabelLayout() {
+        recentSearchWordLabel.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(24)
+            make.leading.trailing.equalTo(searchBar)
+        }
     }
 }
 
@@ -83,7 +100,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func setCollectinoViewLayout() {
         recentSearchWordCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(24)
+            make.top.equalTo(recentSearchWordLabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(searchBar)
             make.height.equalTo(24)
         }
