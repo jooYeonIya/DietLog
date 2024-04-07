@@ -13,6 +13,7 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     private lazy var titleLabel = UILabel()
     private lazy var optionButton = UIButton()
     
+    // 모델 [스트링]은 임시
     func configure(model: [String]) {
         setImageView(thumbnailImage: UIImage(systemName: "photo") ?? UIImage())
         setLabel(title: "title")

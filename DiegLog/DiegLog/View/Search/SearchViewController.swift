@@ -13,6 +13,7 @@ class SearchViewController: BaseUIViewController {
     private lazy var recentSearchWordLabel = UILabel()
     private lazy var noRecentSearchWordLabel = UILabel()
     private lazy var deleteRecentSearchWordButton = UIButton()
+    private lazy var searchResultTableView = UITableView()
     
     private lazy var recentSearchWordCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -27,6 +28,7 @@ class SearchViewController: BaseUIViewController {
     
     //MARK: - 변수
     var recentSearchWords: [String] = ["그러니까", "이게", "된다고?", "그러니까 이게 된다고?"]
+    var searchResults: [String] = ["이게", "검색", "결과입니다만"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,7 @@ class SearchViewController: BaseUIViewController {
         setCollectinoViewUI()
         setRecentSearchWordLabelUI()
         setDeleteRecentSearchWordButtonUI()
+        setResultTableViewUI()
     }
     
     override func setLayout() {
@@ -44,11 +47,13 @@ class SearchViewController: BaseUIViewController {
         setCollectinoViewLayout()
         setRecentSearchWordLabelLayout()
         setDeleteRecentSearchWordButtonLayout()
+        setResultTableViewLayout()
     }
         
     override func setDelegate() {
         setSerachBarDelegate()
         setCollectinoViewDelegate()
+        setResultTableViewDelegate()
     }
     
     func setRecentSearchWordLabelUI() {
@@ -160,5 +165,44 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cellWidth = cell.recentSearchWordlabel.frame.width + 12
         
         return CGSize(width: cellWidth, height: 24)
+    }
+}
+
+// MARK: - TableView
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func setResultTableViewUI() {
+        searchResultTableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: "ExerciseDetailTableViewCell")
+        view.addSubview(searchResultTableView)
+    }
+    
+    func setResultTableViewLayout() {
+        searchResultTableView.snp.makeConstraints { make in
+            make.top.equalTo(recentSearchWordCollectionView.snp.bottom).offset(24)
+            make.leading.trailing.equalTo(searchBar)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+    
+    func setResultTableViewDelegate() {
+        searchResultTableView.delegate = self
+        searchResultTableView.dataSource = self
+    }
+    
+    // 내장 메소드
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count == 0 ? 0 : searchResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
+        
+        cell.configure(model: searchResults)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }
