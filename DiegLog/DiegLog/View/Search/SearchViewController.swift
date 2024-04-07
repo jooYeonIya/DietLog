@@ -12,6 +12,7 @@ class SearchViewController: BaseUIViewController {
     private lazy var searchBar = UISearchBar()
     private lazy var recentSearchWordLabel = UILabel()
     private lazy var noRecentSearchWordLabel = UILabel()
+    private lazy var deleteRecentSearchWordButton = UIButton()
     
     private lazy var recentSearchWordCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -35,12 +36,14 @@ class SearchViewController: BaseUIViewController {
         setSearchBarUI()
         setCollectinoViewUI()
         setRecentSearchWordLabelUI()
+        setDeleteRecentSearchWordButtonUI()
     }
     
     override func setLayout() {
         setSearchBarLayout()
         setCollectinoViewLayout()
         setRecentSearchWordLabelLayout()
+        setDeleteRecentSearchWordButtonLayout()
     }
         
     override func setDelegate() {
@@ -59,16 +62,30 @@ class SearchViewController: BaseUIViewController {
         view.addSubViews([recentSearchWordLabel, noRecentSearchWordLabel])
     }
     
+    func setDeleteRecentSearchWordButtonUI() {
+        deleteRecentSearchWordButton.setTitle("전체 삭제", for: .normal)
+        deleteRecentSearchWordButton.setTitleColor(.black, for: .normal)
+        deleteRecentSearchWordButton.titleLabel?.font = .systemFont(ofSize: 12)
+        view.addSubview(deleteRecentSearchWordButton)
+    }
+    
     func setRecentSearchWordLabelLayout() {
         recentSearchWordLabel.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(24)
-            make.leading.trailing.equalTo(searchBar)
+            make.leading.equalTo(searchBar)
         }
         
         noRecentSearchWordLabel.snp.makeConstraints { make in
             make.top.equalTo(recentSearchWordLabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(searchBar)
             make.height.equalTo(24)
+        }
+    }
+    
+    func setDeleteRecentSearchWordButtonLayout() {
+        deleteRecentSearchWordButton.snp.makeConstraints { make in
+            make.centerY.equalTo(recentSearchWordLabel)
+            make.trailing.equalToSuperview().inset(24)
         }
     }
 }
