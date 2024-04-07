@@ -9,14 +9,14 @@ import UIKit
 
 enum AppTabBarItem: Int {
     
-    case meal, myInfo, exercise
+    case meal, myInfo, exercise, search
     
     func toInt() -> Int {
         switch self {
         case .meal: return 0
         case .myInfo: return 1
         case .exercise: return 2
-
+        case .search: return 3
         }
     }
     
@@ -25,6 +25,7 @@ enum AppTabBarItem: Int {
         case .meal: return "식단"
         case .myInfo: return "내 정보"
         case .exercise: return "운동"
+        case .search: return "검색"    
         }
     }
     
@@ -34,6 +35,7 @@ enum AppTabBarItem: Int {
         case .meal: return UIImage(systemName: "tray") ?? UIImage()
         case .myInfo: return UIImage(systemName: "tray") ?? UIImage()
         case .exercise: return UIImage(systemName: "tray") ?? UIImage()
+        case .search: return UIImage(systemName: "tray") ?? UIImage()
         }
     }
 }

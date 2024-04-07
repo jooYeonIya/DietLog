@@ -15,6 +15,7 @@ class AppTabBarController: UITabBarController {
         let melaView = MealViewController()
         let myInfoView = MyInfoViewController()
         let exerciseView = ExerciseViewController()
+        let searchView = SearchViewController()
         
         melaView.tabBarItem = UITabBarItem(title: AppTabBarItem.meal.toTabTitle(),
                                            image: AppTabBarItem.meal.toTabImage(),
@@ -26,12 +27,18 @@ class AppTabBarController: UITabBarController {
                                                image: AppTabBarItem.exercise.toTabImage(),
                                                tag: AppTabBarItem.exercise.rawValue)
         
+        searchView.tabBarItem = UITabBarItem(title: AppTabBarItem.search.toTabTitle(),
+                                               image: AppTabBarItem.search.toTabImage(),
+                                               tag: AppTabBarItem.search.rawValue)
+        
+        
         let mealNavigationController = UINavigationController(rootViewController: melaView)
         let myInfoNavigationController = UINavigationController(rootViewController: myInfoView)
         let exerciseNavigationController = UINavigationController(rootViewController: exerciseView)
         
         viewControllers = [mealNavigationController,
                            myInfoNavigationController,
-                           exerciseNavigationController]
+                           exerciseNavigationController,
+                           searchView]
     }
 }

@@ -16,6 +16,8 @@
 		0AECFAE42BC12A8500BC773C /* ExerciseEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */; };
 		0AECFAE62BC12DAA00BC773C /* ExerciseDetailEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE52BC12DAA00BC773C /* ExerciseDetailEditViewController.swift */; };
 		0AECFAE82BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE72BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift */; };
+		0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAEA2BC2E3E300BC773C /* SearchViewController.swift */; };
+		0AECFAEE2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAED2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift */; };
 		0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */; };
 		0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */; };
 		0AF454212BBE3C88005EBDD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF454202BBE3C88005EBDD9 /* Assets.xcassets */; };
@@ -47,6 +49,8 @@
 		0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseEditViewController.swift; sourceTree = "<group>"; };
 		0AECFAE52BC12DAA00BC773C /* ExerciseDetailEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailEditViewController.swift; sourceTree = "<group>"; };
 		0AECFAE72BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailEditCollectionViewCell.swift; sourceTree = "<group>"; };
+		0AECFAEA2BC2E3E300BC773C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		0AECFAED2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchWordCollectionViewCell.swift; sourceTree = "<group>"; };
 		0AF454142BBE3C87005EBDD9 /* DiegLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiegLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +95,23 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		0AECFAE92BC2E3BA00BC773C /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				0AECFAEC2BC2E94F00BC773C /* Cells */,
+				0AECFAEA2BC2E3E300BC773C /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		0AECFAEC2BC2E94F00BC773C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0AECFAED2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		0AF4540B2BBE3C87005EBDD9 = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +152,7 @@
 				0AF4542E2BBE449F005EBDD9 /* MyInfo */,
 				0AF454312BBE44B3005EBDD9 /* Exercise */,
 				0AF454302BBE44AE005EBDD9 /* Meal */,
+				0AECFAE92BC2E3BA00BC773C /* Search */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -320,6 +342,7 @@
 				0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */,
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
+				0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */,
 				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
 				0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */,
 				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
@@ -327,6 +350,7 @@
 				0AECFAE42BC12A8500BC773C /* ExerciseEditViewController.swift in Sources */,
 				0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */,
 				0AECFAE82BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift in Sources */,
+				0AECFAEE2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift in Sources */,
 				0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */,
 				0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */,
 			);
