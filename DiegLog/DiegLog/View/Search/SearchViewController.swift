@@ -14,6 +14,7 @@ class SearchViewController: BaseUIViewController {
     private lazy var noRecentSearchWordLabel = UILabel()
     private lazy var deleteRecentSearchWordButton = UIButton()
     private lazy var searchResultTableView = UITableView()
+    private lazy var noSearchResultLabel = UILabel()
     
     private lazy var recentSearchWordCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -40,6 +41,7 @@ class SearchViewController: BaseUIViewController {
         setRecentSearchWordLabelUI()
         setDeleteRecentSearchWordButtonUI()
         setResultTableViewUI()
+        setNoSearchResultLabelUI()
     }
     
     override func setLayout() {
@@ -48,6 +50,7 @@ class SearchViewController: BaseUIViewController {
         setRecentSearchWordLabelLayout()
         setDeleteRecentSearchWordButtonLayout()
         setResultTableViewLayout()
+        setNoSearchResultLabelLayout()
     }
         
     override func setDelegate() {
@@ -74,6 +77,13 @@ class SearchViewController: BaseUIViewController {
         view.addSubview(deleteRecentSearchWordButton)
     }
     
+    func setNoSearchResultLabelUI() {
+        noSearchResultLabel.setupLabel(text: "검색 결과가 없습니다", font: .body)
+        noSearchResultLabel.textAlignment = .center
+        noSearchResultLabel.isHidden = searchResults.count == 0 ? false : true
+        view.addSubview(noSearchResultLabel)
+    }
+    
     func setRecentSearchWordLabelLayout() {
         recentSearchWordLabel.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(24)
@@ -91,6 +101,13 @@ class SearchViewController: BaseUIViewController {
         deleteRecentSearchWordButton.snp.makeConstraints { make in
             make.centerY.equalTo(recentSearchWordLabel)
             make.trailing.equalToSuperview().inset(24)
+        }
+    }
+    
+    func setNoSearchResultLabelLayout() {
+        noSearchResultLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.trailing.equalTo(searchBar)
         }
     }
 }
