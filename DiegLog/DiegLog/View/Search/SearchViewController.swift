@@ -11,6 +11,7 @@ class SearchViewController: BaseUIViewController {
     
     private lazy var searchBar = UISearchBar()
     private lazy var recentSearchWordLabel = UILabel()
+    private lazy var noRecentSearchWordLabel = UILabel()
     
     private lazy var recentSearchWordCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -51,13 +52,23 @@ class SearchViewController: BaseUIViewController {
         recentSearchWordLabel.setupLabel(text: "최근 검색어", font: .body)
         recentSearchWordLabel.textAlignment = .left
         
-        view.addSubViews([recentSearchWordLabel])
+        noRecentSearchWordLabel.setupLabel(text: "최근 검색어가 없습니다", font: .smallBody)
+        noRecentSearchWordLabel.textAlignment = .center
+        noRecentSearchWordLabel.isHidden = recentSearchWords.count == 0 ? false : true
+        
+        view.addSubViews([recentSearchWordLabel, noRecentSearchWordLabel])
     }
     
     func setRecentSearchWordLabelLayout() {
         recentSearchWordLabel.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(24)
             make.leading.trailing.equalTo(searchBar)
+        }
+        
+        noRecentSearchWordLabel.snp.makeConstraints { make in
+            make.top.equalTo(recentSearchWordLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalTo(searchBar)
+            make.height.equalTo(24)
         }
     }
 }
@@ -113,7 +124,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return recentSearchWords.count
+        return recentSearchWords.count == 0 ? 0 : recentSearchWords.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
