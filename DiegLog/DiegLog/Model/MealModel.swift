@@ -7,10 +7,61 @@
 
 import Foundation
 import RealmSwift
+import UIKit
+
 
 class Meal: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var postedDate: Date
-    @Persisted var image: Data?
+    @Persisted var image: String?
     @Persisted var memo: String?
+}
+
+extension Meal {
+    
+    static func addMeal(_ meal: Meal) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(meal)
+            }
+        } catch {
+            print("Error func addMeal \(error)")
+        }
+    }
+
+    static func getAllMeals() -> Results<Meal>? {
+        do {
+            let realm = try Realm()
+            return realm.objects(Meal.self)
+        } catch {
+            print("Error func getMeal \(error)")
+        }
+        
+        return nil
+    }
+
+    static func updateMeal(_ meal: Meal, newMeal: Meal){
+        do {
+            let realm = try Realm()
+            try realm.write {
+                meal.postedDate = newMeal.postedDate
+                meal.image = newMeal.image
+                meal.memo = newMeal.memo
+            }
+        } catch {
+            print("Error func updateMeal \(error)")
+        }
+    }
+
+    static func deleteMeal(_ meal: Meal) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(meal)
+            }
+        } catch {
+            print("Error func deleteMeal \(error)")
+        }
+    }
 }
