@@ -10,7 +10,7 @@ import RealmSwift
 
 class Meal: Object {
     @Persisted(primaryKey: true) var id: ObjectId
-    @Persisted var createDate: Date
+    @Persisted var postedDate: Date
     @Persisted var image: Data?
     @Persisted var memo: String?
 }
