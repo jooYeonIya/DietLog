@@ -15,3 +15,38 @@ class Exercise: Object {
     @Persisted var thumbnailURL: Data
     @Persisted var categoryID: ObjectId
 }
+
+extension Exercise {
+    static func addExercise(_ exercise: Exercise) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(exercise)
+            }
+        } catch {
+            print("Error func addExercise \(error)")
+        }
+    }
+    
+    static func getAllExercise() -> Results<Exercise>? {
+        do {
+            let realm = try Realm()
+            return realm.objects(Exercise.self)
+        } catch {
+            print("Error func getAllExercise \(error)")
+        }
+        
+        return nil
+    }
+    
+    static func deleteExercise(_ exercise: Exercise) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(exercise)
+            }
+        } catch {
+            print("Error func deleteExercise \(error)")
+        }
+    }
+}
