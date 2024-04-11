@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import RealmSwift
 
 class MealEditViewController: BaseUIViewController {
     
@@ -18,14 +19,14 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
     
-    // model 전까지 dummy data로 사용
-    var mealModel: [Any] = []
+    let mealId: ObjectId?
+    var mealData: Meal?
     
     var isEditable: Bool
     
-    init(isEditable: Bool, mealModel: [Any]) {
+    init(isEditable: Bool, mealId: ObjectId?) {
         self.isEditable = isEditable
-        self.mealModel = mealModel
+        self.mealId = mealId
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -36,6 +37,10 @@ class MealEditViewController: BaseUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let id = mealId {
+            mealData = Meal.getMeal(for: id)
+        }
     }
     
     override func setUI() {
