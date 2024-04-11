@@ -84,7 +84,7 @@ class MealEditViewController: BaseUIViewController {
         imageLabel.setupLabel(text: "사진 선택", font: .body)
         
         // 기본 이미지 찾은 뒤에 이미지와 버튼 설정 다시 해야한다
-        imageView.image = UIImage(named: "testImege")
+        imageView.image = UIImage(named: "FoodBasicImage")
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         
