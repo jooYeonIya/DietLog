@@ -40,6 +40,18 @@ extension Meal {
         
         return nil
     }
+    
+    static func getMeal(for id: ObjectId) -> Meal? {
+        let query = NSPredicate(format: "id == %@", id)
+        
+        do {
+            let realm = try Realm()
+            return realm.objects(Meal.self).filter(query).first
+        } catch {
+            print("Error func getMeal(for id: ObjectId) \(error)")
+            return nil
+        }
+    }
 
     static func updateMeal(_ meal: Meal, newMeal: Meal){
         do {
