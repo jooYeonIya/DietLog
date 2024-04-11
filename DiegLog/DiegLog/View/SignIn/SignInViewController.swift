@@ -65,8 +65,8 @@ class SignInViewController: BaseUIViewController {
     @objc func didTappedSaveButton() {
 
         if nickNameTextField.text != "" {
-            //        UserDefaults.standard.setValue(true, forKey: "isFirstLaunch")
-            UserDefaults.standard.setValue(nickNameTextField.text, forKey: "nickName")
+            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.isFirstLaunch)
+            UserDefaults.standard.setValue(nickNameTextField.text, forKey: UserDefaultsKeys.nickName)
             let tabBarViewController = AppTabBarController()
             view.window?.rootViewController = tabBarViewController
             view.window?.makeKeyAndVisible()
