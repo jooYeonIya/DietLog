@@ -21,6 +21,7 @@ class MealEditViewController: BaseUIViewController {
     
     let mealId: ObjectId?
     var mealData: Meal?
+    var isImageChanged: Bool = false
     
     var isEditable: Bool
     
@@ -59,7 +60,7 @@ class MealEditViewController: BaseUIViewController {
         var rightButton = UIBarButtonItem()
         
         if isEditable {
-            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealImage))
+            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
         } else {
             rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
         }
@@ -172,8 +173,28 @@ class MealEditViewController: BaseUIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @objc func saveMealImage() {
-        print("save meal image")
+    @objc func saveMealData() {
+        
+        if !isImageChanged || memoTextView.text.isEmpty {
+            showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
+        } else{
+            if let folderName = dateLabel.text, let image = imageView.image {
+                
+                let imageName = UUID().uuidString
+                saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
+                
+                let meal = Meal()
+                meal.imageName = imageName
+                meal.memo = memoTextView.text
+                meal.postedDate = Date()
+                
+                Meal.addMeal(meal)
+                
+                showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
     }
     
     @objc func displayActionSheet() {
@@ -192,6 +213,7 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     guard let selectedImage = image as? UIImage else { return }
                     self.imageView.image = selectedImage
+                    self.isImageChanged = true
                 }
             }
         }
