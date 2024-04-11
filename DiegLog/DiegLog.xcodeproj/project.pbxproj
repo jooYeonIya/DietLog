@@ -24,6 +24,7 @@
 		0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAF62BC5610B00BC773C /* MealModel.swift */; };
 		0AECFAF92BC5615100BC773C /* ExerciseCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAF82BC5615100BC773C /* ExerciseCategoryModel.swift */; };
 		0AECFAFB2BC5617200BC773C /* ExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */; };
+		0AECFAFD2BC7906000BC773C /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAFC2BC7906000BC773C /* UserDefaultsKeys.swift */; };
 		0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */; };
 		0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */; };
 		0AF454212BBE3C88005EBDD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF454202BBE3C88005EBDD9 /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 		0AECFAF62BC5610B00BC773C /* MealModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealModel.swift; sourceTree = "<group>"; };
 		0AECFAF82BC5615100BC773C /* ExerciseCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCategoryModel.swift; sourceTree = "<group>"; };
 		0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModel.swift; sourceTree = "<group>"; };
+		0AECFAFC2BC7906000BC773C /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		0AF454142BBE3C87005EBDD9 /* DiegLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiegLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				0AF4542B2BBE444B005EBDD9 /* View */,
 				0AF454172BBE3C87005EBDD9 /* AppDelegate.swift */,
 				0AF454192BBE3C87005EBDD9 /* SceneDelegate.swift */,
+				0AECFAFC2BC7906000BC773C /* UserDefaultsKeys.swift */,
 				0AF454202BBE3C88005EBDD9 /* Assets.xcassets */,
 				0AF454222BBE3C88005EBDD9 /* LaunchScreen.storyboard */,
 				0AF454252BBE3C89005EBDD9 /* Info.plist */,
@@ -359,6 +362,7 @@
 				0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */,
 				0AF454582BBE58B1005EBDD9 /* UILabelExtension.swift in Sources */,
 				0AECFAF92BC5615100BC773C /* ExerciseCategoryModel.swift in Sources */,
+				0AECFAFD2BC7906000BC773C /* UserDefaultsKeys.swift in Sources */,
 				0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */,
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */,

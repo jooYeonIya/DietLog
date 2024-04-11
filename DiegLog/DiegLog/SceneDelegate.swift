@@ -18,11 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
         window = UIWindow(windowScene: windowScene)
         
-        let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isFirstLaunch)
         
         if isFirstLaunch {
             window?.rootViewController = AppTabBarController()
-        }else{
+        } else {
             window?.rootViewController = SignInViewController()
         }
 
