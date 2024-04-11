@@ -23,6 +23,12 @@ class MyInfoViewController: BaseUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isFirstLaunch)
+        
+        if !isFirstLaunch {
+            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.isFirstLaunch)
+        }
     }
     
     override func setUI() {

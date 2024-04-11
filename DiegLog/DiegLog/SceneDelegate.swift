@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if isFirstLaunch {
             window?.rootViewController = AppTabBarController()
-        }else{
+        } else {
             window?.rootViewController = SignInViewController()
         }
 
