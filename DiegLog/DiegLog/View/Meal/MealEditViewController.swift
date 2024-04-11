@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import RealmSwift
 
 class MealEditViewController: BaseUIViewController {
     
@@ -18,14 +19,15 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
     
-    // model 전까지 dummy data로 사용
-    var mealModel: [Any] = []
+    let mealId: ObjectId?
+    var mealData: Meal?
+    var isImageChanged: Bool = false
     
     var isEditable: Bool
     
-    init(isEditable: Bool, mealModel: [Any]) {
+    init(isEditable: Bool, mealId: ObjectId?) {
         self.isEditable = isEditable
-        self.mealModel = mealModel
+        self.mealId = mealId
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -36,6 +38,10 @@ class MealEditViewController: BaseUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let id = mealId {
+            mealData = Meal.getMeal(for: id)
+        }
     }
     
     override func setUI() {
@@ -54,7 +60,7 @@ class MealEditViewController: BaseUIViewController {
         var rightButton = UIBarButtonItem()
         
         if isEditable {
-            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealImage))
+            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
         } else {
             rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
         }
@@ -78,7 +84,7 @@ class MealEditViewController: BaseUIViewController {
         imageLabel.setupLabel(text: "사진 선택", font: .body)
         
         // 기본 이미지 찾은 뒤에 이미지와 버튼 설정 다시 해야한다
-        imageView.image = UIImage(named: "testImege")
+        imageView.image = UIImage(named: "FoodBasicImage")
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         
@@ -167,8 +173,28 @@ class MealEditViewController: BaseUIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @objc func saveMealImage() {
-        print("save meal image")
+    @objc func saveMealData() {
+        
+        if !isImageChanged || memoTextView.text.isEmpty {
+            showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
+        } else{
+            if let folderName = dateLabel.text, let image = imageView.image {
+                
+                let imageName = UUID().uuidString
+                saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
+                
+                let meal = Meal()
+                meal.imageName = imageName
+                meal.memo = memoTextView.text
+                meal.postedDate = Date()
+                
+                Meal.addMeal(meal)
+                
+                showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
     }
     
     @objc func displayActionSheet() {
@@ -187,6 +213,7 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     guard let selectedImage = image as? UIImage else { return }
                     self.imageView.image = selectedImage
+                    self.isImageChanged = true
                 }
             }
         }
@@ -201,5 +228,39 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
         picker.delegate = self
         
         present(picker, animated: true)
+    }
+    
+    func saveImageToDocumentDirectory(folderName: String, imageName: String, image: UIImage) {
+        // 1. 도큐먼트 디렉토리 경로 확인
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+
+        // 2. 폴더 경로 설정
+        let folderURL = documentDirectory.appendingPathComponent(folderName)
+        
+        // 2-1. 폴더가 없다면 생성
+        if !FileManager.default.fileExists(atPath: folderURL.path) {
+            do {
+                try FileManager.default.createDirectory(atPath: folderURL.path, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("폴더 생성 실패 \(error)")
+            }
+        }
+        
+        // 3. 이미지 경로 설정
+        let imageURL = folderURL.appendingPathComponent(imageName)
+
+        // 4. 이미지 압축(image.pngData())
+        guard let imageData = image.pngData() else {
+            print("이미지 압축 실패")
+            return
+        }
+
+        // 5. 이미지를 도큐먼트에 저장
+        do {
+            try imageData.write(to: imageURL, options: [.atomic])
+            print("이미지 저장 완료")
+        } catch {
+            print("이미지 저장 실패 \(error)")
+        }
     }
 }

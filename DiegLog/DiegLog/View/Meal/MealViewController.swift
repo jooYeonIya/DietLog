@@ -66,8 +66,7 @@ class MealViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        let mealModel: [Any] = [Date()]
-        let vc = MealEditViewController(isEditable: true, mealModel: mealModel)
+        let vc = MealEditViewController(isEditable: true, mealId: nil)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -181,7 +180,8 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = MealEditViewController(isEditable: false, mealModel: [])
+        // 추후 nil에서 id값으로 변경
+        let vc = MealEditViewController(isEditable: false, mealId: nil)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

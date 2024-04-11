@@ -13,7 +13,7 @@ import UIKit
 class Meal: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var postedDate: Date
-    @Persisted var image: String?
+    @Persisted var imageName: String?
     @Persisted var memo: String?
 }
 
@@ -40,13 +40,25 @@ extension Meal {
         
         return nil
     }
+    
+    static func getMeal(for id: ObjectId) -> Meal? {
+        let query = NSPredicate(format: "id == %@", id)
+        
+        do {
+            let realm = try Realm()
+            return realm.objects(Meal.self).filter(query).first
+        } catch {
+            print("Error func getMeal(for id: ObjectId) \(error)")
+            return nil
+        }
+    }
 
     static func updateMeal(_ meal: Meal, newMeal: Meal){
         do {
             let realm = try Realm()
             try realm.write {
                 meal.postedDate = newMeal.postedDate
-                meal.image = newMeal.image
+                meal.imageName = newMeal.imageName
                 meal.memo = newMeal.memo
             }
         } catch {
