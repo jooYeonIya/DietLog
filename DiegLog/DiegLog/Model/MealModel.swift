@@ -13,7 +13,7 @@ import UIKit
 class Meal: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var postedDate: Date
-    @Persisted var image: String?
+    @Persisted var imageName: String?
     @Persisted var memo: String?
 }
 
@@ -46,7 +46,7 @@ extension Meal {
             let realm = try Realm()
             try realm.write {
                 meal.postedDate = newMeal.postedDate
-                meal.image = newMeal.image
+                meal.imageName = newMeal.imageName
                 meal.memo = newMeal.memo
             }
         } catch {
