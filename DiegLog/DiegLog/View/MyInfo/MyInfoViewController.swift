@@ -16,8 +16,6 @@ class MyInfoViewController: BaseUIViewController {
     private lazy var weightTextField = UITextField()
     private lazy var muscleTextField = UITextField()
     private lazy var fatTextField = UITextField()
-    
-    let nickName = "닉네임"
 
     let myInfo: [String] = ["100", "100", "100"]
     
@@ -32,7 +30,10 @@ class MyInfoViewController: BaseUIViewController {
     }
     
     override func setUI() {
-        setNickNameLabelUI()
+        if let nickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.nickName) {
+            setNickNameLabelUI(nickName)
+        }
+        
         setCalendarViewUI()
         setStackView()
         setEditButtonUI()
@@ -48,7 +49,7 @@ class MyInfoViewController: BaseUIViewController {
         setCalendarViewDelegate()
     }
     
-    func setNickNameLabelUI() {
+    func setNickNameLabelUI(_ nickName: String) {
         nickNameLabel.setupLabel(text: "안녕하세요 \(nickName)", font: .largeTitle)
         view.addSubview(nickNameLabel)
     }
