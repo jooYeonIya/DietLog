@@ -31,7 +31,6 @@ class AppTabBarController: UITabBarController {
                                                image: AppTabBarItem.search.toTabImage(),
                                                tag: AppTabBarItem.search.rawValue)
         
-        
         let mealNavigationController = UINavigationController(rootViewController: melaView)
         let myInfoNavigationController = UINavigationController(rootViewController: myInfoView)
         let exerciseNavigationController = UINavigationController(rootViewController: exerciseView)
@@ -40,5 +39,8 @@ class AppTabBarController: UITabBarController {
                            myInfoNavigationController,
                            exerciseNavigationController,
                            searchView]
+        
+        selectedViewController = myInfoNavigationController
+
     }
 }
