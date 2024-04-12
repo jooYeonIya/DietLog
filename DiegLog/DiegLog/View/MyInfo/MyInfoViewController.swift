@@ -17,7 +17,13 @@ class MyInfoViewController: BaseUIViewController {
     private lazy var muscleTextField = UITextField()
     private lazy var fatTextField = UITextField()
 
-    let myInfo: [String] = ["100", "100", "100"]
+    var myInfo: MyInfo?
+    
+    var postedDate: Date = Date() {
+        willSet {
+            switchMyInfo(date: newValue)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,8 +61,7 @@ class MyInfoViewController: BaseUIViewController {
     }
     
     func setEditButtonUI() {
-        let title = myInfo.count == 0 ? "저장" : "수정"
-        editButton.setTitle(title, for: .normal)
+        editButton.setTitle("저장", for: .normal)
         editButton.setTitleColor(.blue, for: .normal)
         editButton.addTarget(self, action: #selector(editMyInfo), for: .touchUpInside)
         
@@ -98,13 +103,9 @@ extension MyInfoViewController {
             
             let label2 = UILabel()
             label2.setupLabel(text: "kg", font: .body)
-        
-            if !myInfo.isEmpty {
-                textFields[i].text = myInfo[i]
-                textFields[i].isUserInteractionEnabled = false
-            }
             
             textFields[i].setUpTextField()
+            switchMyInfo(date: Date.now)
             
             let columnStackView = UIStackView(arrangedSubviews: [label1, textFields[i], label2])
             columnStackView.axis = .horizontal
@@ -122,22 +123,71 @@ extension MyInfoViewController {
         }
     }
     
-    @objc func editMyInfo() {
-        print("editMyInfo")
-        
-        let title = editButton.titleLabel?.text
-        
-        if title == "수정" {
-            editButton.setTitle("저장", for: .normal)
+    func switchMyInfo(date: Date) {
+        if let result = MyInfo.getMyInfo(for: date) {
+            myInfo = result
+            weightTextField.text = String(myInfo?.weight ?? 0)
+            muscleTextField.text = String(myInfo?.muscle ?? 0)
+            fatTextField.text = String(myInfo?.fat ?? 0)
         } else {
-            view.endEditing(true)
-            editButton.setTitle("수정", for: .normal)
+            weightTextField.text = ""
+            muscleTextField.text = ""
+            fatTextField.text = ""
+        }
+    }
+    
+    @objc func editMyInfo() {
+        
+        if myInfo == nil {
+            saveMyInfo()
+        } else {
+            updateMyInfo()
+        }
+    }
+    
+    func saveMyInfo() {
+
+        checkTextField()
+        
+        let myInfo = MyInfo()
+        myInfo.postedDate = postedDate
+        myInfo.weight = Int(weightTextField.text!)
+        myInfo.muscle = Int(muscleTextField.text!)
+        myInfo.fat = Int(fatTextField.text!)
+        
+        MyInfo.addMyInfo(myInfo)
+        
+        showAlertOneButton(title: "", message: "저장했습니다")
+    }
+    
+    func updateMyInfo() {
+        checkTextField()
+        
+        let newMyInfo = MyInfo()
+        newMyInfo.postedDate = postedDate
+        newMyInfo.weight = Int(weightTextField.text!)
+        newMyInfo.muscle = Int(muscleTextField.text!)
+        newMyInfo.fat = Int(fatTextField.text!)
+        
+        MyInfo.updateMyInfo(myInfo!, newInfo: newMyInfo)
+        
+        showAlertOneButton(title: "", message: "저장했습니다")
+    }
+    
+    func checkTextField() {
+        let textFields = [weightTextField, muscleTextField, fatTextField]
+        
+        let checkValid = textFields.contains {
+            guard let text = $0.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else {
+                return false
+            }
+            
+            return Int(text) != nil
         }
         
-        weightTextField.isUserInteractionEnabled.toggle()
-        muscleTextField.isUserInteractionEnabled.toggle()
-        fatTextField.isUserInteractionEnabled.toggle()
-
+        if !checkValid {
+            showAlertOneButton(title: "", message: "최소 하나의 영역에 숫자를 입력해야 합니다")
+        }
     }
 }
 
@@ -173,6 +223,7 @@ extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCale
     
     // 날짜 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        postedDate = date
     }
     
     // 날짜 선택 해제했을 때
