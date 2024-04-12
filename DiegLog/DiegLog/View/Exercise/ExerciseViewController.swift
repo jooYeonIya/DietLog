@@ -14,8 +14,6 @@ class ExerciseViewController: BaseUIViewController {
     private lazy var noDatalabel: UILabel = {
         let label = UILabel()
         label.setupLabel(text: "데이터를 기록해 주세요", font: .body)
-        label.isHidden = exerciseList.count == 0 ? false : true
-
         return label
     }()
     
@@ -33,10 +31,31 @@ class ExerciseViewController: BaseUIViewController {
     
     let cellSpacing = CGFloat(16)
     
-    var exerciseList: [String] = ["Test"]
+    var categories: [ExerciseCategory]? {
+        didSet {
+            guard let hasCategorieds = categories?.isEmpty else { return }
+            
+            noDatalabel.isHidden = !hasCategorieds
+            collectionView.isHidden = hasCategorieds
+            collectionView.reloadData()
+        }
+    }
+    
+    var newTitle: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        reloadCategories()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        reloadCategories()
+    }
+    
+    func reloadCategories() {
+        if let result = ExerciseCategory.getAllExerciseCategories() {
+            categories = Array(result)
+        }
     }
     
     override func setUI() {
@@ -78,7 +97,7 @@ class ExerciseViewController: BaseUIViewController {
     }
 }
 
-extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,  ExerciseCollectionViewCellDelegate {
     
     func setCollectionViewLayout() {
         collectionView.snp.makeConstraints { make in
@@ -94,14 +113,54 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
         collectionView.delegate = self
     }
     
+    func didTappedOtpionButton(_ cell: ExerciseCollectionViewCell) {
+        
+        guard let indexPath = collectionView.indexPath(for: cell), let category = categories?[indexPath.row] else { return }
+        
+        showActionSheet(modifyCompletion: {
+            self.showAlertWithTextField() {
+                ExerciseCategory.updateExerciseCategory(category, newTitle: self.newTitle)
+                self.showAlertOneButton(title: "", message: "수정했습니다.")
+                self.reloadCategories()
+            }
+        }, removeCompletion: {
+            ExerciseCategory.deleteExerciseCategory(category)
+            self.showAlertOneButton(title: "", message: "삭제했습니다") {
+                self.reloadCategories()
+            }
+        })
+    }
+
+    func showAlertWithTextField(completion: (() -> Void)?) {
+        
+        let alert = UIAlertController(title: "카테고리 이름", message: "이름을 입력해 주세요", preferredStyle: .alert)
+        
+        alert.addTextField()
+        
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak alert] _ in
+            if let textField = alert?.textFields?.first, let text = textField.text {
+                self.newTitle = text
+                completion?()
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return exerciseList.count == 0 ? 0 : exerciseList.count
+        return categories?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseCollectionViewCell", for: indexPath) as? ExerciseCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(text: exerciseList[indexPath.row])
+        cell.configure(text: categories?[indexPath.row].title ?? "카테고리")
+        cell.delegate = self
         return cell
     }
     
