@@ -200,6 +200,7 @@ extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCale
     
     // 날짜 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        postedDate = date
     }
     
     // 날짜 선택 해제했을 때
