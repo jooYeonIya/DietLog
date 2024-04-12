@@ -33,7 +33,7 @@ class ExerciseViewController: BaseUIViewController {
     
     var categories: [ExerciseCategory]? {
         didSet {
-            let hasCategorieds = categories == nil
+            guard let hasCategorieds = categories?.isEmpty else { return }
             
             noDatalabel.isHidden = !hasCategorieds
             collectionView.isHidden = hasCategorieds
@@ -43,9 +43,14 @@ class ExerciseViewController: BaseUIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        reloadCategories()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        reloadCategories()
+    }
+    
+    func reloadCategories() {
         if let result = ExerciseCategory.getAllExerciseCategories() {
             categories = Array(result)
         }
@@ -90,7 +95,7 @@ class ExerciseViewController: BaseUIViewController {
     }
 }
 
-extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,  ExerciseCollectionViewCellDelegate {
     
     func setCollectionViewLayout() {
         collectionView.snp.makeConstraints { make in
@@ -106,6 +111,20 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
         collectionView.delegate = self
     }
     
+    func didTappedOtpionButton(_ cell: ExerciseCollectionViewCell) {
+        
+        guard let indexPath = collectionView.indexPath(for: cell), let category = categories?[indexPath.row] else { return }
+        
+        showActionSheet(modifyCompletion: {
+            
+        }, removeCompletion: {
+            ExerciseCategory.deleteExerciseCategory(category)
+            self.showAlertOneButton(title: "", message: "삭제했습니다") {
+                self.reloadCategories()
+            }
+        })
+    }
+    
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories?.count ?? 0
@@ -114,6 +133,7 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseCollectionViewCell", for: indexPath) as? ExerciseCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(text: categories?[indexPath.row].title ?? "카테고리")
+        cell.delegate = self
         return cell
     }
     

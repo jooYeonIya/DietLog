@@ -47,4 +47,30 @@ extension BaseUIViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    
+    func showActionSheet(title: String? = nil,
+                         message: String? = nil,
+                         modifyTitle: String = "수정",
+                         modifyCompletion: (() -> Void)? = nil,
+                         removeTitle: String = "삭제",
+                         removeCompletion: (() -> Void)? = nil) {
+        
+        let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        let modify = UIAlertAction(title: modifyTitle, style: .default) { _ in
+            modifyCompletion?()
+        }
+        
+        let remove = UIAlertAction(title: removeTitle, style: .default) { _ in
+            removeCompletion?()
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        actionSheet.addAction(modify)
+        actionSheet.addAction(remove)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
 }

@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol ExerciseCollectionViewCellDelegate: AnyObject {
+    func didTappedOtpionButton(_ cell: ExerciseCollectionViewCell)
+}
+
 class ExerciseCollectionViewCell: UICollectionViewCell {
+    
+    weak var delegate: ExerciseCollectionViewCellDelegate?
     
     func configure(text: String) {
         let view = UIView()
@@ -28,6 +34,7 @@ class ExerciseCollectionViewCell: UICollectionViewCell {
         
         let button = UIButton()
         button.setImage(UIImage(systemName: "photo"), for: .normal)
+        button.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
         
         view.addSubViews([label, button])
         
@@ -42,5 +49,9 @@ class ExerciseCollectionViewCell: UICollectionViewCell {
             make.trailing.equalToSuperview().inset(8)
             make.width.height.equalTo(20)
         }
+    }
+    
+    @objc func didTappedOptionButton() {
+        delegate?.didTappedOtpionButton(self)
     }
 }
