@@ -13,8 +13,14 @@ import UIKit
 class Meal: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var postedDate: Date
+    @Persisted var folderName: String?
     @Persisted var imageName: String?
     @Persisted var memo: String?
+    
+    var imagePath: String? {
+         guard let folder = folderName, let image = imageName else { return nil }
+         return "\(folder)/\(image)"
+     }
 }
 
 extension Meal {
@@ -51,6 +57,24 @@ extension Meal {
             print("Error func getMeal(for id: ObjectId) \(error)")
             return nil
         }
+    }
+    
+    static func getMeals(for date: Date) -> Results<Meal>? {
+        do {
+            let realm = try Realm()
+            
+            let calendar = Calendar.current
+            let startDate = calendar.startOfDay(for: date)
+            let endDate = calendar.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+            
+            let meals = realm.objects(Meal.self).filter("postedDate >= %@ AND postedDate < %@", startDate, endDate)
+            return meals
+            
+        } catch {
+            print("Realm getMeals(for date: Date) \(error)")
+        }
+        
+        return nil
     }
 
     static func updateMeal(_ meal: Meal, newMeal: Meal){

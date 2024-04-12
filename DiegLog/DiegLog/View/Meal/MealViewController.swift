@@ -12,16 +12,31 @@ class MealViewController: BaseUIViewController {
     
     // MARK: - Component
     private lazy var calendarView = FSCalendar()
-    private lazy var mealListTebleView = UITableView()
+    private lazy var mealsDataTableView = UITableView()
     private lazy var floatingButton = UIButton()
     private lazy var noDataLabel = UILabel()
     
     // MARK: - 변수
-    private var mealList: [UIImage] = [UIImage(named: "testImege")!]
+    private var mealsData: [Meal]? {
+        didSet {
+            let hasData = mealsData != nil && !mealsData!.isEmpty
+            noDataLabel.isHidden = hasData
+            mealsDataTableView.isHidden = !hasData
+            mealsDataTableView.reloadData()
+        }
+    }
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let result = Meal.getMeals(for: Date.now) {
+            mealsData = Array(result)
+        }
     }
     
     // MARK: - Setup
@@ -31,7 +46,6 @@ class MealViewController: BaseUIViewController {
         setButtonUI()
         
         noDataLabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
-        noDataLabel.isHidden = mealList.count == 0 ? false : true
         view.addSubview(noDataLabel)
     }
     
@@ -109,6 +123,9 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     
     // 날짜 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        if let result = Meal.getMeals(for: date) {
+            mealsData = Array(result)
+        }
     }
     
     // 날짜 선택 해제했을 때
@@ -145,13 +162,12 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setTableViewUI() {
-        mealListTebleView.isHidden = mealList.count == 0 ? true : false
-        mealListTebleView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
-        view.addSubview(mealListTebleView)
+        mealsDataTableView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
+        view.addSubview(mealsDataTableView)
     }
     
     func setTableViewLayout() {
-        mealListTebleView.snp.makeConstraints { make in
+        mealsDataTableView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(calendarView.snp.bottom).offset(8)
             make.leading.trailing.equalTo(calendarView)
@@ -160,18 +176,19 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func setTableViewDelegate() {
-        mealListTebleView.delegate = self
-        mealListTebleView.dataSource = self
+        mealsDataTableView.delegate = self
+        mealsDataTableView.dataSource = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mealList.count == 0 ? 0 : mealList.count
+        return mealsData?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell else { return UITableViewCell() }
-        cell.mealImageView.image = mealList[indexPath.row]
-        cell.configre()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
+        
+        cell.configre(with: imagePath)
+        
         return cell
     }
     
