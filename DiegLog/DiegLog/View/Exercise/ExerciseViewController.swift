@@ -14,7 +14,7 @@ class ExerciseViewController: BaseUIViewController {
     private lazy var noDatalabel: UILabel = {
         let label = UILabel()
         label.setupLabel(text: "데이터를 기록해 주세요", font: .body)
-        label.isHidden = exerciseList.count == 0 ? false : true
+        label.isHidden = categories.count == 0 ? false : true
 
         return label
     }()
@@ -33,7 +33,7 @@ class ExerciseViewController: BaseUIViewController {
     
     let cellSpacing = CGFloat(16)
     
-    var exerciseList: [String] = ["Test"]
+    var categories: [String] = ["Test"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,12 +96,12 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
     
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return exerciseList.count == 0 ? 0 : exerciseList.count
+        return categories.count == 0 ? 0 : categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseCollectionViewCell", for: indexPath) as? ExerciseCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(text: exerciseList[indexPath.row])
+        cell.configure(text: categories[indexPath.row])
         return cell
     }
     
