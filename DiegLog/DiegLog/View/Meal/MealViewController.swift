@@ -12,7 +12,7 @@ class MealViewController: BaseUIViewController {
     
     // MARK: - Component
     private lazy var calendarView = FSCalendar()
-    private lazy var mealListTebleView = UITableView()
+    private lazy var mealsDataTableView = UITableView()
     private lazy var floatingButton = UIButton()
     private lazy var noDataLabel = UILabel()
     
@@ -21,7 +21,7 @@ class MealViewController: BaseUIViewController {
         didSet {
             let hasData = mealsData != nil && !mealsData!.isEmpty
             noDataLabel.isHidden = hasData
-            mealListTebleView.isHidden = !hasData
+            mealsDataTableView.isHidden = !hasData
         }
     }
     
@@ -158,12 +158,12 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setTableViewUI() {
-        mealListTebleView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
-        view.addSubview(mealListTebleView)
+        mealsDataTableView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
+        view.addSubview(mealsDataTableView)
     }
     
     func setTableViewLayout() {
-        mealListTebleView.snp.makeConstraints { make in
+        mealsDataTableView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(calendarView.snp.bottom).offset(8)
             make.leading.trailing.equalTo(calendarView)
@@ -172,8 +172,8 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func setTableViewDelegate() {
-        mealListTebleView.delegate = self
-        mealListTebleView.dataSource = self
+        mealsDataTableView.delegate = self
+        mealsDataTableView.dataSource = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
