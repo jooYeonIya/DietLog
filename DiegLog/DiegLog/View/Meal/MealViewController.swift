@@ -22,6 +22,7 @@ class MealViewController: BaseUIViewController {
             let hasData = mealsData != nil && !mealsData!.isEmpty
             noDataLabel.isHidden = hasData
             mealsDataTableView.isHidden = !hasData
+            mealsDataTableView.reloadData()
         }
     }
     
@@ -122,6 +123,9 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     
     // 날짜 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        if let result = Meal.getMeals(for: date) {
+            mealsData = Array(result)
+        }
     }
     
     // 날짜 선택 해제했을 때
