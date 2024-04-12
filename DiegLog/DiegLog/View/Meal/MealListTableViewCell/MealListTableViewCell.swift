@@ -11,7 +11,10 @@ class MealListTableViewCell: UITableViewCell {
 
     var mealImageView = UIImageView()
     
-    func configre() {
+    func configre(with imageName: String) {
+
+        mealImageView.image = UIImage(systemName: imageName)
+        
         mealImageView.contentMode = .scaleAspectFill
         mealImageView.layer.cornerRadius = 12
         mealImageView.layer.masksToBounds = true

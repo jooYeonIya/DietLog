@@ -52,6 +52,24 @@ extension Meal {
             return nil
         }
     }
+    
+    static func getMeals(for date: Date) -> Results<Meal>? {
+        do {
+            let realm = try Realm()
+            
+            let calendar = Calendar.current
+            let startDate = calendar.startOfDay(for: date)
+            let endDate = calendar.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+            
+            let meals = realm.objects(Meal.self).filter("postedDate >= %@ AND postedDate < %@", startDate, endDate)
+            return meals
+            
+        } catch {
+            print("Realm getMeals(for date: Date) \(error)")
+        }
+        
+        return nil
+    }
 
     static func updateMeal(_ meal: Meal, newMeal: Meal){
         do {

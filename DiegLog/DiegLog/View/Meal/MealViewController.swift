@@ -17,11 +17,25 @@ class MealViewController: BaseUIViewController {
     private lazy var noDataLabel = UILabel()
     
     // MARK: - 변수
-    private var mealList: [UIImage] = [UIImage(named: "testImege")!]
+    private var mealsData: [Meal]? {
+        didSet {
+            let hasData = mealsData != nil && !mealsData!.isEmpty
+            noDataLabel.isHidden = hasData
+            mealListTebleView.isHidden = !hasData
+        }
+    }
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let result = Meal.getMeals(for: Date.now) {
+            mealsData = Array(result)
+        }
     }
     
     // MARK: - Setup
@@ -31,7 +45,6 @@ class MealViewController: BaseUIViewController {
         setButtonUI()
         
         noDataLabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
-        noDataLabel.isHidden = mealList.count == 0 ? false : true
         view.addSubview(noDataLabel)
     }
     
@@ -145,7 +158,6 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setTableViewUI() {
-        mealListTebleView.isHidden = mealList.count == 0 ? true : false
         mealListTebleView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
         view.addSubview(mealListTebleView)
     }
@@ -165,13 +177,17 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mealList.count == 0 ? 0 : mealList.count
+        return mealsData?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell else { return UITableViewCell() }
-        cell.mealImageView.image = mealList[indexPath.row]
-        cell.configre()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell,
+              let id = mealsData?[indexPath.row].id else {
+                return UITableViewCell()
+        }
+        
+        cell.configre(with: "photo")
+        
         return cell
     }
     
