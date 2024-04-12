@@ -17,8 +17,11 @@ class MyInfoViewController: BaseUIViewController {
     private lazy var muscleTextField = UITextField()
     private lazy var fatTextField = UITextField()
 
-    let myInfo: [String] = ["100", "100", "100"]
-    var postedDate: Date = Date()
+    var postedDate: Date = Date() {
+        willSet {
+            switchMyInfo(date: newValue)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,8 +59,7 @@ class MyInfoViewController: BaseUIViewController {
     }
     
     func setEditButtonUI() {
-        let title = myInfo.count == 0 ? "저장" : "수정"
-        editButton.setTitle(title, for: .normal)
+        editButton.setTitle("저장", for: .normal)
         editButton.setTitleColor(.blue, for: .normal)
         editButton.addTarget(self, action: #selector(editMyInfo), for: .touchUpInside)
         
@@ -99,13 +101,9 @@ extension MyInfoViewController {
             
             let label2 = UILabel()
             label2.setupLabel(text: "kg", font: .body)
-        
-            if !myInfo.isEmpty {
-                textFields[i].text = myInfo[i]
-                textFields[i].isUserInteractionEnabled = false
-            }
             
             textFields[i].setUpTextField()
+            switchMyInfo(date: Date.now)
             
             let columnStackView = UIStackView(arrangedSubviews: [label1, textFields[i], label2])
             columnStackView.axis = .horizontal
@@ -120,6 +118,18 @@ extension MyInfoViewController {
         rowStackView.snp.makeConstraints { make in
             make.top.equalTo(calendarView.snp.bottom).offset(12)
             make.leading.trailing.equalTo(nickNameLabel)
+        }
+    }
+    
+    func switchMyInfo(date: Date) {
+        if let myInfo = MyInfo.getMyInfo(for: date) {
+            weightTextField.text = String(myInfo.weight!)
+            muscleTextField.text = String(myInfo.muscle!)
+            fatTextField.text = String(myInfo.fat!)
+        } else {
+            weightTextField.text = ""
+            muscleTextField.text = ""
+            fatTextField.text = ""
         }
     }
     

@@ -40,7 +40,7 @@ extension MyInfo {
         return nil
     }
     
-    static func getMyInfo(for date: Date) -> Results<MyInfo>? {
+    static func getMyInfo(for date: Date) -> MyInfo? {
         do {
             let realm = try Realm()
             
@@ -49,7 +49,7 @@ extension MyInfo {
             let endDate = calendar.date(byAdding: .day, value: 1, to: startDate) ?? startDate
             
             let myInfo = realm.objects(MyInfo.self).filter("postedDate >= %@ AND postedDate < %@", startDate, endDate)
-            return myInfo
+            return myInfo.first
             
         } catch {
             print("Realm getMyInfo(for date: Date) \(error)")
