@@ -184,6 +184,7 @@ class MealEditViewController: BaseUIViewController {
                 saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
                 
                 let meal = Meal()
+                meal.folderName = folderName
                 meal.imageName = imageName
                 meal.memo = memoTextView.text
                 meal.postedDate = Date()

@@ -185,12 +185,9 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell,
-              let id = mealsData?[indexPath.row].id else {
-                return UITableViewCell()
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
         
-        cell.configre(with: "photo")
+        cell.configre(with: imagePath)
         
         return cell
     }
