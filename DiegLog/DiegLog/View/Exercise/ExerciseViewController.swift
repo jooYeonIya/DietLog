@@ -40,6 +40,8 @@ class ExerciseViewController: BaseUIViewController {
             collectionView.reloadData()
         }
     }
+    
+    var newTitle: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,13 +118,38 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
         guard let indexPath = collectionView.indexPath(for: cell), let category = categories?[indexPath.row] else { return }
         
         showActionSheet(modifyCompletion: {
-            
+            self.showAlertWithTextField() {
+                ExerciseCategory.updateExerciseCategory(category, newTitle: self.newTitle)
+                self.showAlertOneButton(title: "", message: "수정했습니다.")
+                self.reloadCategories()
+            }
         }, removeCompletion: {
             ExerciseCategory.deleteExerciseCategory(category)
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
                 self.reloadCategories()
             }
         })
+    }
+
+    func showAlertWithTextField(completion: (() -> Void)?) {
+        
+        let alert = UIAlertController(title: "카테고리 이름", message: "이름을 입력해 주세요", preferredStyle: .alert)
+        
+        alert.addTextField()
+        
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak alert] _ in
+            if let textField = alert?.textFields?.first, let text = textField.text {
+                self.newTitle = text
+                completion?()
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
     }
     
     // 내장 메소드
