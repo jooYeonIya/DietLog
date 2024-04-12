@@ -18,6 +18,7 @@ class MyInfoViewController: BaseUIViewController {
     private lazy var fatTextField = UITextField()
 
     let myInfo: [String] = ["100", "100", "100"]
+    var postedDate: Date = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,12 +133,38 @@ extension MyInfoViewController {
         } else {
             view.endEditing(true)
             editButton.setTitle("수정", for: .normal)
+            saveMyInfo()
         }
         
         weightTextField.isUserInteractionEnabled.toggle()
         muscleTextField.isUserInteractionEnabled.toggle()
         fatTextField.isUserInteractionEnabled.toggle()
-
+    }
+    
+    func saveMyInfo() {
+        let textFields = [weightTextField, muscleTextField, fatTextField]
+        
+        let checkValid = textFields.contains {
+            guard let text = $0.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else {
+                return false
+            }
+            
+            return Int(text) != nil
+        }
+        
+        if !checkValid {
+            showAlertOneButton(title: "", message: "최소 하나의 영역에 숫자를 입력해야 합니다")
+        }
+        
+        let myInfo = MyInfo()
+        myInfo.postedDate = postedDate
+        myInfo.weight = Int(weightTextField.text!)
+        myInfo.muscle = Int(muscleTextField.text!)
+        myInfo.fat = Int(fatTextField.text!)
+        
+        MyInfo.addMyInfo(myInfo)
+        
+        showAlertOneButton(title: "", message: "저장했습니다")
     }
 }
 
