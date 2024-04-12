@@ -46,6 +46,14 @@ class ExerciseEditViewController: BaseUIViewController {
             showAlertOneButton(title: "", message: "카테고리 이름을 입력해 주세요")
             return
         }
-        print(textField.text!)
+        
+        let category = ExerciseCategory()
+        category.title = text
+        
+        ExerciseCategory.addExerciseCategory(category)
+        
+        showAlertOneButton(title: "", message: "저장했습니다") {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
