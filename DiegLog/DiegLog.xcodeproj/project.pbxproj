@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0AB9BF092BCD56A4004A9DEB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF082BCD56A4004A9DEB /* Alamofire */; };
+		0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */; };
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPI.swift; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				0AECFAF62BC5610B00BC773C /* MealModel.swift */,
 				0AECFAF82BC5615100BC773C /* ExerciseCategoryModel.swift */,
 				0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */,
+				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
+				0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */,
 				0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */,
 				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
 				0AECFAFB2BC5617200BC773C /* ExerciseModel.swift in Sources */,
