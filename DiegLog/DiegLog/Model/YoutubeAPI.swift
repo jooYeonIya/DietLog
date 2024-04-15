@@ -33,7 +33,7 @@ class YoutubeAPIManager {
         
         guard let url = URL(string: url) else { return "" }
         
-        if let host = url.host, host.contains("youte.be") {
+        if let host = url.host, host.contains("youtu.be") {
             return url.lastPathComponent
         } else {
             if let item = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
