@@ -50,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPI.swift; sourceTree = "<group>"; };
+		0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = YoutubeAPIKey.xcconfig; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -158,6 +159,7 @@
 				0AF454202BBE3C88005EBDD9 /* Assets.xcassets */,
 				0AF454222BBE3C88005EBDD9 /* LaunchScreen.storyboard */,
 				0AF454252BBE3C89005EBDD9 /* Info.plist */,
+				0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */,
 			);
 			path = DiegLog;
 			sourceTree = "<group>";
@@ -521,6 +523,7 @@
 		};
 		0AF454292BBE3C89005EBDD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -548,6 +551,7 @@
 		};
 		0AF4542A2BBE3C89005EBDD9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

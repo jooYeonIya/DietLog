@@ -10,7 +10,6 @@ import RealmSwift
 
 enum YoutubeAPI {
     static let URL: String = "https://youtube.googleapis.com/youtube/v3/"
-    static let key: String = "AIzaSyA1uvssw0V5bvimj5fS3N7SjTW_8qaR-Dg"
 }
 
 class YoutubeAPIManager {
@@ -23,6 +22,7 @@ class YoutubeAPIManager {
         exercise.categoryID = categoryID
         
         let videoId = extractVideoId(from: url)
+        
         getVideoInfo(for: exercise, from: videoId) {
             Exercise.addExercise(exercise)
             completion()
@@ -48,14 +48,20 @@ class YoutubeAPIManager {
         return ""
     }
     
+    func getYoutubeAPIKeyFromInfoPlist() -> String? {
+        return Bundle.main.object(forInfoDictionaryKey: "YoutubeAPIKey") as? String
+    }
+    
     func getVideoInfo(for exercise: Exercise, from videoId: String, completion: @escaping () -> Void) {
+        
+        guard let key = getYoutubeAPIKeyFromInfoPlist() else { return }
 
         let url = YoutubeAPI.URL + "videos"
         let parameters = [
             "id": videoId,
             "part": "snippet",
             "regionCode": "KR",
-            "key": YoutubeAPI.key,
+            "key": key,
         ]
         
         AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default)
@@ -65,6 +71,8 @@ class YoutubeAPIManager {
                     if let data = response.data,
                        let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                        let items = json["items"] as? [[String: Any]] {
+                        print("Data received: \(items.count) items found")
+
                         for item in items {
                             if let snippet = item["snippet"] as? [String: Any],
                                let title = snippet["title"] as? String,
