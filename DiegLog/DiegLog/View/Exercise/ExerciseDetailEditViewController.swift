@@ -112,10 +112,17 @@ class ExerciseDetailEditViewController: BaseUIViewController {
         button.setTitleColor(.blue, for: .normal)
         view.addSubview(button)
         
+        button.addTarget(self, action: #selector(moveToCategoryView), for: .touchUpInside)
+        
         button.snp.makeConstraints { make in
             make.centerY.equalTo(categoryLabel)
             make.trailing.equalToSuperview().inset(24)
         }
+    }
+    
+    @objc func moveToCategoryView() {
+        let vc = ExerciseEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func saveURL() {
