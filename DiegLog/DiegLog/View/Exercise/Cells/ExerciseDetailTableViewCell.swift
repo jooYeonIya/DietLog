@@ -14,9 +14,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     private lazy var optionButton = UIButton()
     
     // 모델 [스트링]은 임시
-    func configure(model: [String]) {
+    func configure(with exercise: Exercise) {
         setImageView(thumbnailImage: UIImage(systemName: "photo") ?? UIImage())
-        setLabel(title: "title")
+        setLabel(title: exercise.title)
         optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
         
         contentView.addSubViews([thumbnailImageView, titleLabel, optionButton])

@@ -6,28 +6,68 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ExerciseDetailViewController: BaseUIViewController {
     
+    private lazy var noDatalabel = UILabel()
     private lazy var tableView = UITableView()
     private lazy var floatingButton = UIButton()
-
+    
+    let selectedCategoryID: ObjectId
+    
+    var exercise: [Exercise]? {
+        didSet {
+            guard let hasCategorieds = exercise?.isEmpty else { return }
+            
+            noDatalabel.isHidden = !hasCategorieds
+            tableView.isHidden = hasCategorieds
+            tableView.reloadData()
+        }
+    }
+    
+    init(categoryID: ObjectId) {
+        self.selectedCategoryID = categoryID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        reloadExercise()
+    }
+    
+    func reloadExercise() {
+        if let result = Exercise.getAllExercise(for: selectedCategoryID) {
+            exercise = Array(result)
+        }
+    }
+    
     override func setUI() {
+        setNoDataLabelUI()
         setTableViewUI()
         setButtonUI()
     }
     
     override func setLayout() {
+        setNoDataLabelLayout()
         setTableLayout()
         setButtonLayout()
     }
     
     override func setDelegate() {
         setTableDalegate()
+    }
+    
+    func setNoDataLabelUI() {
+        noDatalabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
+        view.addSubview(noDatalabel)
     }
     
     func setButtonUI() {
@@ -41,6 +81,12 @@ class ExerciseDetailViewController: BaseUIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
             make.trailing.equalToSuperview().inset(12)
             make.height.width.equalTo(60)
+        }
+    }
+    
+    func setNoDataLabelLayout() {
+        noDatalabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
         }
     }
     
@@ -73,12 +119,14 @@ extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSour
     
     // 내장 메소드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return exercise?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
-        cell.configure(model: ["test"])
+        
+        guard let exercise = exercise?[indexPath.row] else { return UITableViewCell() }
+        cell.configure(with: exercise)
         return cell
     }
     
