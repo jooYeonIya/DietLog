@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ExerciseDetailEditViewController: BaseUIViewController {
     
@@ -29,7 +30,7 @@ class ExerciseDetailEditViewController: BaseUIViewController {
     
     let cellSpacing = CGFloat(4)
 
-    var selectedCategoryId: Int?
+    var selectedCategoryId: ObjectId?
     var category: [ExerciseCategory]? {
         didSet {
             guard let hasCategories = category?.isEmpty else { return }
@@ -180,7 +181,7 @@ extension ExerciseDetailEditViewController: UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedCategoryId = indexPath.row
+        selectedCategoryId = category?[indexPath.row].id
         
         if let cell = collectionView.cellForItem(at: indexPath) as? ExerciseDetailEditCollectionViewCell {
             cell.isSelected.toggle()
