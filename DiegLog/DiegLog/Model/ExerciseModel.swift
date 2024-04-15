@@ -12,7 +12,7 @@ class Exercise: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var title: String
     @Persisted var URL: String
-    @Persisted var thumbnailURL: Data
+    @Persisted var thumbnailURL: String
     @Persisted var categoryID: ObjectId
 }
 

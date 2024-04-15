@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AB9BF092BCD56A4004A9DEB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF082BCD56A4004A9DEB /* Alamofire */; };
+		0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */; };
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
@@ -47,6 +49,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPI.swift; sourceTree = "<group>"; };
+		0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = YoutubeAPIKey.xcconfig; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -89,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB9BF092BCD56A4004A9DEB /* Alamofire in Frameworks */,
 				0AECFAF32BC557FC00BC773C /* RealmSwift in Frameworks */,
 				0AECFAF12BC557FC00BC773C /* Realm in Frameworks */,
 				0AF454502BBE56DB005EBDD9 /* SnapKit in Frameworks */,
@@ -154,6 +159,7 @@
 				0AF454202BBE3C88005EBDD9 /* Assets.xcassets */,
 				0AF454222BBE3C88005EBDD9 /* LaunchScreen.storyboard */,
 				0AF454252BBE3C89005EBDD9 /* Info.plist */,
+				0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */,
 			);
 			path = DiegLog;
 			sourceTree = "<group>";
@@ -179,6 +185,7 @@
 				0AECFAF62BC5610B00BC773C /* MealModel.swift */,
 				0AECFAF82BC5615100BC773C /* ExerciseCategoryModel.swift */,
 				0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */,
+				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -289,6 +296,7 @@
 				0AF454752BBEBB44005EBDD9 /* FSCalendar */,
 				0AECFAF02BC557FC00BC773C /* Realm */,
 				0AECFAF22BC557FC00BC773C /* RealmSwift */,
+				0AB9BF082BCD56A4004A9DEB /* Alamofire */,
 			);
 			productName = DiegLog;
 			productReference = 0AF454142BBE3C87005EBDD9 /* DiegLog.app */;
@@ -322,6 +330,7 @@
 				0AF4544E2BBE56DB005EBDD9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0AF454742BBEBB44005EBDD9 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				0AECFAEF2BC557FC00BC773C /* XCRemoteSwiftPackageReference "realm-swift" */,
+				0AB9BF072BCD56A4004A9DEB /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 0AF454152BBE3C87005EBDD9 /* Products */;
 			projectDirPath = "";
@@ -367,6 +376,7 @@
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
+				0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */,
 				0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */,
 				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
 				0AECFAFB2BC5617200BC773C /* ExerciseModel.swift in Sources */,
@@ -513,6 +523,7 @@
 		};
 		0AF454292BBE3C89005EBDD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -540,6 +551,7 @@
 		};
 		0AF4542A2BBE3C89005EBDD9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -589,6 +601,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0AB9BF072BCD56A4004A9DEB /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		0AECFAEF2BC557FC00BC773C /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -616,6 +636,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0AB9BF082BCD56A4004A9DEB /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0AB9BF072BCD56A4004A9DEB /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		0AECFAF02BC557FC00BC773C /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0AECFAEF2BC557FC00BC773C /* XCRemoteSwiftPackageReference "realm-swift" */;
