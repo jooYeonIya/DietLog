@@ -33,9 +33,8 @@ class ExerciseDetailEditViewController: BaseUIViewController {
     var category: [ExerciseCategory]? {
         didSet {
             guard let hasCategories = category?.isEmpty else { return }
-            
-            noCategoryLabel.isHidden = hasCategories
-            collectionView.isHidden = !hasCategories
+            noCategoryLabel.isHidden = !hasCategories
+            collectionView.isHidden = hasCategories
             collectionView.reloadData()
         }
     }
