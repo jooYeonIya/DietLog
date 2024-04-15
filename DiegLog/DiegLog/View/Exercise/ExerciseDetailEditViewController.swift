@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import Alamofire
 
 class ExerciseDetailEditViewController: BaseUIViewController {
     
@@ -134,7 +135,9 @@ class ExerciseDetailEditViewController: BaseUIViewController {
         if !isValidURL(with: text) {
             showAlertOneButton(title: "", message: "링크 주소가 올바르지 않습니다")
         } else {
-            print("Asdf \(textField.text!)")
+            guard let url = textField.text else { return }
+            
+            let videoId = extractVideoId(from: url)
         }
     }
     
@@ -186,5 +189,29 @@ extension ExerciseDetailEditViewController: UICollectionViewDataSource, UICollec
         if let cell = collectionView.cellForItem(at: indexPath) as? ExerciseDetailEditCollectionViewCell {
             cell.isSelected.toggle()
         }
+    }
+}
+
+
+// MARK: - Youtube API
+extension ExerciseDetailEditViewController {
+    
+    func extractVideoId(from url: String) -> String {
+        
+        guard let url = URL(string: url) else { return "" }
+        
+        if let host = url.host, host.contains("youte.be") {
+            return url.lastPathComponent
+        } else {
+            if let item = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
+                for i in item  {
+                    if i.name == "v" {
+                        return i.value ?? ""
+                    }
+                }
+            }
+        }
+        
+        return ""
     }
 }
