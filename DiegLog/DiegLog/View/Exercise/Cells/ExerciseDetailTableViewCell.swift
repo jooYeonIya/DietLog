@@ -15,10 +15,20 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     
     // 모델 [스트링]은 임시
     func configure(with exercise: Exercise) {
-        setImageView(thumbnailImage: UIImage(systemName: "photo") ?? UIImage())
-        setLabel(title: exercise.title)
         optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
         
+        setLabel(title: exercise.title)
+        
+        YoutubeAPIManager.shared.getThumbnailImage(with: exercise.thumbnailURL) { image in
+            DispatchQueue.main.async {
+                if let image = image {
+                    self.setImageView(thumbnailImage: image)
+                } else {
+                    // 에러 처리, 예를 들어 기본 이미지 설정
+                }
+            }
+        }
+
         contentView.addSubViews([thumbnailImageView, titleLabel, optionButton])
         
         setLayout()
