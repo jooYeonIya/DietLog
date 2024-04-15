@@ -13,6 +13,8 @@
 		0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */; };
 		0AC3F8202BC01D5E00995AF4 /* ExerciseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81F2BC01D5E00995AF4 /* ExerciseDetailViewController.swift */; };
 		0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8212BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift */; };
+		0AE3DA062BCD18950067B94A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0AE3DA052BCD18950067B94A /* Alamofire */; };
+		0AE3DA082BCD18950067B94A /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0AE3DA072BCD18950067B94A /* AlamofireDynamic */; };
 		0AECFAE42BC12A8500BC773C /* ExerciseEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */; };
 		0AECFAE62BC12DAA00BC773C /* ExerciseDetailEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE52BC12DAA00BC773C /* ExerciseDetailEditViewController.swift */; };
 		0AECFAE82BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE72BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift */; };
@@ -89,6 +91,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AE3DA062BCD18950067B94A /* Alamofire in Frameworks */,
+				0AE3DA082BCD18950067B94A /* AlamofireDynamic in Frameworks */,
 				0AECFAF32BC557FC00BC773C /* RealmSwift in Frameworks */,
 				0AECFAF12BC557FC00BC773C /* Realm in Frameworks */,
 				0AF454502BBE56DB005EBDD9 /* SnapKit in Frameworks */,
@@ -289,6 +293,8 @@
 				0AF454752BBEBB44005EBDD9 /* FSCalendar */,
 				0AECFAF02BC557FC00BC773C /* Realm */,
 				0AECFAF22BC557FC00BC773C /* RealmSwift */,
+				0AE3DA052BCD18950067B94A /* Alamofire */,
+				0AE3DA072BCD18950067B94A /* AlamofireDynamic */,
 			);
 			productName = DiegLog;
 			productReference = 0AF454142BBE3C87005EBDD9 /* DiegLog.app */;
@@ -322,6 +328,7 @@
 				0AF4544E2BBE56DB005EBDD9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0AF454742BBEBB44005EBDD9 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				0AECFAEF2BC557FC00BC773C /* XCRemoteSwiftPackageReference "realm-swift" */,
+				0AE3DA042BCD18950067B94A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 0AF454152BBE3C87005EBDD9 /* Products */;
 			projectDirPath = "";
@@ -589,6 +596,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0AE3DA042BCD18950067B94A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
 		0AECFAEF2BC557FC00BC773C /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -616,6 +631,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0AE3DA052BCD18950067B94A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0AE3DA042BCD18950067B94A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		0AE3DA072BCD18950067B94A /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0AE3DA042BCD18950067B94A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
 		0AECFAF02BC557FC00BC773C /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0AECFAEF2BC557FC00BC773C /* XCRemoteSwiftPackageReference "realm-swift" */;
