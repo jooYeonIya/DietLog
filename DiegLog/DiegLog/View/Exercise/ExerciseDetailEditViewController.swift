@@ -13,14 +13,45 @@ class ExerciseDetailEditViewController: BaseUIViewController {
     private lazy var textField = UITextField()
     private lazy var categoryLabel = UILabel()
     private lazy var rightButton = UIBarButtonItem()
+    private lazy var noCategoryLabel = UILabel()
+    private lazy var collectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = cellSpacing
+        flowLayout.minimumInteritemSpacing = cellSpacing
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.register(ExerciseDetailEditCollectionViewCell.self, forCellWithReuseIdentifier: "ExerciseDetailEditCollectionViewCell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        return collectionView
+    }()
     
     let cellSpacing = CGFloat(4)
 
-    var category: [String] = ["카테고리", "몇개를", "3개를 하면 좋을 것 같네"]
     var selectedCategoryId: Int?
+    var category: [ExerciseCategory]? {
+        didSet {
+            guard let hasCategories = category?.isEmpty else { return }
+            
+            noCategoryLabel.isHidden = hasCategories
+            collectionView.isHidden = !hasCategories
+            collectionView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        reloadCategories()
+    }
+    
+    func reloadCategories() {
+        if let result = ExerciseCategory.getAllExerciseCategories() {
+            category = Array(result)
+        }
     }
     
     // 나중에 코드 리팩토링 필요
@@ -29,6 +60,7 @@ class ExerciseDetailEditViewController: BaseUIViewController {
         setCategoryLabel()
         setCategoryPlusButton()
         setSelectCategoryCollectionView()
+        setNoCategoryLabel()
         
         rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveURL))
         navigationItem.rightBarButtonItem = rightButton
@@ -59,6 +91,18 @@ class ExerciseDetailEditViewController: BaseUIViewController {
         categoryLabel.snp.makeConstraints { make in
             make.top.equalTo(textField.snp.bottom).offset(24)
             make.leading.equalTo(URLlabel)
+        }
+    }
+    
+    func setNoCategoryLabel() {
+        noCategoryLabel.setupLabel(text: "카테고리를 추가해 주세요", font: .smallBody)
+        noCategoryLabel.textAlignment = .center
+        
+        view.addSubview(noCategoryLabel)
+        
+        noCategoryLabel.snp.makeConstraints { make in
+            make.top.equalTo(categoryLabel.snp.bottom).offset(24)
+            make.leading.trailing.equalTo(URLlabel)
         }
     }
     
@@ -102,15 +146,6 @@ class ExerciseDetailEditViewController: BaseUIViewController {
 extension ExerciseDetailEditViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func setSelectCategoryCollectionView() {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = cellSpacing
-        flowLayout.minimumInteritemSpacing = cellSpacing
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(ExerciseDetailEditCollectionViewCell.self, forCellWithReuseIdentifier: "ExerciseDetailEditCollectionViewCell")
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
@@ -122,12 +157,12 @@ extension ExerciseDetailEditViewController: UICollectionViewDataSource, UICollec
     
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return category.count
+        return category?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseDetailEditCollectionViewCell", for: indexPath) as? ExerciseDetailEditCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(text: category[indexPath.row])
+        cell.configure(text: category?[indexPath.row].title ?? "카테고리")
         cell.isSelected = false
         return cell
     }
