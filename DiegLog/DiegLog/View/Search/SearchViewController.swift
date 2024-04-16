@@ -232,6 +232,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return CGSize(width: cellWidth, height: 24)
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        searchBar.text = recentSearchWords[indexPath.row]
+        reloadSearchData()
+    }
 }
 
 // MARK: - TableView
