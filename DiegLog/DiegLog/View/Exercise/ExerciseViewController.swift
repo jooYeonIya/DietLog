@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class ExerciseDetailViewController: BaseUIViewController {
+class ExerciseViewController: BaseUIViewController {
     
     private lazy var noDatalabel = UILabel()
     private lazy var tableView = UITableView()
@@ -91,12 +91,12 @@ class ExerciseDetailViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        let vc = ExerciseDetailEditViewController()
+        let vc = ExerciseEditViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSource, ExerciseDetailTableViewCellDelegate {
+extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource, ExerciseDetailTableViewCellDelegate {
 
     func setTableViewUI() {
         tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: "ExerciseDetailTableViewCell")

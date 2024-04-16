@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class ExerciseDetailEditViewController: BaseUIViewController {
+class ExerciseEditViewController: BaseUIViewController {
     
     private lazy var URLlabel = UILabel()
     private lazy var textField = UITextField()
@@ -155,7 +155,7 @@ class ExerciseDetailEditViewController: BaseUIViewController {
     }
 }
 
-extension ExerciseDetailEditViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ExerciseEditViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func setSelectCategoryCollectionView() {
         view.addSubview(collectionView)

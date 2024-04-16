@@ -170,7 +170,7 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ExerciseDetailViewController(categoryID: (categories?[indexPath.row].id)!)
+        let vc = ExerciseViewController(categoryID: (categories?[indexPath.row].id)!)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
