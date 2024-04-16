@@ -96,7 +96,7 @@ class ExerciseDetailViewController: BaseUIViewController {
     }
 }
 
-extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSource {
+extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSource, ExerciseDetailTableViewCellDelegate {
 
     func setTableViewUI() {
         tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: "ExerciseDetailTableViewCell")
@@ -117,6 +117,19 @@ extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
     }
     
+    func didTappedOptionButton(_ cell: ExerciseDetailTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell), let exercise = exercise?[indexPath.row] else { return }
+        
+        showActionSheet(modifyCompletion: {
+            // 카테고리 선택 뷰 네비게이션 컨트롤러로 보여주기
+        }, removeCompletion: {
+            Exercise.deleteExercise(exercise)
+            self.showAlertOneButton(title: "", message: "삭제했습니다") {
+                self.reloadExercise()
+            }
+        })
+    }
+    
     // 내장 메소드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return exercise?.count ?? 0
@@ -126,6 +139,7 @@ extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSour
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
         
         guard let exercise = exercise?[indexPath.row] else { return UITableViewCell() }
+        cell.delegate = self
         cell.configure(with: exercise)
         return cell
     }

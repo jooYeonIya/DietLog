@@ -7,16 +7,19 @@
 
 import UIKit
 
+protocol ExerciseDetailTableViewCellDelegate: AnyObject {
+    func didTappedOptionButton(_ cell: ExerciseDetailTableViewCell)
+}
+
 class ExerciseDetailTableViewCell: UITableViewCell {
     
     private lazy var thumbnailImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var optionButton = UIButton()
     
-    // 모델 [스트링]은 임시
+    weak var delegate: ExerciseDetailTableViewCellDelegate?
+    
     func configure(with exercise: Exercise) {
-        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
-        
         setLabel(title: exercise.title)
         
         YoutubeAPIManager.shared.getThumbnailImage(with: exercise.thumbnailURL) { image in
@@ -28,6 +31,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
                 }
             }
         }
+        
+        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        optionButton.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
 
         contentView.addSubViews([thumbnailImageView, titleLabel, optionButton])
         
@@ -68,5 +74,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview().inset(8)
             make.width.height.equalTo(20)
         }
+    }
+    
+    @objc func didTappedOptionButton() {
+        delegate?.didTappedOptionButton(self)
     }
 }
