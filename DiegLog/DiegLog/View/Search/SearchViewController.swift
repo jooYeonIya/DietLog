@@ -28,11 +28,26 @@ class SearchViewController: BaseUIViewController {
     }()
     
     //MARK: - 변수
-    var recentSearchWords: [String] = ["그러니까", "이게", "된다고?", "그러니까 이게 된다고?"]
+    var recentSearchWords: [String] = [] {
+        didSet {
+            let hasData = !recentSearchWords.isEmpty
+            noRecentSearchWordLabel.isHidden = hasData
+            recentSearchWordCollectionView.isHidden = !hasData
+            recentSearchWordCollectionView.reloadData()
+        }
+    }
     var searchResults: [String] = ["이게", "검색", "결과입니다만"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        reloadData()
+    }
+    
+    func reloadData() {
+        recentSearchWords = RecentSearchManager.shared.getAllRecentSearchWord()
     }
     
     override func setUI() {
@@ -65,7 +80,6 @@ class SearchViewController: BaseUIViewController {
         
         noRecentSearchWordLabel.setupLabel(text: "최근 검색어가 없습니다", font: .smallBody)
         noRecentSearchWordLabel.textAlignment = .center
-        noRecentSearchWordLabel.isHidden = recentSearchWords.count == 0 ? false : true
         
         view.addSubViews([recentSearchWordLabel, noRecentSearchWordLabel])
     }
@@ -144,8 +158,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
         RecentSearchManager.shared.add(to: searchText)
-        
-        print(RecentSearchManager.shared.getAllRecentSearchWord())
+        reloadData()
     }
 }
 
