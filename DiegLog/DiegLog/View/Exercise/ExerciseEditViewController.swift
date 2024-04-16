@@ -30,6 +30,7 @@ class ExerciseEditViewController: BaseUIViewController {
     
     let cellSpacing = CGFloat(4)
 
+    var exercise: Exercise?
     var selectedCategoryId: ObjectId?
     var category: [ExerciseCategory]? {
         didSet {
@@ -38,6 +39,16 @@ class ExerciseEditViewController: BaseUIViewController {
             collectionView.isHidden = hasCategories
             collectionView.reloadData()
         }
+    }
+    
+    init(exercise: Exercise? = nil) {
+        self.exercise = exercise
+        self.selectedCategoryId = exercise?.categoryID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -52,11 +63,21 @@ class ExerciseEditViewController: BaseUIViewController {
         if let result = ExerciseCategory.getAllExerciseCategories() {
             category = Array(result)
         }
+        
+        if let category = category {
+            for (index, category) in category.enumerated() {
+                if category.id == selectedCategoryId {
+                    let indexPath = IndexPath(item: index, section: 0)
+                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
+                }
+            }
+        }
     }
     
     // 나중에 코드 리팩토링 필요
     override func setUI() {
         setURLLbelUI()
+        setTextFieldUI()
         setCategoryLabel()
         setCategoryPlusButton()
         setSelectCategoryCollectionView()
@@ -68,7 +89,6 @@ class ExerciseEditViewController: BaseUIViewController {
     
     func setURLLbelUI() {
         URLlabel.setupLabel(text: "영상 URL", font: .body)
-        textField.setUpTextField()
         view.addSubViews([URLlabel, textField])
         
         URLlabel.snp.makeConstraints { make in
@@ -81,6 +101,15 @@ class ExerciseEditViewController: BaseUIViewController {
             make.top.equalTo(URLlabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(URLlabel)
             make.height.equalTo(40)
+        }
+    }
+    
+    func setTextFieldUI() {
+        if let exercise = exercise {
+            textField.text = exercise.URL
+            textField.isUserInteractionEnabled = false
+        } else {
+            textField.setUpTextField()
         }
     }
     
@@ -135,10 +164,15 @@ class ExerciseEditViewController: BaseUIViewController {
             showAlertOneButton(title: "", message: "링크 주소가 올바르지 않습니다")
         } else {
             guard let url = textField.text, let categoryID = selectedCategoryId else { return }
-            YoutubeAPIManager.shared.saveExercise(with: url, categoryID: categoryID) {
-                self.showAlertOneButton(title: "", message: "저장했습니다") {
-                    self.navigationController?.popViewController(animated: true)
-                }
+            
+            if let exercise = exercise {
+                Exercise.updateExercise(exercise, newCategoryID: categoryID)
+            } else {
+                YoutubeAPIManager.shared.saveExercise(with: url, categoryID: categoryID)
+            }
+            
+            self.showAlertOneButton(title: "", message: "저장했습니다") {
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

@@ -121,7 +121,8 @@ extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource, Ex
         guard let indexPath = tableView.indexPath(for: cell), let exercise = exercise?[indexPath.row] else { return }
         
         showActionSheet(modifyCompletion: {
-            // 카테고리 선택 뷰 네비게이션 컨트롤러로 보여주기
+            let vc = ExerciseEditViewController(exercise: exercise)
+            self.navigationController?.pushViewController(vc, animated: true)
         }, removeCompletion: {
             Exercise.deleteExercise(exercise)
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
