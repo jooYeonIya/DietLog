@@ -17,7 +17,7 @@ class YoutubeAPIManager {
     static let shared = YoutubeAPIManager()
     private init() {}
     
-    func saveExercise(with url: String, categoryID: ObjectId, completion: @escaping () -> Void) {
+    func saveExercise(with url: String, categoryID: ObjectId) {
         let exercise = Exercise()
         exercise.URL = url
         exercise.categoryID = categoryID
@@ -26,7 +26,6 @@ class YoutubeAPIManager {
         
         getVideoInfo(for: exercise, from: videoId) {
             Exercise.addExercise(exercise)
-            completion()
         }
     }
     

@@ -52,6 +52,17 @@ extension Exercise {
         return nil
     }
     
+    static func updateExercise(_ exercise: Exercise, newCategoryID: ObjectId) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                exercise.categoryID = newCategoryID
+            }
+        } catch {
+            print("Error updateExercise(_ exercise: Exercise, newCategoryID: ObjectId) \(error)")
+        }
+    }
+    
     static func deleteExercise(_ exercise: Exercise) {
         do {
             let realm = try Realm()
