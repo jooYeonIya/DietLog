@@ -13,10 +13,10 @@
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
 		0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */; };
-		0AC3F8202BC01D5E00995AF4 /* ExerciseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81F2BC01D5E00995AF4 /* ExerciseDetailViewController.swift */; };
+		0AC3F8202BC01D5E00995AF4 /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81F2BC01D5E00995AF4 /* ExerciseViewController.swift */; };
 		0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8212BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift */; };
-		0AECFAE42BC12A8500BC773C /* ExerciseEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */; };
-		0AECFAE62BC12DAA00BC773C /* ExerciseDetailEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE52BC12DAA00BC773C /* ExerciseDetailEditViewController.swift */; };
+		0AECFAE42BC12A8500BC773C /* CategoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE32BC12A8500BC773C /* CategoryEditViewController.swift */; };
+		0AECFAE62BC12DAA00BC773C /* ExerciseEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE52BC12DAA00BC773C /* ExerciseEditViewController.swift */; };
 		0AECFAE82BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE72BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift */; };
 		0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAEA2BC2E3E300BC773C /* SearchViewController.swift */; };
 		0AECFAEE2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAED2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift */; };
@@ -41,7 +41,7 @@
 		0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */; };
 		0AF4546C2BBE6D72005EBDD9 /* AppTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4546B2BBE6D72005EBDD9 /* AppTabBarItem.swift */; };
 		0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */; };
-		0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */; };
+		0AF454712BBE6E06005EBDD9 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454702BBE6E06005EBDD9 /* CategoryViewController.swift */; };
 		0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */; };
 		0AF454762BBEBB44005EBDD9 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0AF454752BBEBB44005EBDD9 /* FSCalendar */; };
 		0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */; };
@@ -55,10 +55,10 @@
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCollectionViewCell.swift; sourceTree = "<group>"; };
-		0AC3F81F2BC01D5E00995AF4 /* ExerciseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailViewController.swift; sourceTree = "<group>"; };
+		0AC3F81F2BC01D5E00995AF4 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		0AC3F8212BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTableViewCell.swift; sourceTree = "<group>"; };
-		0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseEditViewController.swift; sourceTree = "<group>"; };
-		0AECFAE52BC12DAA00BC773C /* ExerciseDetailEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailEditViewController.swift; sourceTree = "<group>"; };
+		0AECFAE32BC12A8500BC773C /* CategoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditViewController.swift; sourceTree = "<group>"; };
+		0AECFAE52BC12DAA00BC773C /* ExerciseEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseEditViewController.swift; sourceTree = "<group>"; };
 		0AECFAE72BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailEditCollectionViewCell.swift; sourceTree = "<group>"; };
 		0AECFAEA2BC2E3E300BC773C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0AECFAED2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchWordCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 		0AF454692BBE6822005EBDD9 /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
 		0AF4546B2BBE6D72005EBDD9 /* AppTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarItem.swift; sourceTree = "<group>"; };
 		0AF4546E2BBE6DF8005EBDD9 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
-		0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
+		0AF454702BBE6E06005EBDD9 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewController.swift; sourceTree = "<group>"; };
 		0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarExtension.swift; sourceTree = "<group>"; };
 		0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListTableViewCell.swift; sourceTree = "<group>"; };
@@ -104,10 +104,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0AC3F81C2BC010BF00995AF4 /* Cells */ = {
+		0AB9BF0F2BCED2EA004A9DEB /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				0AF454702BBE6E06005EBDD9 /* CategoryViewController.swift */,
+				0AECFAE32BC12A8500BC773C /* CategoryEditViewController.swift */,
+				0AB9BF102BCED2FB004A9DEB /* Cell */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		0AB9BF102BCED2FB004A9DEB /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		0AC3F81C2BC010BF00995AF4 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
 				0AC3F8212BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift */,
 				0AECFAE72BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift */,
 			);
@@ -171,6 +188,7 @@
 				0AF4545C2BBE5E95005EBDD9 /* TabBar */,
 				0AF4542F2BBE44A5005EBDD9 /* SignIn */,
 				0AF4542E2BBE449F005EBDD9 /* MyInfo */,
+				0AB9BF0F2BCED2EA004A9DEB /* Category */,
 				0AF454312BBE44B3005EBDD9 /* Exercise */,
 				0AF454302BBE44AE005EBDD9 /* Meal */,
 				0AECFAE92BC2E3BA00BC773C /* Search */,
@@ -227,10 +245,8 @@
 			isa = PBXGroup;
 			children = (
 				0AC3F81C2BC010BF00995AF4 /* Cells */,
-				0AF454702BBE6E06005EBDD9 /* ExerciseViewController.swift */,
-				0AECFAE32BC12A8500BC773C /* ExerciseEditViewController.swift */,
-				0AC3F81F2BC01D5E00995AF4 /* ExerciseDetailViewController.swift */,
-				0AECFAE52BC12DAA00BC773C /* ExerciseDetailEditViewController.swift */,
+				0AC3F81F2BC01D5E00995AF4 /* ExerciseViewController.swift */,
+				0AECFAE52BC12DAA00BC773C /* ExerciseEditViewController.swift */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
@@ -361,8 +377,8 @@
 				0AF4545A2BBE590E005EBDD9 /* SignInViewController.swift in Sources */,
 				0AF454662BBE664C005EBDD9 /* UIButtonExtension.swift in Sources */,
 				0AF4546C2BBE6D72005EBDD9 /* AppTabBarItem.swift in Sources */,
-				0AC3F8202BC01D5E00995AF4 /* ExerciseDetailViewController.swift in Sources */,
-				0AECFAE62BC12DAA00BC773C /* ExerciseDetailEditViewController.swift in Sources */,
+				0AC3F8202BC01D5E00995AF4 /* ExerciseViewController.swift in Sources */,
+				0AECFAE62BC12DAA00BC773C /* ExerciseEditViewController.swift in Sources */,
 				0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */,
 				0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */,
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
@@ -384,11 +400,11 @@
 				0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */,
 				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
 				0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */,
-				0AECFAE42BC12A8500BC773C /* ExerciseEditViewController.swift in Sources */,
+				0AECFAE42BC12A8500BC773C /* CategoryEditViewController.swift in Sources */,
 				0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */,
 				0AECFAE82BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift in Sources */,
 				0AECFAEE2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift in Sources */,
-				0AF454712BBE6E06005EBDD9 /* ExerciseViewController.swift in Sources */,
+				0AF454712BBE6E06005EBDD9 /* CategoryViewController.swift in Sources */,
 				0AF4541A2BBE3C87005EBDD9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

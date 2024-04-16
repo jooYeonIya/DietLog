@@ -1,80 +1,73 @@
 //
-//  ExerciseViewController.swift
+//  ExerciseDetailViewController.swift
 //  DiegLog
 //
-//  Created by Jooyeon Kang on 2024/04/04.
+//  Created by Jooyeon Kang on 2024/04/05.
 //
 
 import UIKit
+import RealmSwift
 
 class ExerciseViewController: BaseUIViewController {
     
+    private lazy var noDatalabel = UILabel()
+    private lazy var tableView = UITableView()
     private lazy var floatingButton = UIButton()
     
-    private lazy var noDatalabel: UILabel = {
-        let label = UILabel()
-        label.setupLabel(text: "데이터를 기록해 주세요", font: .body)
-        return label
-    }()
+    let selectedCategoryID: ObjectId
     
-    private lazy var collectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = cellSpacing
-        flowLayout.minimumInteritemSpacing = cellSpacing
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(ExerciseCollectionViewCell.self, forCellWithReuseIdentifier: "ExerciseCollectionViewCell")
-        
-        return collectionView
-    }()
-    
-    let cellSpacing = CGFloat(16)
-    
-    var categories: [ExerciseCategory]? {
+    var exercise: [Exercise]? {
         didSet {
-            guard let hasCategorieds = categories?.isEmpty else { return }
+            guard let hasCategorieds = exercise?.isEmpty else { return }
             
             noDatalabel.isHidden = !hasCategorieds
-            collectionView.isHidden = hasCategorieds
-            collectionView.reloadData()
+            tableView.isHidden = hasCategorieds
+            tableView.reloadData()
         }
     }
     
-    var newTitle: String = ""
-
+    init(categoryID: ObjectId) {
+        self.selectedCategoryID = categoryID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadCategories()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        reloadCategories()
+        reloadExercise()
     }
     
-    func reloadCategories() {
-        if let result = ExerciseCategory.getAllExerciseCategories() {
-            categories = Array(result)
+    func reloadExercise() {
+        if let result = Exercise.getAllExercise(for: selectedCategoryID) {
+            exercise = Array(result)
         }
     }
     
     override func setUI() {
-        view.addSubViews([collectionView, noDatalabel])
-        
+        setNoDataLabelUI()
+        setTableViewUI()
         setButtonUI()
     }
     
     override func setLayout() {
-        setCollectionViewLayout()
+        setNoDataLabelLayout()
+        setTableLayout()
         setButtonLayout()
-        
-        noDatalabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
     }
     
     override func setDelegate() {
-        setCollectionViewDelegate()
+        setTableDalegate()
+    }
+    
+    func setNoDataLabelUI() {
+        noDatalabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
+        view.addSubview(noDatalabel)
     }
     
     func setButtonUI() {
@@ -91,16 +84,27 @@ class ExerciseViewController: BaseUIViewController {
         }
     }
     
+    func setNoDataLabelLayout() {
+        noDatalabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
+    }
+    
     @objc func didTappedFloatingButton() {
         let vc = ExerciseEditViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,  ExerciseCollectionViewCellDelegate {
+extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource, ExerciseDetailTableViewCellDelegate {
+
+    func setTableViewUI() {
+        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: "ExerciseDetailTableViewCell")
+        view.addSubview(tableView)
+    }
     
-    func setCollectionViewLayout() {
-        collectionView.snp.makeConstraints { make in
+    func setTableLayout() {
+        tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
@@ -108,69 +112,39 @@ extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDe
         }
     }
     
-    func setCollectionViewDelegate() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
+    func setTableDalegate() {
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
-    func didTappedOtpionButton(_ cell: ExerciseCollectionViewCell) {
-        
-        guard let indexPath = collectionView.indexPath(for: cell), let category = categories?[indexPath.row] else { return }
+    func didTappedOptionButton(_ cell: ExerciseDetailTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell), let exercise = exercise?[indexPath.row] else { return }
         
         showActionSheet(modifyCompletion: {
-            self.showAlertWithTextField() {
-                ExerciseCategory.updateExerciseCategory(category, newTitle: self.newTitle)
-                self.showAlertOneButton(title: "", message: "수정했습니다.")
-                self.reloadCategories()
-            }
+            // 카테고리 선택 뷰 네비게이션 컨트롤러로 보여주기
         }, removeCompletion: {
-            ExerciseCategory.deleteExerciseCategory(category)
+            Exercise.deleteExercise(exercise)
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
-                self.reloadCategories()
+                self.reloadExercise()
             }
         })
     }
-
-    func showAlertWithTextField(completion: (() -> Void)?) {
-        
-        let alert = UIAlertController(title: "카테고리 이름", message: "이름을 입력해 주세요", preferredStyle: .alert)
-        
-        alert.addTextField()
-        
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak alert] _ in
-            if let textField = alert?.textFields?.first, let text = textField.text {
-                self.newTitle = text
-                completion?()
-            }
-        }
-
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
-    }
     
     // 내장 메소드
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories?.count ?? 0
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return exercise?.count ?? 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseCollectionViewCell", for: indexPath) as? ExerciseCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(text: categories?[indexPath.row].title ?? "카테고리")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
+        
+        guard let exercise = exercise?[indexPath.row] else { return UITableViewCell() }
         cell.delegate = self
+        cell.configure(with: exercise)
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width - 48 - cellSpacing) / 2
-        return CGSize(width: width, height: width)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ExerciseDetailViewController(categoryID: (categories?[indexPath.row].id)!)
-        navigationController?.pushViewController(vc, animated: true)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }
