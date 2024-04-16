@@ -28,11 +28,26 @@ class SearchViewController: BaseUIViewController {
     }()
     
     //MARK: - 변수
-    var recentSearchWords: [String] = ["그러니까", "이게", "된다고?", "그러니까 이게 된다고?"]
+    var recentSearchWords: [String] = [] {
+        didSet {
+            let hasData = !recentSearchWords.isEmpty
+            noRecentSearchWordLabel.isHidden = hasData
+            recentSearchWordCollectionView.isHidden = !hasData
+            recentSearchWordCollectionView.reloadData()
+        }
+    }
     var searchResults: [String] = ["이게", "검색", "결과입니다만"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        reloadData()
+    }
+    
+    func reloadData() {
+        recentSearchWords = RecentSearchManager.shared.getAllRecentSearchWord()
     }
     
     override func setUI() {
@@ -65,7 +80,6 @@ class SearchViewController: BaseUIViewController {
         
         noRecentSearchWordLabel.setupLabel(text: "최근 검색어가 없습니다", font: .smallBody)
         noRecentSearchWordLabel.textAlignment = .center
-        noRecentSearchWordLabel.isHidden = recentSearchWords.count == 0 ? false : true
         
         view.addSubViews([recentSearchWordLabel, noRecentSearchWordLabel])
     }
@@ -74,6 +88,7 @@ class SearchViewController: BaseUIViewController {
         deleteRecentSearchWordButton.setTitle("전체 삭제", for: .normal)
         deleteRecentSearchWordButton.setTitleColor(.black, for: .normal)
         deleteRecentSearchWordButton.titleLabel?.font = .systemFont(ofSize: 12)
+        deleteRecentSearchWordButton.addTarget(self, action: #selector(didTappedDeleteRecentSearchWordButton), for: .touchUpInside)
         view.addSubview(deleteRecentSearchWordButton)
     }
     
@@ -110,6 +125,11 @@ class SearchViewController: BaseUIViewController {
             make.leading.trailing.equalTo(searchBar)
         }
     }
+    
+    @objc func didTappedDeleteRecentSearchWordButton() {
+        RecentSearchManager.shared.deleteAllRecentSearchWord()
+        reloadData()
+    }
 }
 
 // MARK: - SearchBar
@@ -139,10 +159,17 @@ extension SearchViewController: UISearchBarDelegate {
     func setSerachBarDelegate() {
         searchBar.delegate = self
     }
+    
+    // 내장 메소드
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        RecentSearchManager.shared.add(to: searchText)
+        reloadData()
+    }
 }
 
 // MARK: - CollectionView
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RecentSearchWordCollectionViewCellDelegate {
     
     func setCollectinoViewUI() {
         view.addSubview(recentSearchWordCollectionView)
@@ -161,6 +188,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         recentSearchWordCollectionView.dataSource = self
     }
     
+    func didTappedDelegateButton() {
+        reloadData()
+    }
+    
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return recentSearchWords.count == 0 ? 0 : recentSearchWords.count
@@ -169,20 +200,24 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSearchWordCollectionViewCell", for: indexPath) as? RecentSearchWordCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: recentSearchWords[indexPath.row])
+        cell.deleteButton.tag = indexPath.row
+        cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSearchWordCollectionViewCell", for: indexPath) as? RecentSearchWordCollectionViewCell else { return .zero }
-        
-        cell.recentSearchWordlabel.text = recentSearchWords[indexPath.row]
-        cell.recentSearchWordlabel.sizeToFit()
-        
-        let cellWidth = cell.recentSearchWordlabel.frame.width + 12
-        
+        let text = recentSearchWords[indexPath.row]
+        let font = UIFont.systemFont(ofSize: 14)
+        let textAttributes = [NSAttributedString.Key.font: font]
+        let textWidth = (text as NSString).size(withAttributes: textAttributes).width
+
+        let additionalSpacing: CGFloat = 20
+        let deleteButtonWidth: CGFloat = 24
+        let cellWidth = textWidth + deleteButtonWidth + additionalSpacing
         return CGSize(width: cellWidth, height: 24)
     }
+
 }
 
 // MARK: - TableView
