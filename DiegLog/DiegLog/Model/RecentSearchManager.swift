@@ -30,6 +30,10 @@ struct RecentSearchManager {
         return UserDefaults.standard.stringArray(forKey: keyNmae) ?? []
     }
     
+    func deleteAllRecentSearchWord() {
+        UserDefaults.standard.removeObject(forKey: keyNmae)
+    }
+    
     func deleteSearch(at index: Int) {
         var allRecentSearchWord = getAllRecentSearchWord()
         allRecentSearchWord.remove(at: index)

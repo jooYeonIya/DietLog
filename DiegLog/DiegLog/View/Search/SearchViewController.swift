@@ -88,6 +88,7 @@ class SearchViewController: BaseUIViewController {
         deleteRecentSearchWordButton.setTitle("전체 삭제", for: .normal)
         deleteRecentSearchWordButton.setTitleColor(.black, for: .normal)
         deleteRecentSearchWordButton.titleLabel?.font = .systemFont(ofSize: 12)
+        deleteRecentSearchWordButton.addTarget(self, action: #selector(didTappedDeleteRecentSearchWordButton), for: .touchUpInside)
         view.addSubview(deleteRecentSearchWordButton)
     }
     
@@ -123,6 +124,11 @@ class SearchViewController: BaseUIViewController {
             make.centerY.equalToSuperview()
             make.leading.trailing.equalTo(searchBar)
         }
+    }
+    
+    @objc func didTappedDeleteRecentSearchWordButton() {
+        RecentSearchManager.shared.deleteAllRecentSearchWord()
+        reloadData()
     }
 }
 
