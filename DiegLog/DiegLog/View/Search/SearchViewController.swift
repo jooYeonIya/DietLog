@@ -139,6 +139,14 @@ extension SearchViewController: UISearchBarDelegate {
     func setSerachBarDelegate() {
         searchBar.delegate = self
     }
+    
+    // 내장 메소드
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        RecentSearchManager.shared.add(to: searchText)
+        
+        print(RecentSearchManager.shared.getAllRecentSearchWord())
+    }
 }
 
 // MARK: - CollectionView
