@@ -10,14 +10,26 @@ import UIKit
 class RecentSearchWordCollectionViewCell: UICollectionViewCell {
     
     lazy var recentSearchWordlabel = UILabel()
+    lazy var deleteButton = UIButton()
 
     func configure(with text: String) {
         recentSearchWordlabel.setupLabel(text: text, font: .smallBody)
         
-        contentView.addSubview(recentSearchWordlabel)
+        deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        deleteButton.tintColor = .black
+        
+        contentView.addSubViews([recentSearchWordlabel, deleteButton])
         
         recentSearchWordlabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().inset(8)
+        }
+        
+        deleteButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.lessThanOrEqualTo(recentSearchWordlabel.snp.trailing).inset(4)
+            make.trailing.equalToSuperview().inset(8)
+            make.width.height.equalTo(24)
         }
         
         contentView.layer.cornerRadius = 12

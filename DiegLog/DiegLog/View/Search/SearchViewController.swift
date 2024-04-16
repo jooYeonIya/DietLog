@@ -174,15 +174,17 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSearchWordCollectionViewCell", for: indexPath) as? RecentSearchWordCollectionViewCell else { return .zero }
-        
-        cell.recentSearchWordlabel.text = recentSearchWords[indexPath.row]
-        cell.recentSearchWordlabel.sizeToFit()
-        
-        let cellWidth = cell.recentSearchWordlabel.frame.width + 12
-        
+        let text = recentSearchWords[indexPath.row]
+        let font = UIFont.systemFont(ofSize: 14)
+        let textAttributes = [NSAttributedString.Key.font: font]
+        let textWidth = (text as NSString).size(withAttributes: textAttributes).width
+
+        let additionalSpacing: CGFloat = 20
+        let deleteButtonWidth: CGFloat = 24
+        let cellWidth = textWidth + deleteButtonWidth + additionalSpacing
         return CGSize(width: cellWidth, height: 24)
     }
+
 }
 
 // MARK: - TableView
