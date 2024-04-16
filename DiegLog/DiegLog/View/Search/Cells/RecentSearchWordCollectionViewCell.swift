@@ -7,16 +7,23 @@
 
 import UIKit
 
+protocol RecentSearchWordCollectionViewCellDelegate: AnyObject {
+    func didTappedDelegateButton()
+}
+
 class RecentSearchWordCollectionViewCell: UICollectionViewCell {
     
     lazy var recentSearchWordlabel = UILabel()
     lazy var deleteButton = UIButton()
+    
+    weak var delegate: RecentSearchWordCollectionViewCellDelegate?
 
     func configure(with text: String) {
         recentSearchWordlabel.setupLabel(text: text, font: .smallBody)
         
         deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         deleteButton.tintColor = .black
+        deleteButton.addTarget(self, action: #selector(deleteSearch(_:)), for: .touchUpInside)
         
         contentView.addSubViews([recentSearchWordlabel, deleteButton])
         
@@ -36,5 +43,10 @@ class RecentSearchWordCollectionViewCell: UICollectionViewCell {
         contentView.layer.masksToBounds = true
         contentView.layer.borderColor = UIColor.blue.cgColor
         contentView.layer.borderWidth = 1.0
+    }
+    
+    @objc func deleteSearch(_ sender: UIButton) {
+        RecentSearchManager.shared.deleteSearch(at: sender.tag)
+        delegate?.didTappedDelegateButton()
     }
 }

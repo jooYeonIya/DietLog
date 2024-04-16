@@ -163,7 +163,7 @@ extension SearchViewController: UISearchBarDelegate {
 }
 
 // MARK: - CollectionView
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RecentSearchWordCollectionViewCellDelegate {
     
     func setCollectinoViewUI() {
         view.addSubview(recentSearchWordCollectionView)
@@ -182,6 +182,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         recentSearchWordCollectionView.dataSource = self
     }
     
+    func didTappedDelegateButton() {
+        reloadData()
+    }
+    
     // 내장 메소드
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return recentSearchWords.count == 0 ? 0 : recentSearchWords.count
@@ -190,6 +194,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentSearchWordCollectionViewCell", for: indexPath) as? RecentSearchWordCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: recentSearchWords[indexPath.row])
+        cell.deleteButton.tag = indexPath.row
+        cell.delegate = self
         return cell
     }
     
