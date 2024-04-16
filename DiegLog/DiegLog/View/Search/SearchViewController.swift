@@ -38,9 +38,9 @@ class SearchViewController: BaseUIViewController {
     }
     var searchResults: [Exercise]? {
         didSet {
-            let hasData = searchResults != nil
-            noSearchResultLabel.isHidden = hasData
-            searchResultTableView.isHidden = !hasData
+            guard let hasData = searchResults?.isEmpty else { return }
+            noSearchResultLabel.isHidden = !hasData
+            searchResultTableView.isHidden = hasData
             searchResultTableView.reloadData()
         }
     }
@@ -179,6 +179,10 @@ extension SearchViewController: UISearchBarDelegate {
         RecentSearchManager.shared.add(to: searchText)
         reloadData()
         reloadSearchData()
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("Asdfasdf")
     }
 }
 
