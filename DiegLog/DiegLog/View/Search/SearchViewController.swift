@@ -36,7 +36,14 @@ class SearchViewController: BaseUIViewController {
             recentSearchWordCollectionView.reloadData()
         }
     }
-    var searchResults: [String] = ["이게", "검색", "결과입니다만"]
+    var searchResults: [Exercise]? {
+        didSet {
+            let hasData = searchResults != nil
+            noSearchResultLabel.isHidden = hasData
+            searchResultTableView.isHidden = !hasData
+            searchResultTableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +55,13 @@ class SearchViewController: BaseUIViewController {
     
     func reloadData() {
         recentSearchWords = RecentSearchManager.shared.getAllRecentSearchWord()
+    }
+    
+    func reloadSearchData() {
+        guard let searchText = searchBar.text else { return }
+        if let result = Exercise.getAllExercise(with: searchText) {
+            searchResults = Array(result)
+        }
     }
     
     override func setUI() {
@@ -95,7 +109,6 @@ class SearchViewController: BaseUIViewController {
     func setNoSearchResultLabelUI() {
         noSearchResultLabel.setupLabel(text: "검색 결과가 없습니다", font: .body)
         noSearchResultLabel.textAlignment = .center
-        noSearchResultLabel.isHidden = searchResults.count == 0 ? false : true
         view.addSubview(noSearchResultLabel)
     }
     
@@ -165,6 +178,7 @@ extension SearchViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else { return }
         RecentSearchManager.shared.add(to: searchText)
         reloadData()
+        reloadSearchData()
     }
 }
 
@@ -243,15 +257,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     // 내장 메소드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count == 0 ? 0 : searchResults.count
+        return searchResults?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
-        
-        // 추후 작업 반드시 필요
-//        cell.configure(with: searchResults)
-        
+
+        guard let result = searchResults?[indexPath.row] else { return UITableViewCell() }
+        cell.configure(with: result)
         return cell
     }
     
