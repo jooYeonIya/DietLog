@@ -39,6 +39,19 @@ extension Exercise {
         return nil
     }
     
+    static func getAllExercise(for categoryID: ObjectId) -> Results<Exercise>? {
+        let query = NSPredicate(format: "categoryID == %@", categoryID)
+        
+        do {
+            let realm = try Realm()
+            return realm.objects(Exercise.self).filter(query)
+        } catch {
+            print("Error func getAllExercise \(error)")
+        }
+        
+        return nil
+    }
+    
     static func deleteExercise(_ exercise: Exercise) {
         do {
             let realm = try Realm()

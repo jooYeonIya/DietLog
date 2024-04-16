@@ -214,7 +214,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
         
-        cell.configure(model: searchResults)
+        // 추후 작업 반드시 필요
+//        cell.configure(with: searchResults)
         
         return cell
     }

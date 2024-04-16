@@ -7,6 +7,7 @@
 import Alamofire
 import Foundation
 import RealmSwift
+import UIKit
 
 enum YoutubeAPI {
     static let URL: String = "https://youtube.googleapis.com/youtube/v3/"
@@ -91,5 +92,18 @@ class YoutubeAPIManager {
                     print("Error \(error)")
                 }
             }
+    }
+    
+    func getThumbnailImage(with url: String, completion: @escaping (UIImage?) -> Void) {
+        AF.request(url).responseData { response in
+            switch response.result {
+            case .success(let data):
+                let image = UIImage(data: data)
+                completion(image)
+            case .failure(let error):
+                print("Error in getThumbnailImage(with url: String): \(error)")
+                completion(nil)
+            }
+        }
     }
 }

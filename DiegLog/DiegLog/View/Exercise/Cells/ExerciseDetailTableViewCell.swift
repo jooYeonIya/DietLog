@@ -7,18 +7,34 @@
 
 import UIKit
 
+protocol ExerciseDetailTableViewCellDelegate: AnyObject {
+    func didTappedOptionButton(_ cell: ExerciseDetailTableViewCell)
+}
+
 class ExerciseDetailTableViewCell: UITableViewCell {
     
     private lazy var thumbnailImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var optionButton = UIButton()
     
-    // 모델 [스트링]은 임시
-    func configure(model: [String]) {
-        setImageView(thumbnailImage: UIImage(systemName: "photo") ?? UIImage())
-        setLabel(title: "title")
-        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
+    weak var delegate: ExerciseDetailTableViewCellDelegate?
+    
+    func configure(with exercise: Exercise) {
+        setLabel(title: exercise.title)
         
+        YoutubeAPIManager.shared.getThumbnailImage(with: exercise.thumbnailURL) { image in
+            DispatchQueue.main.async {
+                if let image = image {
+                    self.setImageView(thumbnailImage: image)
+                } else {
+                    // 에러 처리, 예를 들어 기본 이미지 설정
+                }
+            }
+        }
+        
+        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        optionButton.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
+
         contentView.addSubViews([thumbnailImageView, titleLabel, optionButton])
         
         setLayout()
@@ -58,5 +74,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview().inset(8)
             make.width.height.equalTo(20)
         }
+    }
+    
+    @objc func didTappedOptionButton() {
+        delegate?.didTappedOptionButton(self)
     }
 }

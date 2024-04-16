@@ -6,28 +6,68 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ExerciseDetailViewController: BaseUIViewController {
     
+    private lazy var noDatalabel = UILabel()
     private lazy var tableView = UITableView()
     private lazy var floatingButton = UIButton()
-
+    
+    let selectedCategoryID: ObjectId
+    
+    var exercise: [Exercise]? {
+        didSet {
+            guard let hasCategorieds = exercise?.isEmpty else { return }
+            
+            noDatalabel.isHidden = !hasCategorieds
+            tableView.isHidden = hasCategorieds
+            tableView.reloadData()
+        }
+    }
+    
+    init(categoryID: ObjectId) {
+        self.selectedCategoryID = categoryID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        reloadExercise()
+    }
+    
+    func reloadExercise() {
+        if let result = Exercise.getAllExercise(for: selectedCategoryID) {
+            exercise = Array(result)
+        }
+    }
+    
     override func setUI() {
+        setNoDataLabelUI()
         setTableViewUI()
         setButtonUI()
     }
     
     override func setLayout() {
+        setNoDataLabelLayout()
         setTableLayout()
         setButtonLayout()
     }
     
     override func setDelegate() {
         setTableDalegate()
+    }
+    
+    func setNoDataLabelUI() {
+        noDatalabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
+        view.addSubview(noDatalabel)
     }
     
     func setButtonUI() {
@@ -44,13 +84,19 @@ class ExerciseDetailViewController: BaseUIViewController {
         }
     }
     
+    func setNoDataLabelLayout() {
+        noDatalabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
+    }
+    
     @objc func didTappedFloatingButton() {
         let vc = ExerciseDetailEditViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSource {
+extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSource, ExerciseDetailTableViewCellDelegate {
 
     func setTableViewUI() {
         tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: "ExerciseDetailTableViewCell")
@@ -71,14 +117,30 @@ extension ExerciseDetailViewController: UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
     }
     
+    func didTappedOptionButton(_ cell: ExerciseDetailTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell), let exercise = exercise?[indexPath.row] else { return }
+        
+        showActionSheet(modifyCompletion: {
+            // 카테고리 선택 뷰 네비게이션 컨트롤러로 보여주기
+        }, removeCompletion: {
+            Exercise.deleteExercise(exercise)
+            self.showAlertOneButton(title: "", message: "삭제했습니다") {
+                self.reloadExercise()
+            }
+        })
+    }
+    
     // 내장 메소드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return exercise?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
-        cell.configure(model: ["test"])
+        
+        guard let exercise = exercise?[indexPath.row] else { return UITableViewCell() }
+        cell.delegate = self
+        cell.configure(with: exercise)
         return cell
     }
     
