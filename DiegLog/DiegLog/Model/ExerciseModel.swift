@@ -52,6 +52,19 @@ extension Exercise {
         return nil
     }
     
+    static func getAllExercise(with searchWord: String) -> Results<Exercise>? {
+        let query = NSPredicate(format: "title CONTAINS[c] %@", searchWord)
+        
+        do {
+            let realm = try Realm()
+                return realm.objects(Exercise.self).filter(query)
+        } catch {
+            print("Error func getAllExercise(for searchWord: String) \(error)")
+        }
+        
+        return nil
+    }
+    
     static func updateExercise(_ exercise: Exercise, newCategoryID: ObjectId) {
         do {
             let realm = try Realm()
