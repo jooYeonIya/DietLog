@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ExerciseEditViewController: BaseUIViewController {
+class CategoryEditViewController: BaseUIViewController {
     private lazy var label = UILabel()
     private lazy var textField = UITextField()
     private lazy var rightButton = UIBarButtonItem()

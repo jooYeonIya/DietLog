@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ExerciseViewController: BaseUIViewController {
+class CategoryViewController: BaseUIViewController {
     
     private lazy var floatingButton = UIButton()
     
@@ -92,12 +92,12 @@ class ExerciseViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        let vc = ExerciseEditViewController()
+        let vc = CategoryEditViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension ExerciseViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,  ExerciseCollectionViewCellDelegate {
+extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,  ExerciseCollectionViewCellDelegate {
     
     func setCollectionViewLayout() {
         collectionView.snp.makeConstraints { make in

@@ -14,7 +14,7 @@ class AppTabBarController: UITabBarController {
         
         let melaView = MealViewController()
         let myInfoView = MyInfoViewController()
-        let exerciseView = ExerciseViewController()
+        let exerciseView = CategoryViewController()
         let searchView = SearchViewController()
         
         melaView.tabBarItem = UITabBarItem(title: AppTabBarItem.meal.toTabTitle(),

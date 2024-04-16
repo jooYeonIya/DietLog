@@ -121,7 +121,7 @@ class ExerciseDetailEditViewController: BaseUIViewController {
     }
     
     @objc func moveToCategoryView() {
-        let vc = ExerciseEditViewController()
+        let vc = CategoryEditViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
