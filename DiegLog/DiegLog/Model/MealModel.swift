@@ -19,7 +19,7 @@ class Meal: Object {
     
     var imagePath: String? {
          guard let folder = folderName, let image = imageName else { return nil }
-         return "\(folder)/\(image)"
+         return "\(folder)/\(image).png"
      }
 }
 

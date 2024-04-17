@@ -26,15 +26,18 @@ class MealViewController: BaseUIViewController {
         }
     }
     
+    var seletedDate: Date?
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        seletedDate = Date.now
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let result = Meal.getMeals(for: Date.now) {
+        if let result = Meal.getMeals(for: seletedDate ?? Date()) {
             mealsData = Array(result)
         }
     }
@@ -80,7 +83,7 @@ class MealViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        let vc = MealEditViewController(isEditable: true, mealId: nil)
+        let vc = MealEditViewController(mealId: nil, seletedDate: seletedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -126,6 +129,8 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         if let result = Meal.getMeals(for: date) {
             mealsData = Array(result)
         }
+        
+        seletedDate = date
     }
     
     // 날짜 선택 해제했을 때
@@ -162,6 +167,8 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setTableViewUI() {
+        mealsDataTableView.showsVerticalScrollIndicator = false
+        mealsDataTableView.separatorStyle = .none
         mealsDataTableView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
         view.addSubview(mealsDataTableView)
     }
@@ -188,17 +195,18 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
         
         cell.configre(with: imagePath)
+        cell.selectionStyle = .none
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 100
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 추후 nil에서 id값으로 변경
-        let vc = MealEditViewController(isEditable: false, mealId: nil)
+        guard let mealId = mealsData?[indexPath.row].id else { return }
+        let vc = MealEditViewController(mealId: mealId, seletedDate: seletedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }

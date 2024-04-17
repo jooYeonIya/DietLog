@@ -19,15 +19,18 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
     
+    var seletedDate: Date
     let mealId: ObjectId?
-    var mealData: Meal?
-    var isImageChanged: Bool = false
+    var mealData: Meal? {
+        didSet {
+            imageView.image = loadImageFromDocumentDirectory(with: (mealData?.imagePath)!)
+            memoTextView.text = mealData?.memo
+        }
+    }
     
-    var isEditable: Bool
-    
-    init(isEditable: Bool, mealId: ObjectId?) {
-        self.isEditable = isEditable
+    init(mealId: ObjectId?, seletedDate: Date) {
         self.mealId = mealId
+        self.seletedDate = seletedDate
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -59,7 +62,7 @@ class MealEditViewController: BaseUIViewController {
     override func setupNavigationBar() {
         var rightButton = UIBarButtonItem()
         
-        if isEditable {
+        if mealId == nil {
             rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
         } else {
             rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
@@ -69,13 +72,13 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setDateLabelUI() {
-        let text = DateFormatter.toString(from: Date())
-        dateLabel.setupLabel(text: text , font: .subTitle)
+        let text = DateFormatter.toString(from: seletedDate)
+        dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
         dateLabel.textAlignment = .left
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
         dateLabel.addGestureRecognizer(tapGesture)
-        dateLabel.isUserInteractionEnabled = isEditable
+        dateLabel.isUserInteractionEnabled = true
 
         view.addSubview(dateLabel)
     }
@@ -93,7 +96,6 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.cornerRadius = 20
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
-        imageEditButton.isHidden = !isEditable
         
         imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
 
@@ -107,7 +109,6 @@ class MealEditViewController: BaseUIViewController {
         memoTextView.layer.masksToBounds = true
         memoTextView.layer.borderColor = UIColor.black.cgColor
         memoTextView.layer.borderWidth = 1.0
-        memoTextView.isUserInteractionEnabled = isEditable
         
         view.addSubViews([memoLabel, memoTextView])
     }
@@ -165,7 +166,8 @@ class MealEditViewController: BaseUIViewController {
         }
 
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            self.dateLabel.text = DateFormatter.toString(from: self.datePickerView.date)
+            let text = DateFormatter.toString(from: self.datePickerView.date)
+            self.dateLabel.text = "\(text) ▽"
         }
         
         alert.addAction(okAction)
@@ -174,32 +176,81 @@ class MealEditViewController: BaseUIViewController {
     }
     
     @objc func saveMealData() {
-        
-        if !isImageChanged || memoTextView.text.isEmpty {
+                
+        if imageView.image == UIImage(named: "FoodBasicImage") && memoTextView.text == "" {
             showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
-        } else{
-            if let folderName = dateLabel.text, let image = imageView.image {
-                
-                let imageName = UUID().uuidString
-                saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
-                
-                let meal = Meal()
-                meal.folderName = folderName
-                meal.imageName = imageName
-                meal.memo = memoTextView.text
-                meal.postedDate = Date()
-                
-                Meal.addMeal(meal)
-                
-                showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
+            return
+        }
+        
+        let meal = returnMealData()
+        Meal.addMeal(meal)
+        
+        showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
+    func returnMealData() -> Meal {
+        let meal = Meal()
+        
+        if let folderName = dateLabel.text, let image = imageView.image {
+            
+            let imageName = UUID().uuidString
+            saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
+            
+            meal.folderName = folderName
+            meal.imageName = imageName
+            meal.memo = memoTextView.text
+            meal.postedDate = seletedDate
+        }
+        
+        return meal
+    }
+    
     @objc func displayActionSheet() {
-        print("display action sheet")
+        guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
+        
+        showActionSheet(modifyCompletion: {
+            let newMeal = self.returnMealData()
+            Meal.updateMeal(mealData, newMeal: newMeal)
+            self.removeImageFromDocumentDirectory(with: imagePath)
+            self.showAlertOneButton(title: "", message: "수정했습니다") {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }, removeCompletion: {
+            Meal.deleteMeal(mealData)
+            self.removeImageFromDocumentDirectory(with: imagePath)
+            self.showAlertOneButton(title: "", message: "삭제했습니다") {
+                self.navigationController?.popViewController(animated: true)
+            }
+        })
+    }
+    
+    @objc func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
+        // 1. 도큐먼트 디렉토리 경로 확인
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        
+        // 2. 폴더 경로, 이미지 경로 찾기
+        let imageURL = documentDirectory.appendingPathComponent(imagePath)
+
+        // 3. UIImage로 불러오기
+        return UIImage(contentsOfFile: imageURL.path)
+    }
+    
+    func removeImageFromDocumentDirectory(with imagePath: String) {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        let imageURL = documentDirectory.appendingPathComponent(imagePath)
+
+
+        do {
+            try FileManager.default.removeItem(at: imageURL)
+            print("File removed successfully.")
+        } catch {
+            print("Error removing file: \(error)")
+        }
     }
 }
 
@@ -214,7 +265,6 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     guard let selectedImage = image as? UIImage else { return }
                     self.imageView.image = selectedImage
-                    self.isImageChanged = true
                 }
             }
         }
