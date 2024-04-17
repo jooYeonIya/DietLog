@@ -37,7 +37,7 @@ class MealViewController: BaseUIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let result = Meal.getMeals(for: Date.now) {
+        if let result = Meal.getMeals(for: seletedDate ?? Date()) {
             mealsData = Array(result)
         }
     }
