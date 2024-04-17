@@ -96,6 +96,10 @@ extension MyInfoViewController {
         let title = ["몸무게", "골격근량", "체지방량"]
         let textFields = [weightTextField, muscleTextField, fatTextField]
         
+        textFields.forEach {
+            $0.keyboardType = .decimalPad
+        }
+        
         for i in 0..<title.count {
             
             let label1 = UILabel()
@@ -126,10 +130,11 @@ extension MyInfoViewController {
     func switchMyInfo(date: Date) {
         if let result = MyInfo.getMyInfo(for: date) {
             myInfo = result
-            weightTextField.text = String(myInfo?.weight ?? 0)
-            muscleTextField.text = String(myInfo?.muscle ?? 0)
-            fatTextField.text = String(myInfo?.fat ?? 0)
+            weightTextField.text = myInfo?.weight ?? "0.0"
+            muscleTextField.text = myInfo?.muscle ?? "0.0"
+            fatTextField.text = myInfo?.fat ?? "0.0"
         } else {
+            myInfo = nil
             weightTextField.text = ""
             muscleTextField.text = ""
             fatTextField.text = ""
@@ -137,6 +142,7 @@ extension MyInfoViewController {
     }
     
     @objc func editMyInfo() {
+        guard checkTextField() else { return }
         
         if myInfo == nil {
             saveMyInfo()
@@ -147,13 +153,11 @@ extension MyInfoViewController {
     
     func saveMyInfo() {
 
-        checkTextField()
-        
         let myInfo = MyInfo()
         myInfo.postedDate = postedDate
-        myInfo.weight = Int(weightTextField.text!)
-        myInfo.muscle = Int(muscleTextField.text!)
-        myInfo.fat = Int(fatTextField.text!)
+        myInfo.weight = weightTextField.text!
+        myInfo.muscle = muscleTextField.text!
+        myInfo.fat = fatTextField.text!
         
         MyInfo.addMyInfo(myInfo)
         
@@ -161,20 +165,19 @@ extension MyInfoViewController {
     }
     
     func updateMyInfo() {
-        checkTextField()
         
         let newMyInfo = MyInfo()
         newMyInfo.postedDate = postedDate
-        newMyInfo.weight = Int(weightTextField.text!)
-        newMyInfo.muscle = Int(muscleTextField.text!)
-        newMyInfo.fat = Int(fatTextField.text!)
+        newMyInfo.weight = weightTextField.text!
+        newMyInfo.muscle = muscleTextField.text!
+        newMyInfo.fat = fatTextField.text!
         
         MyInfo.updateMyInfo(myInfo!, newInfo: newMyInfo)
         
         showAlertOneButton(title: "", message: "저장했습니다")
     }
     
-    func checkTextField() {
+    func checkTextField() -> Bool {
         let textFields = [weightTextField, muscleTextField, fatTextField]
         
         let checkValid = textFields.contains {
@@ -188,6 +191,8 @@ extension MyInfoViewController {
         if !checkValid {
             showAlertOneButton(title: "", message: "최소 하나의 영역에 숫자를 입력해야 합니다")
         }
+        
+        return checkValid
     }
 }
 
