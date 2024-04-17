@@ -124,7 +124,15 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
                 self.reloadCategories()
             }
         }, removeCompletion: {
+            
+            if let exercise = Exercise.getAllExercise(for: category.id) {
+                exercise.forEach {
+                    Exercise.deleteExercise($0)
+                }
+            }
+            
             ExerciseCategory.deleteExerciseCategory(category)
+            
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
                 self.reloadCategories()
             }
