@@ -21,6 +21,7 @@ class MealEditViewController: BaseUIViewController {
     
     let mealId: ObjectId?
     var isEditable: Bool
+    var seletedDate: Date
     var mealData: Meal? {
         didSet {
             imageView.image = loadImageFromDocumentDirectory(with: (mealData?.imagePath)!)
@@ -28,9 +29,10 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    init(isEditable: Bool, mealId: ObjectId?) {
+    init(isEditable: Bool, mealId: ObjectId?, seletedDate: Date) {
         self.isEditable = isEditable
         self.mealId = mealId
+        self.seletedDate = seletedDate
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -72,7 +74,7 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setDateLabelUI() {
-        let text = DateFormatter.toString(from: Date())
+        let text = DateFormatter.toString(from: seletedDate)
         dateLabel.setupLabel(text: text , font: .subTitle)
         dateLabel.textAlignment = .left
         

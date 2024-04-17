@@ -26,9 +26,12 @@ class MealViewController: BaseUIViewController {
         }
     }
     
+    var seletedDate: Date?
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        seletedDate = Date.now
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,7 +83,7 @@ class MealViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        let vc = MealEditViewController(isEditable: true, mealId: nil)
+        let vc = MealEditViewController(isEditable: true, mealId: nil, seletedDate: seletedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -126,6 +129,8 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         if let result = Meal.getMeals(for: date) {
             mealsData = Array(result)
         }
+        
+        seletedDate = date
     }
     
     // 날짜 선택 해제했을 때
@@ -198,7 +203,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let mealId = mealsData?[indexPath.row].id else { return }
-        let vc = MealEditViewController(isEditable: false, mealId: mealId)
+        let vc = MealEditViewController(isEditable: false, mealId: mealId, seletedDate: seletedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }
