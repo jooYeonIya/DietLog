@@ -20,7 +20,6 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoTextView = UITextView()
     
     let mealId: ObjectId?
-    var isImageChanged: Bool = false
     var isEditable: Bool
     var mealData: Meal? {
         didSet {
@@ -178,26 +177,27 @@ class MealEditViewController: BaseUIViewController {
     }
     
     @objc func saveMealData() {
-        
-        if !isImageChanged || memoTextView.text.isEmpty {
+                
+        if imageView.image == UIImage(named: "FoodBasicImage") && memoTextView.text == "" {
             showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
-        } else{
-            if let folderName = dateLabel.text, let image = imageView.image {
-                
-                let imageName = UUID().uuidString
-                saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
-                
-                let meal = Meal()
-                meal.folderName = folderName
-                meal.imageName = imageName
-                meal.memo = memoTextView.text
-                meal.postedDate = Date()
-                
-                Meal.addMeal(meal)
-                
-                showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
-                    self.navigationController?.popViewController(animated: true)
-                }
+            return
+        }
+        
+        if let folderName = dateLabel.text, let image = imageView.image {
+            
+            let imageName = UUID().uuidString
+            saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
+            
+            let meal = Meal()
+            meal.folderName = folderName
+            meal.imageName = imageName
+            meal.memo = memoTextView.text
+            meal.postedDate = Date()
+            
+            Meal.addMeal(meal)
+            
+            showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -231,7 +231,6 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     guard let selectedImage = image as? UIImage else { return }
                     self.imageView.image = selectedImage
-                    self.isImageChanged = true
                 }
             }
         }
