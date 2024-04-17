@@ -130,6 +130,7 @@ extension MyInfoViewController {
             muscleTextField.text = String(myInfo?.muscle ?? 0)
             fatTextField.text = String(myInfo?.fat ?? 0)
         } else {
+            myInfo = nil
             weightTextField.text = ""
             muscleTextField.text = ""
             fatTextField.text = ""
