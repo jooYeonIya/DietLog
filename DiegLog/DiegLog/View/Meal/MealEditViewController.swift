@@ -206,16 +206,18 @@ class MealEditViewController: BaseUIViewController {
     }
     
     @objc func displayActionSheet() {
-        guard let mealData = mealData else { return }
-    
+        guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
+        
         showActionSheet(modifyCompletion: {
             let newMeal = self.returnMealData()
             Meal.updateMeal(mealData, newMeal: newMeal)
+            self.removeImageFromDocumentDirectory(with: imagePath)
             self.showAlertOneButton(title: "", message: "수정했습니다") {
                 self.navigationController?.popViewController(animated: true)
             }
         }, removeCompletion: {
             Meal.deleteMeal(mealData)
+            self.removeImageFromDocumentDirectory(with: imagePath)
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
                 self.navigationController?.popViewController(animated: true)
             }
@@ -233,6 +235,20 @@ class MealEditViewController: BaseUIViewController {
 
         // 3. UIImage로 불러오기
         return UIImage(contentsOfFile: imageURL.path)
+    }
+    
+    func removeImageFromDocumentDirectory(with imagePath: String) {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        let imageURL = documentDirectory.appendingPathComponent(imagePath)
+
+
+        do {
+            try FileManager.default.removeItem(at: imageURL)
+            print("File removed successfully.")
+        } catch {
+            print("Error removing file: \(error)")
+        }
     }
 }
 
