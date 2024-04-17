@@ -26,6 +26,11 @@ class MealListTableViewCell: UITableViewCell {
             make.edges.equalToSuperview()
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0))
+    }
 
     func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
         // 1. 도큐먼트 디렉토리 경로 확인
