@@ -96,6 +96,10 @@ extension MyInfoViewController {
         let title = ["몸무게", "골격근량", "체지방량"]
         let textFields = [weightTextField, muscleTextField, fatTextField]
         
+        textFields.forEach {
+            $0.keyboardType = .decimalPad
+        }
+        
         for i in 0..<title.count {
             
             let label1 = UILabel()
