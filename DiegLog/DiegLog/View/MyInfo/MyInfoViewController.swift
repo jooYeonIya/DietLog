@@ -142,6 +142,7 @@ extension MyInfoViewController {
     }
     
     @objc func editMyInfo() {
+        guard checkTextField() else { return }
         
         if myInfo == nil {
             saveMyInfo()
@@ -152,8 +153,6 @@ extension MyInfoViewController {
     
     func saveMyInfo() {
 
-        checkTextField()
-        
         let myInfo = MyInfo()
         myInfo.postedDate = postedDate
         myInfo.weight = weightTextField.text!
@@ -166,7 +165,6 @@ extension MyInfoViewController {
     }
     
     func updateMyInfo() {
-        checkTextField()
         
         let newMyInfo = MyInfo()
         newMyInfo.postedDate = postedDate
@@ -179,7 +177,7 @@ extension MyInfoViewController {
         showAlertOneButton(title: "", message: "저장했습니다")
     }
     
-    func checkTextField() {
+    func checkTextField() -> Bool {
         let textFields = [weightTextField, muscleTextField, fatTextField]
         
         let checkValid = textFields.contains {
@@ -193,6 +191,8 @@ extension MyInfoViewController {
         if !checkValid {
             showAlertOneButton(title: "", message: "최소 하나의 영역에 숫자를 입력해야 합니다")
         }
+        
+        return checkValid
     }
 }
 
