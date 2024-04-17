@@ -167,6 +167,7 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setTableViewUI() {
+        mealsDataTableView.showsVerticalScrollIndicator = false
         mealsDataTableView.separatorStyle = .none
         mealsDataTableView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
         view.addSubview(mealsDataTableView)
