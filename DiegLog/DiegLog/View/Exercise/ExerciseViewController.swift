@@ -148,4 +148,9 @@ extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource, Ex
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = WebViewController(youtubeURL: exercise?[indexPath.row].URL ?? "https://www.youtube.com/")
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
