@@ -205,7 +205,16 @@ class MealEditViewController: BaseUIViewController {
     }
     
     @objc func displayActionSheet() {
-        print("display action sheet")
+        guard let mealData = mealData else { return }
+        
+        showActionSheet(modifyCompletion: {
+
+        }, removeCompletion: {
+            Meal.deleteMeal(mealData)
+            self.showAlertOneButton(title: "", message: "삭제했습니다") {
+                self.navigationController?.popViewController(animated: true)
+            }
+        })
     }
     
     @objc func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
