@@ -20,10 +20,14 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoTextView = UITextView()
     
     let mealId: ObjectId?
-    var mealData: Meal?
     var isImageChanged: Bool = false
-    
     var isEditable: Bool
+    var mealData: Meal? {
+        didSet {
+            imageView.image = loadImageFromDocumentDirectory(with: (mealData?.imagePath)!)
+            memoTextView.text = mealData?.memo
+        }
+    }
     
     init(isEditable: Bool, mealId: ObjectId?) {
         self.isEditable = isEditable
@@ -200,6 +204,19 @@ class MealEditViewController: BaseUIViewController {
     
     @objc func displayActionSheet() {
         print("display action sheet")
+    }
+    
+    @objc func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
+        // 1. 도큐먼트 디렉토리 경로 확인
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        
+        // 2. 폴더 경로, 이미지 경로 찾기
+        let imageURL = documentDirectory.appendingPathComponent(imagePath)
+
+        // 3. UIImage로 불러오기
+        return UIImage(contentsOfFile: imageURL.path)
     }
 }
 

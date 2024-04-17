@@ -197,8 +197,8 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 추후 nil에서 id값으로 변경
-        let vc = MealEditViewController(isEditable: false, mealId: nil)
+        guard let mealId = mealsData?[indexPath.row].id else { return }
+        let vc = MealEditViewController(isEditable: false, mealId: mealId)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
