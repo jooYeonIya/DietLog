@@ -73,7 +73,7 @@ class MealEditViewController: BaseUIViewController {
     
     func setDateLabelUI() {
         let text = DateFormatter.toString(from: seletedDate)
-        dateLabel.setupLabel(text: text , font: .subTitle)
+        dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
         dateLabel.textAlignment = .left
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
@@ -166,7 +166,8 @@ class MealEditViewController: BaseUIViewController {
         }
 
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            self.dateLabel.text = DateFormatter.toString(from: self.datePickerView.date)
+            let text = DateFormatter.toString(from: self.datePickerView.date)
+            self.dateLabel.text = "\(text) ▽"
         }
         
         alert.addAction(okAction)
