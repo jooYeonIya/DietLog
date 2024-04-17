@@ -130,9 +130,9 @@ extension MyInfoViewController {
     func switchMyInfo(date: Date) {
         if let result = MyInfo.getMyInfo(for: date) {
             myInfo = result
-            weightTextField.text = String(myInfo?.weight ?? 0)
-            muscleTextField.text = String(myInfo?.muscle ?? 0)
-            fatTextField.text = String(myInfo?.fat ?? 0)
+            weightTextField.text = myInfo?.weight ?? "0.0"
+            muscleTextField.text = myInfo?.muscle ?? "0.0"
+            fatTextField.text = myInfo?.fat ?? "0.0"
         } else {
             myInfo = nil
             weightTextField.text = ""
@@ -156,9 +156,9 @@ extension MyInfoViewController {
         
         let myInfo = MyInfo()
         myInfo.postedDate = postedDate
-        myInfo.weight = Int(weightTextField.text!)
-        myInfo.muscle = Int(muscleTextField.text!)
-        myInfo.fat = Int(fatTextField.text!)
+        myInfo.weight = weightTextField.text!
+        myInfo.muscle = muscleTextField.text!
+        myInfo.fat = fatTextField.text!
         
         MyInfo.addMyInfo(myInfo)
         
@@ -170,9 +170,9 @@ extension MyInfoViewController {
         
         let newMyInfo = MyInfo()
         newMyInfo.postedDate = postedDate
-        newMyInfo.weight = Int(weightTextField.text!)
-        newMyInfo.muscle = Int(muscleTextField.text!)
-        newMyInfo.fat = Int(fatTextField.text!)
+        newMyInfo.weight = weightTextField.text!
+        newMyInfo.muscle = muscleTextField.text!
+        newMyInfo.fat = fatTextField.text!
         
         MyInfo.updateMyInfo(myInfo!, newInfo: newMyInfo)
         

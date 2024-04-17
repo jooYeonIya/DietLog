@@ -11,9 +11,9 @@ import RealmSwift
 class MyInfo: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var postedDate: Date
-    @Persisted var weight: Int?
-    @Persisted var muscle: Int?
-    @Persisted var fat: Int?
+    @Persisted var weight: String?
+    @Persisted var muscle: String?
+    @Persisted var fat: String?
 }
 
 extension MyInfo {
