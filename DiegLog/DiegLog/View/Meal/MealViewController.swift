@@ -193,6 +193,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
         
         cell.configre(with: imagePath)
+        cell.selectionStyle = .none
         
         return cell
     }
