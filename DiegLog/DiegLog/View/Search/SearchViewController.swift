@@ -181,9 +181,12 @@ extension SearchViewController: UISearchBarDelegate {
         reloadSearchData()
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("Asdfasdf")
-    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+         if searchText.isEmpty {
+             reloadData()
+             reloadSearchData()
+         }
+     }
 }
 
 // MARK: - CollectionView
