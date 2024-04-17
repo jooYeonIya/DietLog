@@ -11,6 +11,8 @@
 		0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */; };
 		0AB9BF132BCF0636004A9DEB /* RecentSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */; };
 		0AB9BF162BCF2CDD004A9DEB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF152BCF2CDD004A9DEB /* IQKeyboardManagerSwift */; };
+		0AB9BF192BCF4CBE004A9DEB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */; };
+		0AB9BF1C2BCF4DE6004A9DEB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */; };
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
@@ -54,6 +56,8 @@
 		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPI.swift; sourceTree = "<group>"; };
 		0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = YoutubeAPIKey.xcconfig; sourceTree = "<group>"; };
 		0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchManager.swift; sourceTree = "<group>"; };
+		0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB9BF192BCF4CBE004A9DEB /* WebKit.framework in Frameworks */,
 				0AB9BF092BCD56A4004A9DEB /* Alamofire in Frameworks */,
 				0AECFAF32BC557FC00BC773C /* RealmSwift in Frameworks */,
 				0AECFAF12BC557FC00BC773C /* Realm in Frameworks */,
@@ -124,6 +129,22 @@
 				0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		0AB9BF172BCF4CBE004A9DEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0AB9BF1A2BCF4DBC004A9DEB /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */,
+			);
+			path = Web;
 			sourceTree = "<group>";
 		};
 		0AC3F81C2BC010BF00995AF4 /* Cells */ = {
@@ -157,6 +178,7 @@
 			children = (
 				0AF454162BBE3C87005EBDD9 /* DiegLog */,
 				0AF454152BBE3C87005EBDD9 /* Products */,
+				0AB9BF172BCF4CBE004A9DEB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -188,6 +210,7 @@
 		0AF4542B2BBE444B005EBDD9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0AB9BF1A2BCF4DBC004A9DEB /* Web */,
 				0AF454512BBE576F005EBDD9 /* Base */,
 				0AF4545C2BBE5E95005EBDD9 /* TabBar */,
 				0AF4542F2BBE44A5005EBDD9 /* SignIn */,
@@ -410,6 +433,7 @@
 				0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */,
 				0AECFAE42BC12A8500BC773C /* CategoryEditViewController.swift in Sources */,
 				0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */,
+				0AB9BF1C2BCF4DE6004A9DEB /* WebViewController.swift in Sources */,
 				0AECFAE82BC13AFA00BC773C /* ExerciseDetailEditCollectionViewCell.swift in Sources */,
 				0AECFAEE2BC2E96B00BC773C /* RecentSearchWordCollectionViewCell.swift in Sources */,
 				0AF454712BBE6E06005EBDD9 /* CategoryViewController.swift in Sources */,
