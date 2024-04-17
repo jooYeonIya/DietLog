@@ -19,9 +19,8 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
     
-    let mealId: ObjectId?
-    var isEditable: Bool
     var seletedDate: Date
+    let mealId: ObjectId?
     var mealData: Meal? {
         didSet {
             imageView.image = loadImageFromDocumentDirectory(with: (mealData?.imagePath)!)
@@ -29,8 +28,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    init(isEditable: Bool, mealId: ObjectId?, seletedDate: Date) {
-        self.isEditable = isEditable
+    init(mealId: ObjectId?, seletedDate: Date) {
         self.mealId = mealId
         self.seletedDate = seletedDate
         
@@ -64,7 +62,7 @@ class MealEditViewController: BaseUIViewController {
     override func setupNavigationBar() {
         var rightButton = UIBarButtonItem()
         
-        if isEditable {
+        if mealId == nil {
             rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
         } else {
             rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
@@ -80,7 +78,6 @@ class MealEditViewController: BaseUIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
         dateLabel.addGestureRecognizer(tapGesture)
-        dateLabel.isUserInteractionEnabled = isEditable
 
         view.addSubview(dateLabel)
     }
@@ -98,7 +95,6 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.cornerRadius = 20
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
-        imageEditButton.isHidden = !isEditable
         
         imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
 
@@ -112,7 +108,6 @@ class MealEditViewController: BaseUIViewController {
         memoTextView.layer.masksToBounds = true
         memoTextView.layer.borderColor = UIColor.black.cgColor
         memoTextView.layer.borderWidth = 1.0
-        memoTextView.isUserInteractionEnabled = isEditable
         
         view.addSubViews([memoLabel, memoTextView])
     }
@@ -185,30 +180,40 @@ class MealEditViewController: BaseUIViewController {
             return
         }
         
+        let meal = returnMealData()
+        Meal.addMeal(meal)
+        
+        showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func returnMealData() -> Meal {
+        let meal = Meal()
+        
         if let folderName = dateLabel.text, let image = imageView.image {
             
             let imageName = UUID().uuidString
             saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
             
-            let meal = Meal()
             meal.folderName = folderName
             meal.imageName = imageName
             meal.memo = memoTextView.text
             meal.postedDate = Date()
-            
-            Meal.addMeal(meal)
-            
-            showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
         }
+        
+        return meal
     }
     
     @objc func displayActionSheet() {
         guard let mealData = mealData else { return }
-        
+    
         showActionSheet(modifyCompletion: {
-
+            let newMeal = self.returnMealData()
+            Meal.updateMeal(mealData, newMeal: newMeal)
+            self.showAlertOneButton(title: "", message: "수정했습니다") {
+                self.navigationController?.popViewController(animated: true)
+            }
         }, removeCompletion: {
             Meal.deleteMeal(mealData)
             self.showAlertOneButton(title: "", message: "삭제했습니다") {

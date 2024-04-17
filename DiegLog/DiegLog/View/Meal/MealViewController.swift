@@ -83,7 +83,7 @@ class MealViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        let vc = MealEditViewController(isEditable: true, mealId: nil, seletedDate: seletedDate ?? Date())
+        let vc = MealEditViewController(mealId: nil, seletedDate: seletedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -206,7 +206,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let mealId = mealsData?[indexPath.row].id else { return }
-        let vc = MealEditViewController(isEditable: false, mealId: mealId, seletedDate: seletedDate ?? Date())
+        let vc = MealEditViewController(mealId: mealId, seletedDate: seletedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }
