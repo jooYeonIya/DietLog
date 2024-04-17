@@ -199,7 +199,7 @@ class MealEditViewController: BaseUIViewController {
             meal.folderName = folderName
             meal.imageName = imageName
             meal.memo = memoTextView.text
-            meal.postedDate = Date()
+            meal.postedDate = seletedDate
         }
         
         return meal
