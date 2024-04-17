@@ -78,6 +78,7 @@ class MealEditViewController: BaseUIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
         dateLabel.addGestureRecognizer(tapGesture)
+        dateLabel.isUserInteractionEnabled = true
 
         view.addSubview(dateLabel)
     }
