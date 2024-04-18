@@ -51,8 +51,50 @@ class MealEditViewController: BaseUIViewController {
     // MARK: - Setup UI
     override func setUI() {
         setDateLabelUI()
-        setImageViewUI()
-        setMemoTextViewUI()
+        setImageSectionUI()
+        setMemoTextSectionUI()
+    }
+    
+    private func setDateLabelUI() {
+        let text = DateFormatter.toString(from: selectedDate)
+        dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
+        dateLabel.textAlignment = .left
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
+        dateLabel.addGestureRecognizer(tapGesture)
+        dateLabel.isUserInteractionEnabled = true
+
+        view.addSubview(dateLabel)
+    }
+    
+    private func setImageSectionUI() {
+        imageLabel.setupLabel(text: "사진 선택", font: .body)
+        
+        // 기본 이미지 찾은 뒤에 이미지와 버튼 설정 다시 해야한다
+        imageView.image = UIImage(named: "FoodBasicImage")
+        imageView.layer.cornerRadius = 12
+        imageView.layer.masksToBounds = true
+        
+        imageEditButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        imageEditButton.backgroundColor = .white
+        imageEditButton.layer.cornerRadius = 20
+        imageEditButton.layer.shadowRadius = 4
+        imageEditButton.layer.shadowOpacity = 0.4
+        
+        imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
+
+        view.addSubViews([imageLabel, imageView, imageEditButton])
+    }
+    
+    private func setMemoTextSectionUI() {
+        memoLabel.setupLabel(text: "메모", font: .body)
+        
+        memoTextView.layer.cornerRadius = 12
+        memoTextView.layer.masksToBounds = true
+        memoTextView.layer.borderColor = UIColor.black.cgColor
+        memoTextView.layer.borderWidth = 1.0
+        
+        view.addSubViews([memoLabel, memoTextView])
     }
     
     // MARK: - Setup Layout
@@ -73,50 +115,6 @@ class MealEditViewController: BaseUIViewController {
         }
         
         navigationItem.rightBarButtonItem = rightButton
-    }
-    
-    func setDateLabelUI() {
-        let text = DateFormatter.toString(from: selectedDate)
-        dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
-        dateLabel.textAlignment = .left
-        
-        
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
-        dateLabel.addGestureRecognizer(tapGesture)
-        dateLabel.isUserInteractionEnabled = true
-
-        view.addSubview(dateLabel)
-    }
-    
-    func setImageViewUI() {
-        imageLabel.setupLabel(text: "사진 선택", font: .body)
-        
-        // 기본 이미지 찾은 뒤에 이미지와 버튼 설정 다시 해야한다
-        imageView.image = UIImage(named: "FoodBasicImage")
-        imageView.layer.cornerRadius = 12
-        imageView.layer.masksToBounds = true
-        
-        imageEditButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        imageEditButton.backgroundColor = .white
-        imageEditButton.layer.cornerRadius = 20
-        imageEditButton.layer.shadowRadius = 4
-        imageEditButton.layer.shadowOpacity = 0.4
-        
-        imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
-
-        view.addSubViews([imageLabel, imageView, imageEditButton])
-    }
-    
-    func setMemoTextViewUI() {
-        memoLabel.setupLabel(text: "메모", font: .body)
-        
-        memoTextView.layer.cornerRadius = 12
-        memoTextView.layer.masksToBounds = true
-        memoTextView.layer.borderColor = UIColor.black.cgColor
-        memoTextView.layer.borderWidth = 1.0
-        
-        view.addSubViews([memoLabel, memoTextView])
     }
     
     func setDateLabelLayout() {
