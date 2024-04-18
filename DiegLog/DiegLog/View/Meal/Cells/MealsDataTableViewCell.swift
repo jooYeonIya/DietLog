@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MealListTableViewCell: UITableViewCell {
+class MealsDataTableViewCell: UITableViewCell {
 
     var mealImageView = UIImageView()
     

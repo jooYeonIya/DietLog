@@ -49,7 +49,7 @@
 		0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */; };
 		0AF454762BBEBB44005EBDD9 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0AF454752BBEBB44005EBDD9 /* FSCalendar */; };
 		0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */; };
-		0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */; };
+		0AF4547B2BBF6391005EBDD9 /* MealsDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4547A2BBF6391005EBDD9 /* MealsDataTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,7 +92,7 @@
 		0AF454702BBE6E06005EBDD9 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewController.swift; sourceTree = "<group>"; };
 		0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarExtension.swift; sourceTree = "<group>"; };
-		0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListTableViewCell.swift; sourceTree = "<group>"; };
+		0AF4547A2BBF6391005EBDD9 /* MealsDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDataTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,7 +262,7 @@
 		0AF454302BBE44AE005EBDD9 /* Meal */ = {
 			isa = PBXGroup;
 			children = (
-				0AF454792BBF636F005EBDD9 /* MealListTableViewCell */,
+				0AF454792BBF636F005EBDD9 /* Cells */,
 				0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */,
 				0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */,
 			);
@@ -311,12 +311,12 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		0AF454792BBF636F005EBDD9 /* MealListTableViewCell */ = {
+		0AF454792BBF636F005EBDD9 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */,
+				0AF4547A2BBF6391005EBDD9 /* MealsDataTableViewCell.swift */,
 			);
-			path = MealListTableViewCell;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -430,7 +430,7 @@
 				0AECFAF52BC55B5E00BC773C /* MyInfoModel.swift in Sources */,
 				0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */,
 				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
-				0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */,
+				0AF4547B2BBF6391005EBDD9 /* MealsDataTableViewCell.swift in Sources */,
 				0AECFAE42BC12A8500BC773C /* CategoryEditViewController.swift in Sources */,
 				0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */,
 				0AB9BF1C2BCF4DE6004A9DEB /* WebViewController.swift in Sources */,

@@ -161,7 +161,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     func setTableViewUI() {
         mealsDataTableView.showsVerticalScrollIndicator = false
         mealsDataTableView.separatorStyle = .none
-        mealsDataTableView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
+        mealsDataTableView.register(MealsDataTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
         view.addSubview(mealsDataTableView)
     }
     
@@ -186,7 +186,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealsDataTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
         
         cell.configre(with: imagePath)
         cell.selectionStyle = .none
