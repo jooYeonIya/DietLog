@@ -21,12 +21,19 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoTextView = UITextView()
     
     // MARK: - 변수
-    var selectedDate: Date
-    let mealId: ObjectId?
-    var mealData: Meal? {
+    private var selectedDate: Date
+    private let mealId: ObjectId?
+    private var mealData: Meal? {
         didSet {
-            imageView.image = loadImageFromDocumentDirectory(with: (mealData?.imagePath)!)
+            guard let imagePath = mealData?.imagePath else { return }
+            imageView.image = ImageFileManager.shared.loadImage(with: imagePath)
             memoTextView.text = mealData?.memo
+        }
+    }
+    
+    private var isEditable: Bool {
+        willSet {
+            toggleEditSetup(isEditable: newValue)
         }
     }
     
@@ -34,6 +41,7 @@ class MealEditViewController: BaseUIViewController {
     init(mealId: ObjectId?, selectedDate: Date) {
         self.mealId = mealId
         self.selectedDate = selectedDate
+        self.isEditable = mealId == nil
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,56 +53,31 @@ class MealEditViewController: BaseUIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let id = mealId {
-            mealData = Meal.getMeal(for: id)
-        }
+        reloadMealData()
     }
     
-    // MARK: - Setup
+    // MARK: - Setup UI
     override func setUI() {
         setDateLabelUI()
-        setImageViewUI()
-        setMemoTextViewUI()
+        setImageSectionUI()
+        setMemoTextSectionUI()
     }
     
-    override func setLayout() {
-        setDateLabelLayout()
-        setImageViewLayout()
-        setMemoTextViewLayout()
-    }
-    
-    override func setupNavigationBar() {
-        var rightButton = UIBarButtonItem()
-        
-        if mealId == nil {
-            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
-        } else {
-            rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
-        }
-        
-        navigationItem.rightBarButtonItem = rightButton
-    }
-    
-    func setDateLabelUI() {
-        let text = DateFormatter.toString(from: selectedDate)
-        dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
+    private func setDateLabelUI() {
+        let dateString = DateFormatter.toString(from: selectedDate)
+        let text = isEditable ? "\(dateString) ▽" : "\(dateString)"
+        dateLabel.setupLabel(text: text, font: .subTitle)
         dateLabel.textAlignment = .left
-        
-        
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
-        dateLabel.addGestureRecognizer(tapGesture)
-        dateLabel.isUserInteractionEnabled = true
 
         view.addSubview(dateLabel)
     }
     
-    func setImageViewUI() {
+    private func setImageSectionUI() {
         imageLabel.setupLabel(text: "사진 선택", font: .body)
         
         // 기본 이미지 찾은 뒤에 이미지와 버튼 설정 다시 해야한다
         imageView.image = UIImage(named: "FoodBasicImage")
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         
@@ -103,24 +86,31 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.cornerRadius = 20
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
+        imageEditButton.isHidden = !isEditable
         
-        imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
-
         view.addSubViews([imageLabel, imageView, imageEditButton])
     }
     
-    func setMemoTextViewUI() {
+    private func setMemoTextSectionUI() {
         memoLabel.setupLabel(text: "메모", font: .body)
         
         memoTextView.layer.cornerRadius = 12
         memoTextView.layer.masksToBounds = true
         memoTextView.layer.borderColor = UIColor.black.cgColor
         memoTextView.layer.borderWidth = 1.0
+        memoTextView.isUserInteractionEnabled = isEditable
         
         view.addSubViews([memoLabel, memoTextView])
     }
     
-    func setDateLabelLayout() {
+    // MARK: - Setup Layout
+    override func setLayout() {
+        setDateLabelLayout()
+        setImageSectionLayout()
+        setMemoTextSectionLayout()
+    }
+    
+    private func setDateLabelLayout() {
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
             make.leading.equalToSuperview().offset(24)
@@ -128,7 +118,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    func setImageViewLayout() {
+    private func setImageSectionLayout() {
         imageLabel.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(32)
             make.leading.trailing.equalTo(dateLabel)
@@ -147,7 +137,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    func setMemoTextViewLayout() {
+    private func setMemoTextSectionLayout() {
         memoLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(32)
             make.leading.trailing.equalTo(imageView)
@@ -159,6 +149,106 @@ class MealEditViewController: BaseUIViewController {
             make.height.equalTo(200)
         }
     }
+    
+    // MARK: - Setup NavigationBar
+    override func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = setNavigationRightButton(isEditable)
+    }
+    
+    private func setNavigationRightButton(_ isEditable: Bool) -> UIBarButtonItem {
+        if isEditable {
+            return UIBarButtonItem(title: "저장",
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(didTappedRigthButton))
+        } else {
+            return UIBarButtonItem(image: UIImage(systemName: "photo"),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(displayActionSheet))
+        }
+    }
+    
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
+        dateLabel.addGestureRecognizer(tapGesture)
+        dateLabel.isUserInteractionEnabled = isEditable
+        
+        imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
+    }
+}
+
+// MARK: - 메서드
+extension MealEditViewController {
+    
+    private func reloadMealData() {
+        if let id = mealId {
+            mealData = Meal.getMeal(for: id)
+        }
+    }
+    
+    private func createMealData() -> Meal {
+        let meal = Meal()
+        
+        if let folderName = dateLabel.text, let image = imageView.image {
+            
+            let imageName = UUID().uuidString
+            ImageFileManager.shared.saveImage(folderName: folderName, imageName: "\(imageName).png", image: image)
+            
+            meal.folderName = folderName
+            meal.imageName = imageName
+            meal.memo = memoTextView.text
+            meal.postedDate = selectedDate
+        }
+        
+        return meal
+    }
+    
+    private func toggleEditSetup(isEditable: Bool) {
+        let dateString = DateFormatter.toString(from: selectedDate)
+        let text = isEditable ? "\(dateString) ▽" : "\(dateString)"
+        dateLabel.setupLabel(text: text, font: .subTitle)
+        dateLabel.isUserInteractionEnabled.toggle()
+        imageEditButton.isHidden.toggle()
+        memoTextView.isUserInteractionEnabled.toggle()
+        
+        if isEditable {
+            memoTextView.becomeFirstResponder()
+        }
+        
+        navigationItem.rightBarButtonItem = setNavigationRightButton(isEditable)
+    }
+    
+    private func saveMealData() {
+        if imageView.image == UIImage(named: "FoodBasicImage") && memoTextView.text == "" {
+            showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
+            return
+        }
+        let newMeal = createMealData()
+        Meal.addMeal(newMeal)
+    }
+    
+    private func updateMealData() {
+        guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
+        let newMeal = createMealData()
+        Meal.updateMeal(mealData, newMeal: newMeal)
+        ImageFileManager.shared.removeImage(with: imagePath)
+    }
+    
+    private func removeMealData() {
+        guard let mealData = self.mealData, let imagePath = mealData.imagePath else { return }
+        Meal.deleteMeal(mealData)
+        ImageFileManager.shared.removeImage(with: imagePath)
+        self.showAlertOneButton(title: "", message: "삭제했습니다") {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+}
+
+// MARK: - @objc 메서드
+
+extension MealEditViewController {
     
     @objc func displayDatePickerView() {
         let alert = UIAlertController(title: nil, message: "\n\n\n\n\n\n", preferredStyle: .actionSheet)
@@ -185,103 +275,27 @@ class MealEditViewController: BaseUIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @objc func saveMealData() {
-                
-        if imageView.image == UIImage(named: "FoodBasicImage") && memoTextView.text == "" {
-            showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
-            return
+    @objc func didTappedRigthButton() {
+        if mealId == nil {
+            saveMealData()
+        } else {
+            updateMealData()
         }
-        
-        let meal = returnMealData()
-        Meal.addMeal(meal)
-        
+
         showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
             self.navigationController?.popViewController(animated: true)
         }
     }
-    
-    func returnMealData() -> Meal {
-        let meal = Meal()
-        
-        if let folderName = dateLabel.text, let image = imageView.image {
-            
-            let imageName = UUID().uuidString
-            saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
-            
-            meal.folderName = folderName
-            meal.imageName = imageName
-            meal.memo = memoTextView.text
-            meal.postedDate = selectedDate
-        }
-        
-        return meal
-    }
-    
+
     @objc func displayActionSheet() {
-        guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
-        
         showActionSheet(modifyCompletion: {
-            let newMeal = self.returnMealData()
-            Meal.updateMeal(mealData, newMeal: newMeal)
-            self.removeImageFromDocumentDirectory(with: imagePath)
-            self.showAlertOneButton(title: "", message: "수정했습니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
+            self.isEditable = true
         }, removeCompletion: {
-            Meal.deleteMeal(mealData)
-            self.removeImageFromDocumentDirectory(with: imagePath)
-            self.showAlertOneButton(title: "", message: "삭제했습니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
+            self.removeMealData()
         })
     }
     
-    @objc func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
-        // 1. 도큐먼트 디렉토리 경로 확인
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return nil
-        }
-        
-        // 2. 폴더 경로, 이미지 경로 찾기
-        let imageURL = documentDirectory.appendingPathComponent(imagePath)
-
-        // 3. UIImage로 불러오기
-        return UIImage(contentsOfFile: imageURL.path)
-    }
-    
-    func removeImageFromDocumentDirectory(with imagePath: String) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        
-        let imageURL = documentDirectory.appendingPathComponent(imagePath)
-
-
-        do {
-            try FileManager.default.removeItem(at: imageURL)
-            print("File removed successfully.")
-        } catch {
-            print("Error removing file: \(error)")
-        }
-    }
-}
-
-// MARK: - Image PickerView
-extension MealEditViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        
-        let itemProvider = results.first?.itemProvider
-        if let itemProvider = itemProvider,
-           itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                DispatchQueue.main.async {
-                    guard let selectedImage = image as? UIImage else { return }
-                    self.imageView.image = selectedImage
-                }
-            }
-        }
-    }
-    
-    @objc func openPhotoLibrary(_ sender: Any) {
+    @objc func openPhotoLibrary() {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 1
         configuration.filter = .images
@@ -291,38 +305,22 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
         
         present(picker, animated: true)
     }
-    
-    func saveImageToDocumentDirectory(folderName: String, imageName: String, image: UIImage) {
-        // 1. 도큐먼트 디렉토리 경로 확인
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+}
 
-        // 2. 폴더 경로 설정
-        let folderURL = documentDirectory.appendingPathComponent(folderName)
+// MARK: - Image PickerView
+extension MealEditViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
         
-        // 2-1. 폴더가 없다면 생성
-        if !FileManager.default.fileExists(atPath: folderURL.path) {
-            do {
-                try FileManager.default.createDirectory(atPath: folderURL.path, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("폴더 생성 실패 \(error)")
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                DispatchQueue.main.async {
+                    guard let selectedImage = image as? UIImage else { return }
+                    self.imageView.image = selectedImage
+                }
             }
-        }
-        
-        // 3. 이미지 경로 설정
-        let imageURL = folderURL.appendingPathComponent(imageName)
-
-        // 4. 이미지 압축(image.pngData())
-        guard let imageData = image.pngData() else {
-            print("이미지 압축 실패")
-            return
-        }
-
-        // 5. 이미지를 도큐먼트에 저장
-        do {
-            try imageData.write(to: imageURL, options: [.atomic])
-            print("이미지 저장 완료")
-        } catch {
-            print("이미지 저장 실패 \(error)")
         }
     }
 }

@@ -13,6 +13,7 @@
 		0AB9BF162BCF2CDD004A9DEB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF152BCF2CDD004A9DEB /* IQKeyboardManagerSwift */; };
 		0AB9BF192BCF4CBE004A9DEB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */; };
 		0AB9BF1C2BCF4DE6004A9DEB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */; };
+		0AB9BF1E2BD1213F004A9DEB /* ImageFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */; };
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
@@ -49,7 +50,7 @@
 		0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */; };
 		0AF454762BBEBB44005EBDD9 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0AF454752BBEBB44005EBDD9 /* FSCalendar */; };
 		0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */; };
-		0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */; };
+		0AF4547B2BBF6391005EBDD9 /* MealsDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF4547A2BBF6391005EBDD9 /* MealsDataTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchManager.swift; sourceTree = "<group>"; };
 		0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFileManager.swift; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -92,7 +94,7 @@
 		0AF454702BBE6E06005EBDD9 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewController.swift; sourceTree = "<group>"; };
 		0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarExtension.swift; sourceTree = "<group>"; };
-		0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListTableViewCell.swift; sourceTree = "<group>"; };
+		0AF4547A2BBF6391005EBDD9 /* MealsDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDataTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +234,7 @@
 				0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */,
 				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */,
 				0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */,
+				0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -262,7 +265,7 @@
 		0AF454302BBE44AE005EBDD9 /* Meal */ = {
 			isa = PBXGroup;
 			children = (
-				0AF454792BBF636F005EBDD9 /* MealListTableViewCell */,
+				0AF454792BBF636F005EBDD9 /* Cells */,
 				0AF454722BBE6E0F005EBDD9 /* MealViewController.swift */,
 				0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */,
 			);
@@ -311,12 +314,12 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		0AF454792BBF636F005EBDD9 /* MealListTableViewCell */ = {
+		0AF454792BBF636F005EBDD9 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				0AF4547A2BBF6391005EBDD9 /* MealListTableViewCell.swift */,
+				0AF4547A2BBF6391005EBDD9 /* MealsDataTableViewCell.swift */,
 			);
-			path = MealListTableViewCell;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,6 +422,7 @@
 				0AECFAF92BC5615100BC773C /* ExerciseCategoryModel.swift in Sources */,
 				0AB9BF132BCF0636004A9DEB /* RecentSearchManager.swift in Sources */,
 				0AECFAFD2BC7906000BC773C /* UserDefaultsKeys.swift in Sources */,
+				0AB9BF1E2BD1213F004A9DEB /* ImageFileManager.swift in Sources */,
 				0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */,
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */,
@@ -430,7 +434,7 @@
 				0AECFAF52BC55B5E00BC773C /* MyInfoModel.swift in Sources */,
 				0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */,
 				0AF4546A2BBE6822005EBDD9 /* UITextField+extension.swift in Sources */,
-				0AF4547B2BBF6391005EBDD9 /* MealListTableViewCell.swift in Sources */,
+				0AF4547B2BBF6391005EBDD9 /* MealsDataTableViewCell.swift in Sources */,
 				0AECFAE42BC12A8500BC773C /* CategoryEditViewController.swift in Sources */,
 				0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */,
 				0AB9BF1C2BCF4DE6004A9DEB /* WebViewController.swift in Sources */,

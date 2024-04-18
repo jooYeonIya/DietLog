@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Photos
 
 class SignInViewController: BaseUIViewController {
     private lazy var welcomTitleLabel = UILabel()
@@ -18,11 +19,16 @@ class SignInViewController: BaseUIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        checkPhotoStatus()
+    }
+    
     override func setUI() {
         welcomTitleLabel.setupLabel(text: "안녕하세요!", font: .largeTitle)
-        welcomSubTitleLabel.setupLabel(text: "앞으로 사용할 닉네임을 등록해주세요", font: .body)
-        
+        welcomSubTitleLabel.setupLabel(text: "접근 권한 설정이 필요합니다", font: .body)
+
         nickNameTextField.placeholder = "닉네임"
+        nickNameTextField.isUserInteractionEnabled = false
         nickNameTextField.setUpTextField()
         
         saveButton.setUpButton(title: "저장", titleSize: .body)
@@ -75,3 +81,42 @@ class SignInViewController: BaseUIViewController {
         }
     }
 }
+
+extension SignInViewController {
+    
+    private func checkPhotoStatus() {
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+            DispatchQueue.main.async {
+                switch status {
+                case .notDetermined, .restricted, .denied, .limited:
+                    self.displaySettingsApp()
+                case .authorized:
+                    self.welcomSubTitleLabel.setupLabel(text: "앞으로 사용할 닉네임을 등록해주세요", font: .body)
+                    self.nickNameTextField.isUserInteractionEnabled = true
+                @unknown default:
+                    fatalError("Unknown authorization status")
+                }
+            }
+        }
+    }
+    
+    private func displaySettingsApp() {
+        let alertController = UIAlertController(title: "접근 권한 설정 필요",
+                                                message: "사진 앨범에 대한 권한 설정을 해주세요",
+                                                preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+            if let settingsAppURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsAppURL)
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        alertController.addAction(action)
+        alertController.addAction(cancel)
+        
+        present(alertController, animated: true)
+    }
+}
+    

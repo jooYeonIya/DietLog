@@ -17,100 +17,139 @@ class MealViewController: BaseUIViewController {
     private lazy var noDataLabel = UILabel()
     
     // MARK: - 변수
-    private var mealsData: [Meal]? {
+    private var selectedDate: Date = Date.now
+    private var mealsData: [Meal] = [] {
         didSet {
-            let hasData = mealsData != nil && !mealsData!.isEmpty
+            let hasData = !mealsData.isEmpty
             noDataLabel.isHidden = hasData
             mealsDataTableView.isHidden = !hasData
             mealsDataTableView.reloadData()
         }
     }
     
-    var selectedDate: Date?
-    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectedDate = Date.now
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let result = Meal.getMeals(for: selectedDate ?? Date()) {
-            mealsData = Array(result)
-        }
+        reloadMealsData()
     }
     
-    // MARK: - Setup
+    // MARK: - Setup UI
     override func setUI() {
         setCalendarViewUI()
         setTableViewUI()
-        setButtonUI()
-        
+        setFloatingButtonUI()
+        setNoDataLabelUI()
+    }
+    
+    private func setCalendarViewUI() {
+        calendarView.configure()
+        view.addSubview(calendarView)
+    }
+    
+    private func setTableViewUI() {
+        mealsDataTableView.showsVerticalScrollIndicator = false
+        mealsDataTableView.separatorStyle = .none
+        mealsDataTableView.register(MealsDataTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
+        view.addSubview(mealsDataTableView)
+    }
+    
+    private func setFloatingButtonUI() {
+        floatingButton.setUpFloatingButton()
+        view.addSubview(floatingButton)
+    }
+    
+    private func setNoDataLabelUI() {
         noDataLabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
         view.addSubview(noDataLabel)
     }
     
+    // MARK: - Setup Layout
     override func setLayout() {
         setCalendarViewLayout()
         setTableViewLayout()
-        setButtonLayout()
-        
-        noDataLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(calendarView.snp.bottom).offset(8)
+        setFloatingButtonLayout()
+        setNoDataLabelLayout()
+    }
+    
+    private func setCalendarViewLayout() {
+        calendarView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(24)
+            make.leading.trailing.equalToSuperview().inset(24)
+            make.height.equalTo(300)
         }
- }
-    
-    override func setDelegate() {
-        setCalendarViewDelegate()
-        setTableViewDelegate()
     }
     
-    func setButtonUI() {
-        floatingButton.setUpFloatingButton()
-        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
-        view.addSubview(floatingButton)
+    private func setTableViewLayout() {
+        mealsDataTableView.snp.makeConstraints { make in
+            make.top.equalTo(calendarView.snp.bottom).offset(8)
+            make.leading.trailing.equalTo(calendarView)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
     }
     
-    func setButtonLayout() {
+    private func setFloatingButtonLayout() {
         floatingButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
             make.trailing.equalToSuperview().inset(12)
             make.height.width.equalTo(60)
         }
     }
+
+    private func setNoDataLabelLayout() {
+        noDataLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(calendarView.snp.bottom).offset(8)
+        }
+    }
+    
+    // MARK: - Setup Delegate
+    override func setDelegate() {
+        setCalendarViewDelegate()
+        setTableViewDelegate()
+    }
+    
+    private func setCalendarViewDelegate() {
+        calendarView.dataSource = self
+        calendarView.delegate = self
+    }
+    
+    private func setTableViewDelegate() {
+        mealsDataTableView.delegate = self
+        mealsDataTableView.dataSource = self
+    }
+    
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+    }
+}
+
+// MARK: - 메서드
+extension MealViewController {
+    
+    private func reloadMealsData() {
+        if let result = Meal.getMeals(for: selectedDate) {
+            mealsData = Array(result)
+        }
+    }
+}
+
+// MARK: - @objc 메서드
+extension MealViewController {
     
     @objc func didTappedFloatingButton() {
-        let vc = MealEditViewController(mealId: nil, selectedDate: selectedDate ?? Date())
+        let vc = MealEditViewController(mealId: nil, selectedDate: selectedDate)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 // MARK: - FSCalendar
 extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
-    func setCalendarViewUI() {
-        calendarView.configure()
-        view.addSubview(calendarView)
-    }
-    
-    func setCalendarViewLayout() {
-        calendarView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(-(navigationController?.navigationBar.frame.size.height)!)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(300)
-        }
-    }
-    
-    func setCalendarViewDelegate() {
-        calendarView.dataSource = self
-        calendarView.delegate = self
-    }
-    
-    // FSCalendar 내장 메소드
+
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarView.snp.updateConstraints {
             $0.height.equalTo(bounds.height)
@@ -119,25 +158,15 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         self.view.layoutIfNeeded()
     }
     
-    // 이벤트 갯수 설정
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         return 0
     }
     
-    // 날짜 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        if let result = Meal.getMeals(for: date) {
-            mealsData = Array(result)
-        }
-        
         selectedDate = date
+        reloadMealsData()
     }
     
-    // 날짜 선택 해제했을 때
-    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-    }
-    
-    // 토, 일 색깔 다르게 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         let day = Calendar.current.component(.weekday, from: date) - 1
         
@@ -150,7 +179,6 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         }
     }
     
-    // 오늘 날짜 밑에 글씨 추가
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -165,36 +193,17 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 
 // MARK: - TableView
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func setTableViewUI() {
-        mealsDataTableView.showsVerticalScrollIndicator = false
-        mealsDataTableView.separatorStyle = .none
-        mealsDataTableView.register(MealListTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
-        view.addSubview(mealsDataTableView)
-    }
-    
-    func setTableViewLayout() {
-        mealsDataTableView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(calendarView.snp.bottom).offset(8)
-            make.leading.trailing.equalTo(calendarView)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-    }
-    
-    func setTableViewDelegate() {
-        mealsDataTableView.delegate = self
-        mealsDataTableView.dataSource = self
-    }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mealsData?.count ?? 0
+        return mealsData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealListTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
-        
-        cell.configre(with: imagePath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealsDataTableViewCell else { return UITableViewCell() }
+
+        guard let imagePath = mealsData[indexPath.row].imagePath else { return cell }
+
+        cell.configure(with: imagePath)
         cell.selectionStyle = .none
         
         return cell
@@ -205,8 +214,8 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let mealId = mealsData?[indexPath.row].id else { return }
-        let vc = MealEditViewController(mealId: mealId, selectedDate: selectedDate ?? Date())
+        let mealId = mealsData[indexPath.row].id
+        let vc = MealEditViewController(mealId: mealId, selectedDate: selectedDate)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
