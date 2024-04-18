@@ -70,32 +70,53 @@ class MealViewController: BaseUIViewController {
         view.addSubview(noDataLabel)
     }
     
+    // MARK: - Setup Layout
     override func setLayout() {
         setCalendarViewLayout()
         setTableViewLayout()
-        setButtonLayout()
-        
-        noDataLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(calendarView.snp.bottom).offset(8)
-        }
- }
-    
-    override func setDelegate() {
-        setCalendarViewDelegate()
-        setTableViewDelegate()
+        setFloatingButtonLayout()
+        setNoDataLabelLayout()
     }
     
-
+    private func setCalendarViewLayout() {
+        calendarView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(-(navigationController?.navigationBar.frame.size.height)!)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.height.equalTo(300)
+        }
+    }
     
-    func setButtonLayout() {
+    private func setTableViewLayout() {
+        mealsDataTableView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(calendarView.snp.bottom).offset(8)
+            make.leading.trailing.equalTo(calendarView)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+    
+    private func setFloatingButtonLayout() {
         floatingButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
             make.trailing.equalToSuperview().inset(12)
             make.height.width.equalTo(60)
         }
     }
+
+    private func setNoDataLabelLayout() {
+        noDataLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(calendarView.snp.bottom).offset(8)
+        }
+    }
     
+    override func setDelegate() {
+        setCalendarViewDelegate()
+        setTableViewDelegate()
+    }
+
     @objc func didTappedFloatingButton() {
         let vc = MealEditViewController(mealId: nil, selectedDate: selectedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
@@ -115,17 +136,6 @@ extension MealViewController {
 // MARK: - FSCalendar
 extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
 
-    
-    func setCalendarViewLayout() {
-        calendarView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(-(navigationController?.navigationBar.frame.size.height)!)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(300)
-        }
-    }
-    
     func setCalendarViewDelegate() {
         calendarView.dataSource = self
         calendarView.delegate = self
@@ -175,17 +185,6 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 
 // MARK: - TableView
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
-    
-
-    
-    func setTableViewLayout() {
-        mealsDataTableView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(calendarView.snp.bottom).offset(8)
-            make.leading.trailing.equalTo(calendarView)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-    }
     
     func setTableViewDelegate() {
         mealsDataTableView.delegate = self
