@@ -25,7 +25,8 @@ class MealEditViewController: BaseUIViewController {
     let mealId: ObjectId?
     var mealData: Meal? {
         didSet {
-            imageView.image = loadImageFromDocumentDirectory(with: (mealData?.imagePath)!)
+            guard let imagePath = mealData?.imagePath else { return }
+            imageView.image = ImageFileManager.shared.loadImage(with: imagePath)
             memoTextView.text = mealData?.memo
         }
     }
@@ -182,7 +183,7 @@ extension MealEditViewController {
         if let folderName = dateLabel.text, let image = imageView.image {
             
             let imageName = UUID().uuidString
-            saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
+            ImageFileManager.shared.saveImage(folderName: folderName, imageName: "\(imageName).png", image: image)
             
             meal.folderName = folderName
             meal.imageName = imageName
@@ -191,58 +192,6 @@ extension MealEditViewController {
         }
         
         return meal
-    }
-
-    func removeImageFromDocumentDirectory(with imagePath: String) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        
-        let imageURL = documentDirectory.appendingPathComponent(imagePath)
-
-
-        do {
-            try FileManager.default.removeItem(at: imageURL)
-            print("File removed successfully.")
-        } catch {
-            print("Error removing file: \(error)")
-        }
-    }
-    
-    func saveImageToDocumentDirectory(folderName: String, imageName: String, image: UIImage) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-
-        let folderURL = documentDirectory.appendingPathComponent(folderName)
-        
-        if !FileManager.default.fileExists(atPath: folderURL.path) {
-            do {
-                try FileManager.default.createDirectory(atPath: folderURL.path, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("폴더 생성 실패 \(error)")
-            }
-        }
-        
-        let imageURL = folderURL.appendingPathComponent(imageName)
-
-        guard let imageData = image.pngData() else {
-            print("이미지 압축 실패")
-            return
-        }
-
-        do {
-            try imageData.write(to: imageURL, options: [.atomic])
-            print("이미지 저장 완료")
-        } catch {
-            print("이미지 저장 실패 \(error)")
-        }
-    }
-    
-    func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return nil
-        }
-        
-        let imageURL = documentDirectory.appendingPathComponent(imagePath)
-
-        return UIImage(contentsOfFile: imageURL.path)
     }
 }
 
@@ -296,13 +245,13 @@ extension MealEditViewController {
         showActionSheet(modifyCompletion: {
             let newMeal = self.createMealData()
             Meal.updateMeal(mealData, newMeal: newMeal)
-            self.removeImageFromDocumentDirectory(with: imagePath)
+            ImageFileManager.shared.removeImage(with: imagePath)
             self.showAlertOneButton(title: "", message: "수정했습니다") {
                 self.navigationController?.popViewController(animated: true)
             }
         }, removeCompletion: {
             Meal.deleteMeal(mealData)
-            self.removeImageFromDocumentDirectory(with: imagePath)
+            ImageFileManager.shared.removeImage(with: imagePath)
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
                 self.navigationController?.popViewController(animated: true)
             }

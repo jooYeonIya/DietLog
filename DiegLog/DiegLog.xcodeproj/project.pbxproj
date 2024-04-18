@@ -13,6 +13,7 @@
 		0AB9BF162BCF2CDD004A9DEB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF152BCF2CDD004A9DEB /* IQKeyboardManagerSwift */; };
 		0AB9BF192BCF4CBE004A9DEB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */; };
 		0AB9BF1C2BCF4DE6004A9DEB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */; };
+		0AB9BF1E2BD1213F004A9DEB /* ImageFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */; };
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
@@ -58,6 +59,7 @@
 		0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchManager.swift; sourceTree = "<group>"; };
 		0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFileManager.swift; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */,
 				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */,
 				0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */,
+				0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				0AECFAF92BC5615100BC773C /* ExerciseCategoryModel.swift in Sources */,
 				0AB9BF132BCF0636004A9DEB /* RecentSearchManager.swift in Sources */,
 				0AECFAFD2BC7906000BC773C /* UserDefaultsKeys.swift in Sources */,
+				0AB9BF1E2BD1213F004A9DEB /* ImageFileManager.swift in Sources */,
 				0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */,
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */,
