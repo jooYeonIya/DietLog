@@ -100,24 +100,11 @@ class MealEditViewController: BaseUIViewController {
     // MARK: - Setup Layout
     override func setLayout() {
         setDateLabelLayout()
-        setImageViewLayout()
-        setMemoTextViewLayout()
+        setImageSectionLayout()
+        setMemoTextSectionLayout()
     }
     
-    // MARK: - Setup NavigationBar
-    override func setupNavigationBar() {
-        var rightButton = UIBarButtonItem()
-        
-        if mealId == nil {
-            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
-        } else {
-            rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
-        }
-        
-        navigationItem.rightBarButtonItem = rightButton
-    }
-    
-    func setDateLabelLayout() {
+    private func setDateLabelLayout() {
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
             make.leading.equalToSuperview().offset(24)
@@ -125,7 +112,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    func setImageViewLayout() {
+    private func setImageSectionLayout() {
         imageLabel.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(32)
             make.leading.trailing.equalTo(dateLabel)
@@ -144,7 +131,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    func setMemoTextViewLayout() {
+    private func setMemoTextSectionLayout() {
         memoLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(32)
             make.leading.trailing.equalTo(imageView)
@@ -155,6 +142,19 @@ class MealEditViewController: BaseUIViewController {
             make.leading.trailing.equalTo(imageView)
             make.height.equalTo(200)
         }
+    }
+    
+    // MARK: - Setup NavigationBar
+    override func setupNavigationBar() {
+        var rightButton = UIBarButtonItem()
+        
+        if mealId == nil {
+            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
+        } else {
+            rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
+        }
+        
+        navigationItem.rightBarButtonItem = rightButton
     }
     
     @objc func displayDatePickerView() {
