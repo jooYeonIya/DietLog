@@ -26,18 +26,18 @@ class MealViewController: BaseUIViewController {
         }
     }
     
-    var seletedDate: Date?
+    var selectedDate: Date?
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        seletedDate = Date.now
+        selectedDate = Date.now
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let result = Meal.getMeals(for: seletedDate ?? Date()) {
+        if let result = Meal.getMeals(for: selectedDate ?? Date()) {
             mealsData = Array(result)
         }
     }
@@ -83,7 +83,7 @@ class MealViewController: BaseUIViewController {
     }
     
     @objc func didTappedFloatingButton() {
-        let vc = MealEditViewController(mealId: nil, seletedDate: seletedDate ?? Date())
+        let vc = MealEditViewController(mealId: nil, seletedDate: selectedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -130,7 +130,7 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
             mealsData = Array(result)
         }
         
-        seletedDate = date
+        selectedDate = date
     }
     
     // 날짜 선택 해제했을 때
@@ -206,7 +206,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let mealId = mealsData?[indexPath.row].id else { return }
-        let vc = MealEditViewController(mealId: mealId, seletedDate: seletedDate ?? Date())
+        let vc = MealEditViewController(mealId: mealId, seletedDate: selectedDate ?? Date())
         navigationController?.pushViewController(vc, animated: true)
     }
 }
