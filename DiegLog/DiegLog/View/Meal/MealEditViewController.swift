@@ -21,7 +21,7 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoTextView = UITextView()
     
     // MARK: - 변수
-    var seletedDate: Date
+    var selectedDate: Date
     let mealId: ObjectId?
     var mealData: Meal? {
         didSet {
@@ -31,9 +31,9 @@ class MealEditViewController: BaseUIViewController {
     }
     
     // MARK: - 초기화
-    init(mealId: ObjectId?, seletedDate: Date) {
+    init(mealId: ObjectId?, selectedDate: Date) {
         self.mealId = mealId
-        self.seletedDate = seletedDate
+        self.selectedDate = selectedDate
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -77,7 +77,7 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setDateLabelUI() {
-        let text = DateFormatter.toString(from: seletedDate)
+        let text = DateFormatter.toString(from: selectedDate)
         dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
         dateLabel.textAlignment = .left
         
@@ -210,7 +210,7 @@ class MealEditViewController: BaseUIViewController {
             meal.folderName = folderName
             meal.imageName = imageName
             meal.memo = memoTextView.text
-            meal.postedDate = seletedDate
+            meal.postedDate = selectedDate
         }
         
         return meal
