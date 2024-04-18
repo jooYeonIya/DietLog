@@ -76,6 +76,8 @@ class MealEditViewController: BaseUIViewController {
         dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
         dateLabel.textAlignment = .left
         
+        
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
         dateLabel.addGestureRecognizer(tapGesture)
         dateLabel.isUserInteractionEnabled = true
@@ -159,6 +161,8 @@ class MealEditViewController: BaseUIViewController {
 
         datePickerView.datePickerMode = .date
         datePickerView.preferredDatePickerStyle = .wheels
+        datePickerView.locale = Locale(identifier: "ko_KR")
+        datePickerView.timeZone = TimeZone(identifier: "ko_KR")
         
         datePickerView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
