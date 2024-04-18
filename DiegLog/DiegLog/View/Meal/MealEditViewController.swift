@@ -60,10 +60,6 @@ class MealEditViewController: BaseUIViewController {
         dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
         dateLabel.textAlignment = .left
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
-        dateLabel.addGestureRecognizer(tapGesture)
-        dateLabel.isUserInteractionEnabled = true
-
         view.addSubview(dateLabel)
     }
     
@@ -81,8 +77,6 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
         
-        imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
-
         view.addSubViews([imageLabel, imageView, imageEditButton])
     }
     
@@ -155,6 +149,15 @@ class MealEditViewController: BaseUIViewController {
         }
         
         navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
+        dateLabel.addGestureRecognizer(tapGesture)
+        dateLabel.isUserInteractionEnabled = true
+        
+        imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
     }
     
     @objc func displayDatePickerView() {
