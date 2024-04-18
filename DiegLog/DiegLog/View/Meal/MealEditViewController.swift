@@ -177,6 +177,7 @@ class MealEditViewController: BaseUIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             let text = DateFormatter.toString(from: self.datePickerView.date)
             self.dateLabel.text = "\(text) ▽"
+            self.selectedDate = self.datePickerView.date
         }
         
         alert.addAction(okAction)
