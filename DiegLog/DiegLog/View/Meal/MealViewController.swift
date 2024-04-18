@@ -112,9 +112,20 @@ class MealViewController: BaseUIViewController {
         }
     }
     
+    // MARK: - Setup Delegate
     override func setDelegate() {
         setCalendarViewDelegate()
         setTableViewDelegate()
+    }
+    
+    private func setCalendarViewDelegate() {
+        calendarView.dataSource = self
+        calendarView.delegate = self
+    }
+    
+    private func setTableViewDelegate() {
+        mealsDataTableView.delegate = self
+        mealsDataTableView.dataSource = self
     }
 
     @objc func didTappedFloatingButton() {
@@ -136,12 +147,6 @@ extension MealViewController {
 // MARK: - FSCalendar
 extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
 
-    func setCalendarViewDelegate() {
-        calendarView.dataSource = self
-        calendarView.delegate = self
-    }
-    
-    // 내장 메소드
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarView.snp.updateConstraints {
             $0.height.equalTo(bounds.height)
@@ -185,14 +190,7 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 
 // MARK: - TableView
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func setTableViewDelegate() {
-        mealsDataTableView.delegate = self
-        mealsDataTableView.dataSource = self
-    }
-    
-    
-    // 내장 메소드
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return mealsData?.count ?? 0
     }
