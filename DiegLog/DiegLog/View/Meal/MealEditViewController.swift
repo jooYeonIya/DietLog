@@ -143,9 +143,15 @@ class MealEditViewController: BaseUIViewController {
         var rightButton = UIBarButtonItem()
         
         if mealId == nil {
-            rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveMealData))
+            rightButton = UIBarButtonItem(title: "저장",
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(saveMealData))
         } else {
-            rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(displayActionSheet))
+            rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(displayActionSheet))
         }
         
         navigationItem.rightBarButtonItem = rightButton
@@ -159,6 +165,90 @@ class MealEditViewController: BaseUIViewController {
         
         imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
     }
+}
+
+// MARK: - 메서드
+extension MealEditViewController {
+    
+    private func reloadMealData() {
+        if let id = mealId {
+            mealData = Meal.getMeal(for: id)
+        }
+    }
+    
+    private func createMealData() -> Meal {
+        let meal = Meal()
+        
+        if let folderName = dateLabel.text, let image = imageView.image {
+            
+            let imageName = UUID().uuidString
+            saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
+            
+            meal.folderName = folderName
+            meal.imageName = imageName
+            meal.memo = memoTextView.text
+            meal.postedDate = selectedDate
+        }
+        
+        return meal
+    }
+
+    func removeImageFromDocumentDirectory(with imagePath: String) {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        let imageURL = documentDirectory.appendingPathComponent(imagePath)
+
+
+        do {
+            try FileManager.default.removeItem(at: imageURL)
+            print("File removed successfully.")
+        } catch {
+            print("Error removing file: \(error)")
+        }
+    }
+    
+    func saveImageToDocumentDirectory(folderName: String, imageName: String, image: UIImage) {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+
+        let folderURL = documentDirectory.appendingPathComponent(folderName)
+        
+        if !FileManager.default.fileExists(atPath: folderURL.path) {
+            do {
+                try FileManager.default.createDirectory(atPath: folderURL.path, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("폴더 생성 실패 \(error)")
+            }
+        }
+        
+        let imageURL = folderURL.appendingPathComponent(imageName)
+
+        guard let imageData = image.pngData() else {
+            print("이미지 압축 실패")
+            return
+        }
+
+        do {
+            try imageData.write(to: imageURL, options: [.atomic])
+            print("이미지 저장 완료")
+        } catch {
+            print("이미지 저장 실패 \(error)")
+        }
+    }
+    
+    func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        
+        let imageURL = documentDirectory.appendingPathComponent(imagePath)
+
+        return UIImage(contentsOfFile: imageURL.path)
+    }
+}
+
+// MARK: - @objc 메서드
+
+extension MealEditViewController {
     
     @objc func displayDatePickerView() {
         let alert = UIAlertController(title: nil, message: "\n\n\n\n\n\n", preferredStyle: .actionSheet)
@@ -192,36 +282,19 @@ class MealEditViewController: BaseUIViewController {
             return
         }
         
-        let meal = returnMealData()
+        let meal = createMealData()
         Meal.addMeal(meal)
         
         showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
             self.navigationController?.popViewController(animated: true)
         }
     }
-    
-    func returnMealData() -> Meal {
-        let meal = Meal()
-        
-        if let folderName = dateLabel.text, let image = imageView.image {
-            
-            let imageName = UUID().uuidString
-            saveImageToDocumentDirectory(folderName: folderName, imageName: "\(imageName).png", image: image)
-            
-            meal.folderName = folderName
-            meal.imageName = imageName
-            meal.memo = memoTextView.text
-            meal.postedDate = selectedDate
-        }
-        
-        return meal
-    }
-    
+
     @objc func displayActionSheet() {
         guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
         
         showActionSheet(modifyCompletion: {
-            let newMeal = self.returnMealData()
+            let newMeal = self.createMealData()
             Meal.updateMeal(mealData, newMeal: newMeal)
             self.removeImageFromDocumentDirectory(with: imagePath)
             self.showAlertOneButton(title: "", message: "수정했습니다") {
@@ -236,59 +309,7 @@ class MealEditViewController: BaseUIViewController {
         })
     }
     
-    @objc func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return nil
-        }
-        
-        let imageURL = documentDirectory.appendingPathComponent(imagePath)
-
-        return UIImage(contentsOfFile: imageURL.path)
-    }
-    
-    func removeImageFromDocumentDirectory(with imagePath: String) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        
-        let imageURL = documentDirectory.appendingPathComponent(imagePath)
-
-
-        do {
-            try FileManager.default.removeItem(at: imageURL)
-            print("File removed successfully.")
-        } catch {
-            print("Error removing file: \(error)")
-        }
-    }
-}
-
-// MARK: - 메서드
-extension MealEditViewController {
-    
-    func reloadMealData() {
-        if let id = mealId {
-            mealData = Meal.getMeal(for: id)
-        }
-    }
-}
-
-// MARK: - Image PickerView
-extension MealEditViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        
-        let itemProvider = results.first?.itemProvider
-        if let itemProvider = itemProvider,
-           itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                DispatchQueue.main.async {
-                    guard let selectedImage = image as? UIImage else { return }
-                    self.imageView.image = selectedImage
-                }
-            }
-        }
-    }
-    
-    @objc func openPhotoLibrary(_ sender: Any) {
+    @objc func openPhotoLibrary() {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 1
         configuration.filter = .images
@@ -298,32 +319,22 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
         
         present(picker, animated: true)
     }
-    
-    func saveImageToDocumentDirectory(folderName: String, imageName: String, image: UIImage) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+}
 
-        let folderURL = documentDirectory.appendingPathComponent(folderName)
+// MARK: - Image PickerView
+extension MealEditViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
         
-        if !FileManager.default.fileExists(atPath: folderURL.path) {
-            do {
-                try FileManager.default.createDirectory(atPath: folderURL.path, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("폴더 생성 실패 \(error)")
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                DispatchQueue.main.async {
+                    guard let selectedImage = image as? UIImage else { return }
+                    self.imageView.image = selectedImage
+                }
             }
-        }
-        
-        let imageURL = folderURL.appendingPathComponent(imageName)
-
-        guard let imageData = image.pngData() else {
-            print("이미지 압축 실패")
-            return
-        }
-
-        do {
-            try imageData.write(to: imageURL, options: [.atomic])
-            print("이미지 저장 완료")
-        } catch {
-            print("이미지 저장 실패 \(error)")
         }
     }
 }
