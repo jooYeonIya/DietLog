@@ -39,12 +39,33 @@ class MealViewController: BaseUIViewController {
         reloadMealsData()
     }
     
-    // MARK: - Setup
+    // MARK: - Setup UI
     override func setUI() {
         setCalendarViewUI()
         setTableViewUI()
-        setButtonUI()
-        
+        setFloatingButtonUI()
+        setNoDataLabelUI()
+    }
+    
+    private func setCalendarViewUI() {
+        calendarView.configure()
+        view.addSubview(calendarView)
+    }
+    
+    private func setTableViewUI() {
+        mealsDataTableView.showsVerticalScrollIndicator = false
+        mealsDataTableView.separatorStyle = .none
+        mealsDataTableView.register(MealsDataTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
+        view.addSubview(mealsDataTableView)
+    }
+    
+    private func setFloatingButtonUI() {
+        floatingButton.setUpFloatingButton()
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+        view.addSubview(floatingButton)
+    }
+    
+    private func setNoDataLabelUI() {
         noDataLabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
         view.addSubview(noDataLabel)
     }
@@ -65,11 +86,7 @@ class MealViewController: BaseUIViewController {
         setTableViewDelegate()
     }
     
-    func setButtonUI() {
-        floatingButton.setUpFloatingButton()
-        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
-        view.addSubview(floatingButton)
-    }
+
     
     func setButtonLayout() {
         floatingButton.snp.makeConstraints { make in
@@ -97,10 +114,7 @@ extension MealViewController {
 
 // MARK: - FSCalendar
 extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
-    func setCalendarViewUI() {
-        calendarView.configure()
-        view.addSubview(calendarView)
-    }
+
     
     func setCalendarViewLayout() {
         calendarView.snp.makeConstraints { make in
@@ -162,12 +176,7 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 // MARK: - TableView
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func setTableViewUI() {
-        mealsDataTableView.showsVerticalScrollIndicator = false
-        mealsDataTableView.separatorStyle = .none
-        mealsDataTableView.register(MealsDataTableViewCell.self, forCellReuseIdentifier: "MealListTableViewCell")
-        view.addSubview(mealsDataTableView)
-    }
+
     
     func setTableViewLayout() {
         mealsDataTableView.snp.makeConstraints { make in
