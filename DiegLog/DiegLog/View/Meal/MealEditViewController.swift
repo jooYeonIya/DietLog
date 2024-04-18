@@ -21,9 +21,9 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoTextView = UITextView()
     
     // MARK: - 변수
-    var selectedDate: Date
-    let mealId: ObjectId?
-    var mealData: Meal? {
+    private var selectedDate: Date
+    private let mealId: ObjectId?
+    private var mealData: Meal? {
         didSet {
             guard let imagePath = mealData?.imagePath else { return }
             imageView.image = ImageFileManager.shared.loadImage(with: imagePath)
@@ -31,10 +31,17 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
+    private var isEditable: Bool {
+        willSet {
+            toggleEditSetup(isEditable: newValue)
+        }
+    }
+    
     // MARK: - 초기화
     init(mealId: ObjectId?, selectedDate: Date) {
         self.mealId = mealId
         self.selectedDate = selectedDate
+        self.isEditable = mealId == nil
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -57,8 +64,9 @@ class MealEditViewController: BaseUIViewController {
     }
     
     private func setDateLabelUI() {
-        let text = DateFormatter.toString(from: selectedDate)
-        dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
+        let dateString = DateFormatter.toString(from: selectedDate)
+        let text = isEditable ? "\(dateString) ▽" : "\(dateString)"
+        dateLabel.setupLabel(text: text, font: .subTitle)
         dateLabel.textAlignment = .left
 
         view.addSubview(dateLabel)
@@ -77,6 +85,7 @@ class MealEditViewController: BaseUIViewController {
         imageEditButton.layer.cornerRadius = 20
         imageEditButton.layer.shadowRadius = 4
         imageEditButton.layer.shadowOpacity = 0.4
+        imageEditButton.isHidden = !isEditable
         
         view.addSubViews([imageLabel, imageView, imageEditButton])
     }
@@ -88,6 +97,7 @@ class MealEditViewController: BaseUIViewController {
         memoTextView.layer.masksToBounds = true
         memoTextView.layer.borderColor = UIColor.black.cgColor
         memoTextView.layer.borderWidth = 1.0
+        memoTextView.isUserInteractionEnabled = isEditable
         
         view.addSubViews([memoLabel, memoTextView])
     }
@@ -141,28 +151,30 @@ class MealEditViewController: BaseUIViewController {
     
     // MARK: - Setup NavigationBar
     override func setupNavigationBar() {
-        var rightButton = UIBarButtonItem()
+        navigationItem.rightBarButtonItem = setNavigationRightButton(isEditable)
+    }
+    
+    private func setNavigationRightButton(_ isEditable: Bool) -> UIBarButtonItem {
+        let rightButton = UIBarButtonItem()
         
-        if mealId == nil {
-            rightButton = UIBarButtonItem(title: "저장",
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(saveMealData))
+        if isEditable {
+            return UIBarButtonItem(title: "저장",
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(didTappedRigthButton))
         } else {
-            rightButton = UIBarButtonItem(image: UIImage(systemName: "photo"),
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(displayActionSheet))
+            return UIBarButtonItem(image: UIImage(systemName: "photo"),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(displayActionSheet))
         }
-        
-        navigationItem.rightBarButtonItem = rightButton
     }
     
     // MARK: - Setup AddTarget
     override func setAddTartget() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
         dateLabel.addGestureRecognizer(tapGesture)
-        dateLabel.isUserInteractionEnabled = true
+        dateLabel.isUserInteractionEnabled = isEditable
         
         imageEditButton.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
     }
@@ -192,6 +204,46 @@ extension MealEditViewController {
         }
         
         return meal
+    }
+    
+    private func toggleEditSetup(isEditable: Bool) {
+        let dateString = DateFormatter.toString(from: selectedDate)
+        let text = isEditable ? "\(dateString) ▽" : "\(dateString)"
+        dateLabel.setupLabel(text: text, font: .subTitle)
+        dateLabel.isUserInteractionEnabled.toggle()
+        imageEditButton.isHidden.toggle()
+        memoTextView.isUserInteractionEnabled.toggle()
+        
+        if isEditable {
+            memoTextView.becomeFirstResponder()
+        }
+        
+        navigationItem.rightBarButtonItem = setNavigationRightButton(isEditable)
+    }
+    
+    private func saveMealData() {
+        if imageView.image == UIImage(named: "FoodBasicImage") && memoTextView.text == "" {
+            showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
+            return
+        }
+        let newMeal = createMealData()
+        Meal.addMeal(newMeal)
+    }
+    
+    private func updateMealData() {
+        guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
+        let newMeal = createMealData()
+        Meal.updateMeal(mealData, newMeal: newMeal)
+        ImageFileManager.shared.removeImage(with: imagePath)
+    }
+    
+    private func removeMealData() {
+        guard let mealData = self.mealData, let imagePath = mealData.imagePath else { return }
+        Meal.deleteMeal(mealData)
+        ImageFileManager.shared.removeImage(with: imagePath)
+        self.showAlertOneButton(title: "", message: "삭제했습니다") {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 
@@ -224,37 +276,23 @@ extension MealEditViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @objc func saveMealData() {
-                
-        if imageView.image == UIImage(named: "FoodBasicImage") && memoTextView.text == "" {
-            showAlertOneButton(title: "", message: "한 가지 영역은 입력해 주세요")
-            return
+    @objc func didTappedRigthButton() {
+        if mealId == nil {
+            saveMealData()
+        } else {
+            updateMealData()
         }
-        
-        let meal = createMealData()
-        Meal.addMeal(meal)
-        
+
         showAlertOneButton(title: "", message: "식단 저장 완료했습니다") {
             self.navigationController?.popViewController(animated: true)
         }
     }
 
     @objc func displayActionSheet() {
-        guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
-        
         showActionSheet(modifyCompletion: {
-            let newMeal = self.createMealData()
-            Meal.updateMeal(mealData, newMeal: newMeal)
-            ImageFileManager.shared.removeImage(with: imagePath)
-            self.showAlertOneButton(title: "", message: "수정했습니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
+            self.isEditable = true
         }, removeCompletion: {
-            Meal.deleteMeal(mealData)
-            ImageFileManager.shared.removeImage(with: imagePath)
-            self.showAlertOneButton(title: "", message: "삭제했습니다") {
-                self.navigationController?.popViewController(animated: true)
-            }
+            self.removeMealData()
         })
     }
     
