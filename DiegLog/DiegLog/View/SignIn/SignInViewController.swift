@@ -72,6 +72,7 @@ class SignInViewController: BaseUIViewController {
 
         if nickNameTextField.text != "" {
             UserDefaults.standard.setValue(nickNameTextField.text, forKey: UserDefaultsKeys.nickName)
+            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.isFirstLaunch)
             
             let tabBarViewController = AppTabBarController()
             view.window?.rootViewController = tabBarViewController

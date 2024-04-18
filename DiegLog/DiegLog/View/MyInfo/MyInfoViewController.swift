@@ -17,80 +17,41 @@ class MyInfoViewController: BaseUIViewController {
     private lazy var weightTextField = UITextField()
     private lazy var muscleTextField = UITextField()
     private lazy var fatTextField = UITextField()
+    private lazy var rowStackView = UIStackView()
 
     // MARK: - 변수
-    var myInfo: MyInfo?
-    var postedDate: Date = Date() {
+    private var myInfo: MyInfo?
+    private var postedDate: Date = Date() {
         willSet {
-            switchMyInfo(date: newValue)
+            changeDisplayTextField(toDate: newValue)
         }
     }
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let isFirstLaunch = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isFirstLaunch)
-        
-        if !isFirstLaunch {
-            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.isFirstLaunch)
-        }
     }
     
+    // MARK: - Setup UI
     override func setUI() {
-        if let nickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.nickName) {
-            setNickNameLabelUI(nickName)
-        }
-        
+        setNickNameLabelUI()
         setCalendarViewUI()
-        setStackView()
+        setStackViewUI()
         setEditButtonUI()
     }
     
-    override func setLayout() {
-        setNickNameLabelLayot()
-        setCalendarViewLayout()
-        setEditButtonLayout()
-    }
-    
-    override func setDelegate() {
-        setCalendarViewDelegate()
-    }
-    
-    func setNickNameLabelUI(_ nickName: String) {
+    private func setNickNameLabelUI() {
+        let nickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.nickName) ?? "닉네임"
         nickNameLabel.setupLabel(text: "안녕하세요 \(nickName)", font: .largeTitle)
         view.addSubview(nickNameLabel)
     }
     
-    func setEditButtonUI() {
-        editButton.setTitle("저장", for: .normal)
-        editButton.setTitleColor(.blue, for: .normal)
-        editButton.addTarget(self, action: #selector(editMyInfo), for: .touchUpInside)
-        
-        view.addSubview(editButton)
-    }
-
-    func setNickNameLabelLayot() {
-        nickNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().inset(24)
-        }
+    private func setCalendarViewUI() {
+        calendarView.configure()
+        view.addSubview(calendarView)
     }
     
-    func setEditButtonLayout() {
-        editButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
-            make.trailing.equalToSuperview().inset(12)
-            make.height.width.equalTo(60)
-        }
-    }
-}
-
-extension MyInfoViewController {
-    func setStackView() {
-        
-        let rowStackView = UIStackView()
+    private func setStackViewUI() {
         rowStackView.axis = .vertical
         rowStackView.distribution = .fillEqually
         rowStackView.spacing = 24
@@ -111,7 +72,7 @@ extension MyInfoViewController {
             label2.setupLabel(text: "kg", font: .body)
             
             textFields[i].setUpTextField()
-            switchMyInfo(date: Date.now)
+            changeDisplayTextField(toDate: Date.now)
             
             let columnStackView = UIStackView(arrangedSubviews: [label1, textFields[i], label2])
             columnStackView.axis = .horizontal
@@ -122,14 +83,68 @@ extension MyInfoViewController {
         }
 
         view.addSubview(rowStackView)
-        
+    }
+    
+    private func setEditButtonUI() {
+        editButton.setTitle("저장", for: .normal)
+        editButton.setTitleColor(.blue, for: .normal)
+        view.addSubview(editButton)
+    }
+    
+    // MARK: - Setup Layout
+    override func setLayout() {
+        setNickNameLabelLayot()
+        setCalendarViewLayout()
+        setStackViewLayout()
+        setEditButtonLayout()
+    }
+    
+    private func setNickNameLabelLayot() {
+        nickNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
+            make.leading.trailing.equalToSuperview().inset(24)
+        }
+    }
+    
+    private func setCalendarViewLayout() {
+        calendarView.snp.makeConstraints { make in
+            make.top.equalTo(nickNameLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalTo(nickNameLabel)
+            make.height.equalTo(300)
+        }
+    }
+    
+    private func setStackViewLayout() {
         rowStackView.snp.makeConstraints { make in
             make.top.equalTo(calendarView.snp.bottom).offset(12)
             make.leading.trailing.equalTo(nickNameLabel)
         }
     }
     
-    func switchMyInfo(date: Date) {
+    private func setEditButtonLayout() {
+        editButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
+            make.trailing.equalToSuperview().inset(12)
+            make.height.width.equalTo(60)
+        }
+    }
+    
+    // MARK: - Setup Delegate
+    override func setDelegate() {
+        calendarView.dataSource = self
+        calendarView.delegate = self
+    }
+
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        editButton.addTarget(self, action: #selector(didTappedEditButton), for: .touchUpInside)
+    }
+}
+
+// MARK: - 메서드
+extension MyInfoViewController {
+    
+    private func changeDisplayTextField(toDate date: Date) {
         if let result = MyInfo.getMyInfo(for: date) {
             myInfo = result
             weightTextField.text = myInfo?.weight ?? "0.0"
@@ -143,43 +158,7 @@ extension MyInfoViewController {
         }
     }
     
-    @objc func editMyInfo() {
-        guard checkTextField() else { return }
-        
-        if myInfo == nil {
-            saveMyInfo()
-        } else {
-            updateMyInfo()
-        }
-    }
-    
-    func saveMyInfo() {
-
-        let myInfo = MyInfo()
-        myInfo.postedDate = postedDate
-        myInfo.weight = weightTextField.text!
-        myInfo.muscle = muscleTextField.text!
-        myInfo.fat = fatTextField.text!
-        
-        MyInfo.addMyInfo(myInfo)
-        
-        showAlertOneButton(title: "", message: "저장했습니다")
-    }
-    
-    func updateMyInfo() {
-        
-        let newMyInfo = MyInfo()
-        newMyInfo.postedDate = postedDate
-        newMyInfo.weight = weightTextField.text!
-        newMyInfo.muscle = muscleTextField.text!
-        newMyInfo.fat = fatTextField.text!
-        
-        MyInfo.updateMyInfo(myInfo!, newInfo: newMyInfo)
-        
-        showAlertOneButton(title: "", message: "저장했습니다")
-    }
-    
-    func checkTextField() -> Bool {
+    private func validateTextFieldIsEmpty() -> Bool {
         let textFields = [weightTextField, muscleTextField, fatTextField]
         
         let checkValid = textFields.contains {
@@ -187,7 +166,7 @@ extension MyInfoViewController {
                 return false
             }
             
-            return Int(text) != nil
+            return true
         }
         
         if !checkValid {
@@ -196,30 +175,41 @@ extension MyInfoViewController {
         
         return checkValid
     }
+    
+    private func saveMyInfo(_ myInfo: MyInfo) {
+        MyInfo.addMyInfo(myInfo)
+        showAlertOneButton(title: "", message: "저장했습니다")
+    }
+    
+    private func updateMyInfo(for newMyInfo: MyInfo) {
+        MyInfo.updateMyInfo(myInfo!, newInfo: newMyInfo)
+        showAlertOneButton(title: "", message: "저장했습니다")
+    }
+}
+
+// MARK: - @objc 메서드
+extension MyInfoViewController {
+    
+    @objc func didTappedEditButton() {
+        guard validateTextFieldIsEmpty() else { return }
+        
+        let newMyInfo = MyInfo()
+        newMyInfo.postedDate = postedDate
+        newMyInfo.weight = weightTextField.text!
+        newMyInfo.muscle = muscleTextField.text!
+        newMyInfo.fat = fatTextField.text!
+        
+        if myInfo == nil {
+            saveMyInfo(newMyInfo)
+        } else {
+            updateMyInfo(for: newMyInfo)
+        }
+    }
 }
 
 // MARK: - FSCalendar
 extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
-    func setCalendarViewUI() {
-        calendarView.configure()
-        view.addSubview(calendarView)
-    }
-    
-    func setCalendarViewLayout() {
-        calendarView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(nickNameLabel.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(300)
-        }
-    }
-    
-    func setCalendarViewDelegate() {
-        calendarView.dataSource = self
-        calendarView.delegate = self
-    }
-    
+
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarView.snp.updateConstraints {
             $0.height.equalTo(bounds.height)
@@ -230,9 +220,6 @@ extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCale
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         postedDate = date
-    }
-    
-    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
