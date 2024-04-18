@@ -45,10 +45,7 @@ class MealEditViewController: BaseUIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let id = mealId {
-            mealData = Meal.getMeal(for: id)
-        }
+        reloadMealData()
     }
     
     // MARK: - Setup UI
@@ -259,6 +256,16 @@ class MealEditViewController: BaseUIViewController {
             print("File removed successfully.")
         } catch {
             print("Error removing file: \(error)")
+        }
+    }
+}
+
+// MARK: - 메서드
+extension MealEditViewController {
+    
+    func reloadMealData() {
+        if let id = mealId {
+            mealData = Meal.getMeal(for: id)
         }
     }
 }
