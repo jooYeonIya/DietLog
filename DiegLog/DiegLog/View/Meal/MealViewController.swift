@@ -110,7 +110,7 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         calendarView.delegate = self
     }
     
-    // FSCalendar 내장 메소드
+    // 내장 메소드
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarView.snp.updateConstraints {
             $0.height.equalTo(bounds.height)
@@ -119,12 +119,10 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         self.view.layoutIfNeeded()
     }
     
-    // 이벤트 갯수 설정
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         return 0
     }
     
-    // 날짜 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         if let result = Meal.getMeals(for: date) {
             mealsData = Array(result)
@@ -133,11 +131,6 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         selectedDate = date
     }
     
-    // 날짜 선택 해제했을 때
-    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-    }
-    
-    // 토, 일 색깔 다르게 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         let day = Calendar.current.component(.weekday, from: date) - 1
         
@@ -150,7 +143,6 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         }
     }
     
-    // 오늘 날짜 밑에 글씨 추가
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -187,6 +179,8 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
         mealsDataTableView.dataSource = self
     }
     
+    
+    // 내장 메소드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return mealsData?.count ?? 0
     }

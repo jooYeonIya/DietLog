@@ -237,15 +237,12 @@ class MealEditViewController: BaseUIViewController {
     }
     
     @objc func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
-        // 1. 도큐먼트 디렉토리 경로 확인
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return nil
         }
         
-        // 2. 폴더 경로, 이미지 경로 찾기
         let imageURL = documentDirectory.appendingPathComponent(imagePath)
 
-        // 3. UIImage로 불러오기
         return UIImage(contentsOfFile: imageURL.path)
     }
     
@@ -293,13 +290,10 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
     }
     
     func saveImageToDocumentDirectory(folderName: String, imageName: String, image: UIImage) {
-        // 1. 도큐먼트 디렉토리 경로 확인
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
 
-        // 2. 폴더 경로 설정
         let folderURL = documentDirectory.appendingPathComponent(folderName)
         
-        // 2-1. 폴더가 없다면 생성
         if !FileManager.default.fileExists(atPath: folderURL.path) {
             do {
                 try FileManager.default.createDirectory(atPath: folderURL.path, withIntermediateDirectories: true, attributes: nil)
@@ -308,16 +302,13 @@ extension MealEditViewController: PHPickerViewControllerDelegate {
             }
         }
         
-        // 3. 이미지 경로 설정
         let imageURL = folderURL.appendingPathComponent(imageName)
 
-        // 4. 이미지 압축(image.pngData())
         guard let imageData = image.pngData() else {
             print("이미지 압축 실패")
             return
         }
 
-        // 5. 이미지를 도큐먼트에 저장
         do {
             try imageData.write(to: imageURL, options: [.atomic])
             print("이미지 저장 완료")
