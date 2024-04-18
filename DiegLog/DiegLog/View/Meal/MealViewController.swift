@@ -203,7 +203,7 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
 
         guard let imagePath = mealsData[indexPath.row].imagePath else { return cell }
 
-        cell.configre(with: imagePath)
+        cell.configure(with: imagePath)
         cell.selectionStyle = .none
         
         return cell

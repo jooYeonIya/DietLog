@@ -9,20 +9,19 @@ import UIKit
 
 class MealsDataTableViewCell: UITableViewCell {
 
-    var mealImageView = UIImageView()
-    
-    func configre(with imagePath: String) {
+    func configure(with imagePath: String) {
         
-        let mealDataImage = loadImageFromDocumentDirectory(with: imagePath) ?? UIImage(named: "FoodBasicImage")
+        let mealDataImage = ImageFileManager.shared.loadImage(with: imagePath) ?? UIImage(named: "FoodBasicImage")
         
-        mealImageView.image = mealDataImage
+        let imageView = UIImageView()
+        imageView.image = mealDataImage
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 12
+        imageView.layer.masksToBounds = true
         
-        mealImageView.contentMode = .scaleAspectFill
-        mealImageView.layer.cornerRadius = 12
-        mealImageView.layer.masksToBounds = true
-        contentView.addSubview(mealImageView)
+        contentView.addSubview(imageView)
         
-        mealImageView.snp.makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -30,15 +29,5 @@ class MealsDataTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0))
-    }
-
-    func loadImageFromDocumentDirectory(with imagePath: String) -> UIImage? {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return nil
-        }
-        
-        let imageURL = documentDirectory.appendingPathComponent(imagePath)
-
-        return UIImage(contentsOfFile: imageURL.path)
     }
 }
