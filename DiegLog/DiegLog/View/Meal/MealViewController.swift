@@ -36,10 +36,7 @@ class MealViewController: BaseUIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let result = Meal.getMeals(for: selectedDate ?? Date()) {
-            mealsData = Array(result)
-        }
+        reloadMealsData()
     }
     
     // MARK: - Setup
@@ -88,6 +85,16 @@ class MealViewController: BaseUIViewController {
     }
 }
 
+// MARK: - 메서드
+extension MealViewController {
+    
+    private func reloadMealsData() {
+        if let result = Meal.getMeals(for: selectedDate ?? Date()) {
+            mealsData = Array(result)
+        }
+    }
+}
+
 // MARK: - FSCalendar
 extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     func setCalendarViewUI() {
@@ -124,11 +131,8 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        if let result = Meal.getMeals(for: date) {
-            mealsData = Array(result)
-        }
-        
         selectedDate = date
+        reloadMealsData()
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
