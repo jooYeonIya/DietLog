@@ -77,6 +77,7 @@ class MealEditViewController: BaseUIViewController {
         
         // 기본 이미지 찾은 뒤에 이미지와 버튼 설정 다시 해야한다
         imageView.image = UIImage(named: "FoodBasicImage")
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         
@@ -155,8 +156,6 @@ class MealEditViewController: BaseUIViewController {
     }
     
     private func setNavigationRightButton(_ isEditable: Bool) -> UIBarButtonItem {
-        let rightButton = UIBarButtonItem()
-        
         if isEditable {
             return UIBarButtonItem(title: "저장",
                                    style: .plain,
