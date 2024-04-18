@@ -17,21 +17,19 @@ class MealViewController: BaseUIViewController {
     private lazy var noDataLabel = UILabel()
     
     // MARK: - 변수
-    private var mealsData: [Meal]? {
+    private var selectedDate: Date = Date.now
+    private var mealsData: [Meal] = [] {
         didSet {
-            let hasData = mealsData != nil && !mealsData!.isEmpty
+            let hasData = !mealsData.isEmpty
             noDataLabel.isHidden = hasData
             mealsDataTableView.isHidden = !hasData
             mealsDataTableView.reloadData()
         }
     }
     
-    var selectedDate: Date?
-    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectedDate = Date.now
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,17 +77,14 @@ class MealViewController: BaseUIViewController {
     
     private func setCalendarViewLayout() {
         calendarView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(-(navigationController?.navigationBar.frame.size.height)!)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(24)
+            make.leading.trailing.equalToSuperview().inset(24)
             make.height.equalTo(300)
         }
     }
     
     private func setTableViewLayout() {
         mealsDataTableView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.top.equalTo(calendarView.snp.bottom).offset(8)
             make.leading.trailing.equalTo(calendarView)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
@@ -137,7 +132,7 @@ class MealViewController: BaseUIViewController {
 extension MealViewController {
     
     private func reloadMealsData() {
-        if let result = Meal.getMeals(for: selectedDate ?? Date()) {
+        if let result = Meal.getMeals(for: selectedDate) {
             mealsData = Array(result)
         }
     }
@@ -147,7 +142,7 @@ extension MealViewController {
 extension MealViewController {
     
     @objc func didTappedFloatingButton() {
-        let vc = MealEditViewController(mealId: nil, selectedDate: selectedDate ?? Date())
+        let vc = MealEditViewController(mealId: nil, selectedDate: selectedDate)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -200,12 +195,14 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 extension MealViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mealsData?.count ?? 0
+        return mealsData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealsDataTableViewCell, let imagePath = mealsData?[indexPath.row].imagePath else { return UITableViewCell() }
-        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealListTableViewCell", for: indexPath) as? MealsDataTableViewCell else { return UITableViewCell() }
+
+        guard let imagePath = mealsData[indexPath.row].imagePath else { return cell }
+
         cell.configre(with: imagePath)
         cell.selectionStyle = .none
         
@@ -217,8 +214,8 @@ extension MealViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let mealId = mealsData?[indexPath.row].id else { return }
-        let vc = MealEditViewController(mealId: mealId, selectedDate: selectedDate ?? Date())
+        let mealId = mealsData[indexPath.row].id
+        let vc = MealEditViewController(mealId: mealId, selectedDate: selectedDate)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
