@@ -11,6 +11,7 @@ import RealmSwift
 
 class MealEditViewController: BaseUIViewController {
     
+    // MARK: - Component
     private lazy var dateLabel = UILabel()
     private lazy var datePickerView = UIDatePicker()
     private lazy var imageLabel = UILabel()
@@ -19,6 +20,7 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
     
+    // MARK: - 변수
     var seletedDate: Date
     let mealId: ObjectId?
     var mealData: Meal? {
@@ -28,6 +30,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
+    // MARK: - 초기화
     init(mealId: ObjectId?, seletedDate: Date) {
         self.mealId = mealId
         self.seletedDate = seletedDate
@@ -39,6 +42,7 @@ class MealEditViewController: BaseUIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +51,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
+    // MARK: - Setup
     override func setUI() {
         setDateLabelUI()
         setImageViewUI()
@@ -258,6 +263,7 @@ class MealEditViewController: BaseUIViewController {
     }
 }
 
+// MARK: - Image PickerView
 extension MealEditViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
