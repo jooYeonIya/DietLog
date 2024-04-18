@@ -42,7 +42,7 @@ class CategoryEditViewController: BaseUIViewController {
     }
     
     @objc func saveCategory() {
-        guard let text = textField.text, !text.isEmpty else {
+        guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else {
             showAlertOneButton(title: "", message: "카테고리 이름을 입력해 주세요")
             return
         }

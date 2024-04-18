@@ -19,10 +19,10 @@ struct RecentSearchManager {
         var allRecentSearchWord = getAllRecentSearchWord()
         
         if allRecentSearchWord.count == 20 {
-            allRecentSearchWord.remove(at: 0)
+            allRecentSearchWord.removeLast()
         }
         
-        allRecentSearchWord.append(recentSearchWord)
+        allRecentSearchWord.insert(recentSearchWord, at: 0)
         UserDefaults.standard.set(allRecentSearchWord, forKey: keyNmae)
     }
     

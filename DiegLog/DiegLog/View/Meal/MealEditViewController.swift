@@ -11,6 +11,7 @@ import RealmSwift
 
 class MealEditViewController: BaseUIViewController {
     
+    // MARK: - Component
     private lazy var dateLabel = UILabel()
     private lazy var datePickerView = UIDatePicker()
     private lazy var imageLabel = UILabel()
@@ -19,7 +20,8 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoLabel = UILabel()
     private lazy var memoTextView = UITextView()
     
-    var seletedDate: Date
+    // MARK: - 변수
+    var selectedDate: Date
     let mealId: ObjectId?
     var mealData: Meal? {
         didSet {
@@ -28,9 +30,10 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    init(mealId: ObjectId?, seletedDate: Date) {
+    // MARK: - 초기화
+    init(mealId: ObjectId?, selectedDate: Date) {
         self.mealId = mealId
-        self.seletedDate = seletedDate
+        self.selectedDate = selectedDate
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,6 +42,7 @@ class MealEditViewController: BaseUIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +51,7 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
+    // MARK: - Setup
     override func setUI() {
         setDateLabelUI()
         setImageViewUI()
@@ -72,9 +77,11 @@ class MealEditViewController: BaseUIViewController {
     }
     
     func setDateLabelUI() {
-        let text = DateFormatter.toString(from: seletedDate)
+        let text = DateFormatter.toString(from: selectedDate)
         dateLabel.setupLabel(text: "\(text) ▽" , font: .subTitle)
         dateLabel.textAlignment = .left
+        
+        
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(displayDatePickerView))
         dateLabel.addGestureRecognizer(tapGesture)
@@ -159,6 +166,8 @@ class MealEditViewController: BaseUIViewController {
 
         datePickerView.datePickerMode = .date
         datePickerView.preferredDatePickerStyle = .wheels
+        datePickerView.locale = Locale(identifier: "ko_KR")
+        datePickerView.timeZone = TimeZone(identifier: "ko_KR")
         
         datePickerView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -168,6 +177,7 @@ class MealEditViewController: BaseUIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             let text = DateFormatter.toString(from: self.datePickerView.date)
             self.dateLabel.text = "\(text) ▽"
+            self.selectedDate = self.datePickerView.date
         }
         
         alert.addAction(okAction)
@@ -201,7 +211,7 @@ class MealEditViewController: BaseUIViewController {
             meal.folderName = folderName
             meal.imageName = imageName
             meal.memo = memoTextView.text
-            meal.postedDate = seletedDate
+            meal.postedDate = selectedDate
         }
         
         return meal
@@ -254,6 +264,7 @@ class MealEditViewController: BaseUIViewController {
     }
 }
 
+// MARK: - Image PickerView
 extension MealEditViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
