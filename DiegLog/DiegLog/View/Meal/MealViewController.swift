@@ -61,7 +61,6 @@ class MealViewController: BaseUIViewController {
     
     private func setFloatingButtonUI() {
         floatingButton.setUpFloatingButton()
-        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
         view.addSubview(floatingButton)
     }
     
@@ -127,10 +126,10 @@ class MealViewController: BaseUIViewController {
         mealsDataTableView.delegate = self
         mealsDataTableView.dataSource = self
     }
-
-    @objc func didTappedFloatingButton() {
-        let vc = MealEditViewController(mealId: nil, selectedDate: selectedDate ?? Date())
-        navigationController?.pushViewController(vc, animated: true)
+    
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
     }
 }
 
@@ -141,6 +140,15 @@ extension MealViewController {
         if let result = Meal.getMeals(for: selectedDate ?? Date()) {
             mealsData = Array(result)
         }
+    }
+}
+
+// MARK: - @objc 메서드
+extension MealViewController {
+    
+    @objc func didTappedFloatingButton() {
+        let vc = MealEditViewController(mealId: nil, selectedDate: selectedDate ?? Date())
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
