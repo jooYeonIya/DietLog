@@ -9,40 +9,35 @@ import UIKit
 
 class CategoryViewController: BaseUIViewController {
     
+    // MARK: - Componenet
     private lazy var floatingButton = UIButton()
-    
-    private lazy var noDatalabel: UILabel = {
-        let label = UILabel()
-        label.setupLabel(text: "데이터를 기록해 주세요", font: .body)
-        return label
-    }()
-    
-    private lazy var collectionView: UICollectionView = {
+    private lazy var noDatalabel = UILabel()
+    private lazy var categoryCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = cellSpacing
         flowLayout.minimumInteritemSpacing = cellSpacing
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(ExerciseCollectionViewCell.self, forCellWithReuseIdentifier: "ExerciseCollectionViewCell")
+        collectionView.register(CategoryCollectionViewCell.self,
+                                forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         
         return collectionView
     }()
     
-    let cellSpacing = CGFloat(16)
-    
-    var categories: [ExerciseCategory]? {
+    // MARK: - 변수
+    private var newTitle: String = ""
+    private let cellSpacing = CGFloat(16)
+    private var categories: [ExerciseCategory] = [] {
         didSet {
-            guard let hasCategorieds = categories?.isEmpty else { return }
-            
-            noDatalabel.isHidden = !hasCategorieds
-            collectionView.isHidden = hasCategorieds
-            collectionView.reloadData()
+            let hasCategorieds = !categories.isEmpty
+            noDatalabel.isHidden = hasCategorieds
+            categoryCollectionView.isHidden = !hasCategorieds
+            categoryCollectionView.reloadData()
         }
     }
     
-    var newTitle: String = ""
-
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadCategories()
@@ -52,38 +47,31 @@ class CategoryViewController: BaseUIViewController {
         reloadCategories()
     }
     
-    func reloadCategories() {
-        if let result = ExerciseCategory.getAllExerciseCategories() {
-            categories = Array(result)
-        }
-    }
-    
+    // MARK: - Setup UI
     override func setUI() {
-        view.addSubViews([collectionView, noDatalabel])
-        
+        view.addSubview(categoryCollectionView)
+        setNoDataLabelUI()
         setButtonUI()
     }
     
-    override func setLayout() {
-        setCollectionViewLayout()
-        setButtonLayout()
-        
-        noDatalabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
+    private func setNoDataLabelUI() {
+        noDatalabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
+        view.addSubview(noDatalabel)
     }
     
-    override func setDelegate() {
-        setCollectionViewDelegate()
-    }
-    
-    func setButtonUI() {
+    private func setButtonUI() {
         floatingButton.setUpFloatingButton()
-        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
         view.addSubview(floatingButton)
     }
+
+    // MARK: - Setup Layout
+    override func setLayout() {
+        setCollectionViewLayout()
+        setNoDataLabelLayout()
+        setButtonLayout()
+    }
     
-    func setButtonLayout() {
+    private func setButtonLayout() {
         floatingButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
             make.trailing.equalToSuperview().inset(12)
@@ -91,16 +79,14 @@ class CategoryViewController: BaseUIViewController {
         }
     }
     
-    @objc func didTappedFloatingButton() {
-        let vc = CategoryEditViewController()
-        navigationController?.pushViewController(vc, animated: true)
+    private func setNoDataLabelLayout() {
+        noDatalabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
     }
-}
-
-extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,  ExerciseCollectionViewCellDelegate {
     
-    func setCollectionViewLayout() {
-        collectionView.snp.makeConstraints { make in
+    private func setCollectionViewLayout() {
+        categoryCollectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
@@ -108,14 +94,31 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
         }
     }
     
-    func setCollectionViewDelegate() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
+    // MARK: - Setup Dlegate
+    override func setDelegate() {
+        categoryCollectionView.dataSource = self
+        categoryCollectionView.delegate = self
     }
     
-    func didTappedOtpionButton(_ cell: ExerciseCollectionViewCell) {
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+    }
+}
+
+// MARK: - 메서드
+extension CategoryViewController: CategoryCollectionViewCellDelegate {
+    
+    private func reloadCategories() {
+        if let result = ExerciseCategory.getAllExerciseCategories() {
+            categories = Array(result)
+        }
+    }
+    
+    func didTappedOtpionButton(_ cell: CategoryCollectionViewCell) {
+        guard let indexPath = categoryCollectionView.indexPath(for: cell) else { return }
         
-        guard let indexPath = collectionView.indexPath(for: cell), let category = categories?[indexPath.row] else { return }
+        let category = categories[indexPath.row]
         
         showActionSheet(modifyCompletion: {
             self.showAlertWithTextField() {
@@ -124,7 +127,6 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
                 self.reloadCategories()
             }
         }, removeCompletion: {
-            
             if let exercise = Exercise.getAllExercise(for: category.id) {
                 exercise.forEach {
                     Exercise.deleteExercise($0)
@@ -138,8 +140,8 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
             }
         })
     }
-
-    func showAlertWithTextField(completion: (() -> Void)?) {
+    
+    private func showAlertWithTextField(completion: (() -> Void)?) {
         
         let alert = UIAlertController(title: "카테고리 이름", message: "이름을 입력해 주세요", preferredStyle: .alert)
         
@@ -159,15 +161,27 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
         
         present(alert, animated: true)
     }
+}
+
+// MARK: - @objc 메서드
+extension CategoryViewController {
     
-    // 내장 메소드
+    @objc func didTappedFloatingButton() {
+        let vc = CategoryEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories?.count ?? 0
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseCollectionViewCell", for: indexPath) as? ExerciseCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(text: categories?[indexPath.row].title ?? "카테고리")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier,
+                                                            for: indexPath) as? CategoryCollectionViewCell else { return UICollectionViewCell() }
+        cell.configure(text: categories[indexPath.row].title)
         cell.delegate = self
         return cell
     }
@@ -178,7 +192,7 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ExerciseViewController(categoryID: (categories?[indexPath.row].id)!)
+        let vc = ExerciseViewController(categoryID: (categories[indexPath.row].id))
         navigationController?.pushViewController(vc, animated: true)
     }
 }

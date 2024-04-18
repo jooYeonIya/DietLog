@@ -17,7 +17,7 @@
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
-		0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */; };
+		0AC3F81E2BC010FA00995AF4 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81D2BC010FA00995AF4 /* CategoryCollectionViewCell.swift */; };
 		0AC3F8202BC01D5E00995AF4 /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F81F2BC01D5E00995AF4 /* ExerciseViewController.swift */; };
 		0AC3F8222BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8212BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift */; };
 		0AECFAE42BC12A8500BC773C /* CategoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AECFAE32BC12A8500BC773C /* CategoryEditViewController.swift */; };
@@ -63,7 +63,7 @@
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCollectionViewCell.swift; sourceTree = "<group>"; };
+		0AC3F81D2BC010FA00995AF4 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		0AC3F81F2BC01D5E00995AF4 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		0AC3F8212BC0356F00995AF4 /* ExerciseDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTableViewCell.swift; sourceTree = "<group>"; };
 		0AECFAE32BC12A8500BC773C /* CategoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditViewController.swift; sourceTree = "<group>"; };
@@ -118,19 +118,19 @@
 		0AB9BF0F2BCED2EA004A9DEB /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				0AB9BF102BCED2FB004A9DEB /* Cells */,
 				0AF454702BBE6E06005EBDD9 /* CategoryViewController.swift */,
 				0AECFAE32BC12A8500BC773C /* CategoryEditViewController.swift */,
-				0AB9BF102BCED2FB004A9DEB /* Cell */,
 			);
 			path = Category;
 			sourceTree = "<group>";
 		};
-		0AB9BF102BCED2FB004A9DEB /* Cell */ = {
+		0AB9BF102BCED2FB004A9DEB /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				0AC3F81D2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift */,
+				0AC3F81D2BC010FA00995AF4 /* CategoryCollectionViewCell.swift */,
 			);
-			path = Cell;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		0AB9BF172BCF4CBE004A9DEB /* Frameworks */ = {
@@ -423,7 +423,7 @@
 				0AB9BF132BCF0636004A9DEB /* RecentSearchManager.swift in Sources */,
 				0AECFAFD2BC7906000BC773C /* UserDefaultsKeys.swift in Sources */,
 				0AB9BF1E2BD1213F004A9DEB /* ImageFileManager.swift in Sources */,
-				0AC3F81E2BC010FA00995AF4 /* ExerciseCollectionViewCell.swift in Sources */,
+				0AC3F81E2BC010FA00995AF4 /* CategoryCollectionViewCell.swift in Sources */,
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,

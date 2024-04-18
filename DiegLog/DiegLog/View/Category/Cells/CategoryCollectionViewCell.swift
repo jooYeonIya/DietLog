@@ -7,13 +7,14 @@
 
 import UIKit
 
-protocol ExerciseCollectionViewCellDelegate: AnyObject {
-    func didTappedOtpionButton(_ cell: ExerciseCollectionViewCell)
+protocol CategoryCollectionViewCellDelegate: AnyObject {
+    func didTappedOtpionButton(_ cell: CategoryCollectionViewCell)
 }
 
-class ExerciseCollectionViewCell: UICollectionViewCell {
+class CategoryCollectionViewCell: UICollectionViewCell {
     
-    weak var delegate: ExerciseCollectionViewCellDelegate?
+    weak var delegate: CategoryCollectionViewCellDelegate?
+    static let identifier = "CategoryCollectionViewCell"
     
     func configure(text: String) {
         let view = UIView()
