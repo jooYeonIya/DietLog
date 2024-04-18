@@ -10,6 +10,7 @@ import FSCalendar
 
 class MyInfoViewController: BaseUIViewController {
     
+    // MARK: - Component
     private lazy var nickNameLabel = UILabel()
     private lazy var calendarView = FSCalendar()
     private lazy var editButton = UIButton()
@@ -17,14 +18,15 @@ class MyInfoViewController: BaseUIViewController {
     private lazy var muscleTextField = UITextField()
     private lazy var fatTextField = UITextField()
 
+    // MARK: - 변수
     var myInfo: MyInfo?
-    
     var postedDate: Date = Date() {
         willSet {
             switchMyInfo(date: newValue)
         }
     }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -196,6 +198,7 @@ extension MyInfoViewController {
     }
 }
 
+// MARK: - FSCalendar
 extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     func setCalendarViewUI() {
         calendarView.configure()
@@ -217,7 +220,6 @@ extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCale
         calendarView.delegate = self
     }
     
-    // FSCalendar 내장 메소드
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarView.snp.updateConstraints {
             $0.height.equalTo(bounds.height)
@@ -226,16 +228,13 @@ extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCale
         self.view.layoutIfNeeded()
     }
     
-    // 날짜 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         postedDate = date
     }
     
-    // 날짜 선택 해제했을 때
     public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
     }
     
-    // 토, 일 색깔 다르게 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         let day = Calendar.current.component(.weekday, from: date) - 1
         
@@ -248,7 +247,6 @@ extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCale
         }
     }
     
-    // 오늘 날짜 밑에 글씨 추가
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
