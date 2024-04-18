@@ -51,19 +51,21 @@ class MealEditViewController: BaseUIViewController {
         }
     }
     
-    // MARK: - Setup
+    // MARK: - Setup UI
     override func setUI() {
         setDateLabelUI()
         setImageViewUI()
         setMemoTextViewUI()
     }
     
+    // MARK: - Setup Layout
     override func setLayout() {
         setDateLabelLayout()
         setImageViewLayout()
         setMemoTextViewLayout()
     }
     
+    // MARK: - Setup NavigationBar
     override func setupNavigationBar() {
         var rightButton = UIBarButtonItem()
         
