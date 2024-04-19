@@ -7,41 +7,47 @@
 
 import UIKit
 
-protocol ExerciseDetailTableViewCellDelegate: AnyObject {
-    func didTappedOptionButton(_ cell: ExerciseDetailTableViewCell)
+protocol ExerciseTableViewCellDelegate: AnyObject {
+    func didTappedOptionButton(_ cell: ExerciseTableViewCell)
 }
 
-class ExerciseDetailTableViewCell: UITableViewCell {
+class ExerciseTableViewCell: UITableViewCell {
     
     private lazy var thumbnailImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var optionButton = UIButton()
     
-    weak var delegate: ExerciseDetailTableViewCellDelegate?
+    weak var delegate: ExerciseTableViewCellDelegate?
+    
+    static let identifier = "ExerciseTableViewCell"
+    
+    var exercise: Exercise?
     
     func configure(with exercise: Exercise) {
-        setLabel(title: exercise.title)
+        self.exercise = exercise
         
-        YoutubeAPIManager.shared.getThumbnailImage(with: exercise.thumbnailURL) { image in
-            DispatchQueue.main.async {
-                if let image = image {
-                    self.setImageView(thumbnailImage: image)
-                } else {
-                    // 에러 처리, 예를 들어 기본 이미지 설정
-                }
-            }
-        }
-        
-        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
-        optionButton.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
+        setImageView()
+        setTitleLabel()
+        setOptionButton()
 
         contentView.addSubViews([thumbnailImageView, titleLabel, optionButton])
         
         setLayout()
     }
     
-    func setImageView(thumbnailImage: UIImage) {
-        thumbnailImageView.image = thumbnailImage
+    private func setImageView() {
+        guard let exercise = exercise else { return }
+        
+        YoutubeAPIManager.shared.getThumbnailImage(with: exercise.thumbnailURL) { image in
+            DispatchQueue.main.async {
+                if let thumbnailImage = image {
+                    self.thumbnailImageView.image = thumbnailImage
+                } else {
+                    // 에러 처리, 예를 들어 기본 이미지 설정
+                }
+            }
+        }
+        
         thumbnailImageView.contentMode = .scaleAspectFill
         thumbnailImageView.layer.cornerRadius = 12
         thumbnailImageView.layer.masksToBounds = true
@@ -49,13 +55,20 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         thumbnailImageView.layer.borderWidth = 0.5
     }
     
-    func setLabel(title: String) {
-        titleLabel.setupLabel(text: title, font: .smallBody)
+    private func setTitleLabel() {
+        guard let exercise = exercise else { return }
+        
+        titleLabel.setupLabel(text: exercise.title, font: .smallBody)
         titleLabel.lineBreakMode = .byCharWrapping
         titleLabel.numberOfLines = 0
     }
     
-    func setLayout() {
+    private func setOptionButton() {
+        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        optionButton.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
+    }
+    
+    private func setLayout() {
         thumbnailImageView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(8)
             make.height.equalTo(contentView.snp.height).offset(-16)

@@ -249,7 +249,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
     func setResultTableViewUI() {
-        searchResultTableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: "ExerciseDetailTableViewCell")
+        searchResultTableView.register(ExerciseTableViewCell.self,
+                                       forCellReuseIdentifier: ExerciseTableViewCell.identifier)
         view.addSubview(searchResultTableView)
     }
     
@@ -272,7 +273,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.identifier,
+                                                       for: indexPath) as? ExerciseTableViewCell else { return UITableViewCell() }
 
         guard let result = searchResults?[indexPath.row] else { return UITableViewCell() }
         cell.configure(with: result)

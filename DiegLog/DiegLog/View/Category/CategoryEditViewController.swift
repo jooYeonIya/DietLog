@@ -8,25 +8,25 @@
 import UIKit
 
 class CategoryEditViewController: BaseUIViewController {
+    // MARK: - Componenet
     private lazy var label = UILabel()
     private lazy var textField = UITextField()
     private lazy var rightButton = UIBarButtonItem()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    // MARK: - Setup UI
     override func setUI() {
         label.setupLabel(text: "카테고리 이름", font: .body)
         textField.setUpTextField()
         
         view.addSubViews([label, textField])
-        
-        rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveCategory))
-
-        navigationItem.rightBarButtonItem = rightButton
     }
     
+    // MARK: - Setup Layout
     override func setLayout() {
         label.snp.makeConstraints { make in
             make.centerY.equalToSuperview().dividedBy(3)
@@ -39,6 +39,12 @@ class CategoryEditViewController: BaseUIViewController {
             make.leading.trailing.equalTo(label)
             make.height.equalTo(40)
         }
+    }
+    
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveCategory))
+        navigationItem.rightBarButtonItem = rightButton
     }
     
     @objc func saveCategory() {

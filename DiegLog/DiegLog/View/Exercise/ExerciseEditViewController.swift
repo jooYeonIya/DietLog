@@ -10,37 +10,43 @@ import RealmSwift
 
 class ExerciseEditViewController: BaseUIViewController {
     
-    private lazy var URLlabel = UILabel()
-    private lazy var textField = UITextField()
-    private lazy var categoryLabel = UILabel()
+    // MARK: - Component
     private lazy var rightButton = UIBarButtonItem()
+    
+    private lazy var URLlabel = UILabel()
+    private lazy var URLtextField = UITextField()
+    
+    private lazy var categoryLabel = UILabel()
     private lazy var noCategoryLabel = UILabel()
-    private lazy var collectionView: UICollectionView = {
+    private lazy var plusCategoryButton = UIButton()
+    private lazy var categoryCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = cellSpacing
         flowLayout.minimumInteritemSpacing = cellSpacing
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.register(ExerciseDetailEditCollectionViewCell.self, forCellWithReuseIdentifier: "ExerciseDetailEditCollectionViewCell")
+        collectionView.register(ExerciseEditCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ExerciseEditCollectionViewCell.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         
         return collectionView
     }()
     
-    let cellSpacing = CGFloat(4)
-
-    var exercise: Exercise?
-    var selectedCategoryId: ObjectId?
-    var category: [ExerciseCategory]? {
+    // MARK: - 변수
+    private let cellSpacing = CGFloat(4)
+    private var exercise: Exercise?
+    private var selectedCategoryId: ObjectId?
+    private var categories: [ExerciseCategory] = [] {
         didSet {
-            guard let hasCategories = category?.isEmpty else { return }
-            noCategoryLabel.isHidden = !hasCategories
-            collectionView.isHidden = hasCategories
-            collectionView.reloadData()
+            let hasCategories = !categories.isEmpty
+            noCategoryLabel.isHidden = hasCategories
+            categoryCollectionView.isHidden = !hasCategories
+            categoryCollectionView.reloadData()
         }
     }
     
+    // MARK: - 초기화
     init(exercise: Exercise? = nil) {
         self.exercise = exercise
         self.selectedCategoryId = exercise?.categoryID
@@ -51,6 +57,7 @@ class ExerciseEditViewController: BaseUIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -59,95 +66,124 @@ class ExerciseEditViewController: BaseUIViewController {
         reloadCategories()
     }
     
-    func reloadCategories() {
-        if let result = ExerciseCategory.getAllExerciseCategories() {
-            category = Array(result)
-        }
-        
-        if let category = category {
-            for (index, category) in category.enumerated() {
-                if category.id == selectedCategoryId {
-                    let indexPath = IndexPath(item: index, section: 0)
-                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
-                }
-            }
-        }
-    }
-    
-    // 나중에 코드 리팩토링 필요
+    // MARK: - Setup UI
     override func setUI() {
-        setURLLbelUI()
-        setTextFieldUI()
-        setCategoryLabel()
-        setCategoryPlusButton()
-        setSelectCategoryCollectionView()
-        setNoCategoryLabel()
+        view.addSubview(categoryCollectionView)
         
-        rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveURL))
-        navigationItem.rightBarButtonItem = rightButton
+        setURLLabelUI()
+        setURLTextFieldUI()
+        setCategoryLabelUI()
+        setPlusCategoryButtonUI()
+        setNoCategoryLabelUI()
     }
     
-    func setURLLbelUI() {
+    private func setURLLabelUI() {
         URLlabel.setupLabel(text: "영상 URL", font: .body)
-        view.addSubViews([URLlabel, textField])
+        view.addSubview(URLlabel)
+    }
+    
+    private func setURLTextFieldUI() {
+        if let exercise = exercise {
+            URLtextField.text = exercise.URL
+            URLtextField.isUserInteractionEnabled = false
+        } else {
+            URLtextField.setUpTextField()
+        }
         
+        view.addSubview(URLtextField)
+    }
+    
+    private func setCategoryLabelUI() {
+        categoryLabel.setupLabel(text: "카테고리 선택", font: .body)
+        view.addSubview(categoryLabel)
+    }
+    
+    private func setNoCategoryLabelUI() {
+        noCategoryLabel.setupLabel(text: "카테고리를 추가해 주세요", font: .smallBody)
+        noCategoryLabel.textAlignment = .center
+        view.addSubview(noCategoryLabel)
+    }
+    
+    private func setPlusCategoryButtonUI() {
+        plusCategoryButton.setTitle("추가하기", for: .normal)
+        plusCategoryButton.setTitleColor(.blue, for: .normal)
+        view.addSubview(plusCategoryButton)
+    }
+
+    // MARK: - Setup Layout
+    override func setLayout() {
         URLlabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview().dividedBy(3)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
         }
         
-        textField.snp.makeConstraints { make in
+        URLtextField.snp.makeConstraints { make in
             make.top.equalTo(URLlabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(URLlabel)
             make.height.equalTo(40)
         }
-    }
-    
-    func setTextFieldUI() {
-        if let exercise = exercise {
-            textField.text = exercise.URL
-            textField.isUserInteractionEnabled = false
-        } else {
-            textField.setUpTextField()
-        }
-    }
-    
-    func setCategoryLabel() {
-        categoryLabel.setupLabel(text: "카테고리 선택", font: .body)
-        view.addSubview(categoryLabel)
         
         categoryLabel.snp.makeConstraints { make in
-            make.top.equalTo(textField.snp.bottom).offset(24)
+            make.top.equalTo(URLtextField.snp.bottom).offset(24)
             make.leading.equalTo(URLlabel)
         }
-    }
-    
-    func setNoCategoryLabel() {
-        noCategoryLabel.setupLabel(text: "카테고리를 추가해 주세요", font: .smallBody)
-        noCategoryLabel.textAlignment = .center
-        
-        view.addSubview(noCategoryLabel)
         
         noCategoryLabel.snp.makeConstraints { make in
             make.top.equalTo(categoryLabel.snp.bottom).offset(24)
             make.leading.trailing.equalTo(URLlabel)
         }
-    }
-    
-    func setCategoryPlusButton() {
-        let button = UIButton()
-        button.setTitle("추가하기", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        view.addSubview(button)
         
-        button.addTarget(self, action: #selector(moveToCategoryView), for: .touchUpInside)
-        
-        button.snp.makeConstraints { make in
+        plusCategoryButton.snp.makeConstraints { make in
             make.centerY.equalTo(categoryLabel)
             make.trailing.equalToSuperview().inset(24)
         }
+        
+        categoryCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(categoryLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalTo(URLlabel)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
+    
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        plusCategoryButton.addTarget(self, action: #selector(moveToCategoryView), for: .touchUpInside)
+        
+        rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveURL))
+        navigationItem.rightBarButtonItem = rightButton
+    }
+}
+
+// MARK: - 메서드
+extension ExerciseEditViewController {
+    
+    private func reloadCategories() {
+        if let result = ExerciseCategory.getAllExerciseCategories() {
+            categories = Array(result)
+        }
+        
+        for (index, category) in categories.enumerated() {
+            if category.id == selectedCategoryId {
+                let indexPath = IndexPath(item: index, section: 0)
+                categoryCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
+            }
+        }
+    }
+    
+    private func isValidURL(with text: String) -> Bool {
+        if text.contains("youtube") || text.contains("youtu.be") {
+            if let url = URL(string: text) {
+                return UIApplication.shared.canOpenURL(url as URL)
+            }
+        }
+        
+        return false
+    }
+}
+
+// MARK: - @objc 메서드
+extension ExerciseEditViewController {
     
     @objc func moveToCategoryView() {
         let vc = CategoryEditViewController()
@@ -155,7 +191,7 @@ class ExerciseEditViewController: BaseUIViewController {
     }
     
     @objc func saveURL() {
-        guard let text = textField.text, !text.isEmpty, selectedCategoryId != nil else {
+        guard let text = URLtextField.text, !text.isEmpty, selectedCategoryId != nil else {
             showAlertOneButton(title: "", message: "URL 입력 및 카테고리 선택을 해주세요")
             return
         }
@@ -163,7 +199,7 @@ class ExerciseEditViewController: BaseUIViewController {
         if !isValidURL(with: text) {
             showAlertOneButton(title: "", message: "링크 주소가 올바르지 않습니다")
         } else {
-            guard let url = textField.text, let categoryID = selectedCategoryId else { return }
+            guard let url = URLtextField.text, let categoryID = selectedCategoryId else { return }
             
             if let exercise = exercise {
                 Exercise.updateExercise(exercise, newCategoryID: categoryID)
@@ -176,39 +212,19 @@ class ExerciseEditViewController: BaseUIViewController {
             }
         }
     }
-    
-    func isValidURL(with text: String) -> Bool {
-    
-        if text.contains("youtube") || text.contains("youtu.be") {
-            if let url = URL(string: text) {
-                return UIApplication.shared.canOpenURL(url as URL)
-            }
-        }
-        
-        return false
-    }
 }
 
+// MARK: - CollectionView
 extension ExerciseEditViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    func setSelectCategoryCollectionView() {
-        view.addSubview(collectionView)
-        
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(categoryLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalTo(URLlabel)
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
-    // 내장 메소드
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return category?.count ?? 0
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExerciseDetailEditCollectionViewCell", for: indexPath) as? ExerciseDetailEditCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(text: category?[indexPath.row].title ?? "카테고리")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExerciseEditCollectionViewCell.identifier,
+                                                            for: indexPath) as? ExerciseEditCollectionViewCell else { return UICollectionViewCell() }
+        cell.configure(text: categories[indexPath.row].title)
         cell.isSelected = false
         return cell
     }
@@ -220,9 +236,9 @@ extension ExerciseEditViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedCategoryId = category?[indexPath.row].id
+        selectedCategoryId = categories[indexPath.row].id
         
-        if let cell = collectionView.cellForItem(at: indexPath) as? ExerciseDetailEditCollectionViewCell {
+        if let cell = collectionView.cellForItem(at: indexPath) as? ExerciseEditCollectionViewCell {
             cell.isSelected.toggle()
         }
     }

@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ExerciseDetailEditCollectionViewCell: UICollectionViewCell {
+class ExerciseEditCollectionViewCell: UICollectionViewCell {
+    
+    static let identifier = "ExerciseEditCollectionViewCell"
     
     override var isSelected: Bool {
         didSet {
