@@ -60,7 +60,7 @@ class CategoryViewController: BaseUIViewController {
     }
     
     private func setButtonUI() {
-        floatingButton.setUpFloatingButton()
+        floatingButton.setupFloatingButton()
         view.addSubview(floatingButton)
     }
 

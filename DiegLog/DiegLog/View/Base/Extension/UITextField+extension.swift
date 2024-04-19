@@ -8,7 +8,7 @@
 import UIKit
 
 extension UITextField {
-    func setUpTextField(){
+    func setupTextField(){
         self.layer.cornerRadius = 12
         self.layer.masksToBounds = true
         

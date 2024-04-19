@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIButton {
-    func setUpButton(title: String, titleSize : UIFont) {
+    func setupButton(title: String, titleSize : UIFont) {
         layer.cornerRadius = 12
         layer.masksToBounds = true
         
@@ -20,7 +20,7 @@ extension UIButton {
         frame.size.height = 40
     }
     
-    func setUpFloatingButton() {
+    func setupFloatingButton() {
         layer.cornerRadius = 30
         backgroundColor = .systemBlue
         
