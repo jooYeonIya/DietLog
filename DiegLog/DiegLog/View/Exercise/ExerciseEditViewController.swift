@@ -206,7 +206,7 @@ extension ExerciseEditViewController {
             if let exercise = exercise {
                 exerciseManager.updateExercise(exercise, newCategoryID: categoryID)
             } else {
-                YoutubeAPIManager.shared.saveExercise(with: url, categoryID: categoryID)
+                YoutubeAPIService.shared.saveExercise(with: url, categoryID: categoryID)
             }
             
             self.showAlertOneButton(title: "", message: "저장했습니다") {

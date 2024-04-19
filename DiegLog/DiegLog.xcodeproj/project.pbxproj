@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0AB9BF092BCD56A4004A9DEB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF082BCD56A4004A9DEB /* Alamofire */; };
-		0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */; };
+		0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPIService.swift */; };
 		0AB9BF132BCF0636004A9DEB /* RecentSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */; };
 		0AB9BF162BCF2CDD004A9DEB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF152BCF2CDD004A9DEB /* IQKeyboardManagerSwift */; };
 		0AB9BF192BCF4CBE004A9DEB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */; };
@@ -59,7 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPI.swift; sourceTree = "<group>"; };
+		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPIService.swift; sourceTree = "<group>"; };
 		0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = YoutubeAPIKey.xcconfig; sourceTree = "<group>"; };
 		0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchManager.swift; sourceTree = "<group>"; };
 		0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -173,7 +173,6 @@
 		0AB9BF2F2BD26CFF004A9DEB /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */,
 				0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */,
 				0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */,
 				0AB9BF312BD26D1B004A9DEB /* RealmManager.swift */,
@@ -188,6 +187,7 @@
 		0AB9BF302BD26D09004A9DEB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPIService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -471,7 +471,7 @@
 				0AB9BF382BD27543004A9DEB /* MealManager.swift in Sources */,
 				0AB9BF342BD26D62004A9DEB /* MyInfoManager.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
-				0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */,
+				0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPIService.swift in Sources */,
 				0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */,
 				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
 				0AECFAFB2BC5617200BC773C /* ExerciseModel.swift in Sources */,
