@@ -199,7 +199,7 @@ extension SearchViewController {
     
     private func reloadSearchData() {
         guard let searchText = searchBar.text else { return }
-        if let result = Exercise.getAllExercise(with: searchText) {
+        if let result = ExerciseManager.shared.getAllExercise(with: searchText) {
             searchResults = Array(result)
         }
     }

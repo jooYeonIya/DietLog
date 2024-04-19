@@ -13,6 +13,9 @@ class CategoryEditViewController: BaseUIViewController {
     private lazy var textField = UITextField()
     private lazy var rightButton = UIBarButtonItem()
     
+    // MARK: - 변수
+    private var manager = ExerciseCatergoryManager.shared
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +59,7 @@ class CategoryEditViewController: BaseUIViewController {
         let category = ExerciseCategory()
         category.title = text
         
-        ExerciseCategory.addExerciseCategory(category)
+        manager.addExerciseCategory(category)
         
         showAlertOneButton(title: "", message: "저장했습니다") {
             self.navigationController?.popViewController(animated: true)

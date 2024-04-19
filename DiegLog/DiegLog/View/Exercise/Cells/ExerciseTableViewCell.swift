@@ -38,7 +38,7 @@ class ExerciseTableViewCell: UITableViewCell {
     private func setImageView() {
         guard let exercise = exercise else { return }
         
-        YoutubeAPIManager.shared.getThumbnailImage(with: exercise.thumbnailURL) { image in
+        YoutubeAPIService.shared.getThumbnailImage(with: exercise.thumbnailURL) { image in
             DispatchQueue.main.async {
                 if let thumbnailImage = image {
                     self.thumbnailImageView.image = thumbnailImage

@@ -16,8 +16,9 @@ class ExerciseViewController: BaseUIViewController {
     private lazy var floatingButton = UIButton()
     
     // MARK: - 변수
-    let selectedCategoryID: ObjectId
-    var exercise: [Exercise] = [] {
+    private let manager = ExerciseManager.shared
+    private let selectedCategoryID: ObjectId
+    private var exercise: [Exercise] = [] {
         didSet {
             let hasCategorieds = !exercise.isEmpty
             noDatalabel.isHidden = hasCategorieds
@@ -112,7 +113,7 @@ class ExerciseViewController: BaseUIViewController {
 extension ExerciseViewController: ExerciseTableViewCellDelegate {
     
     private func reloadExercise() {
-        if let result = Exercise.getAllExercise(for: selectedCategoryID) {
+        if let result = manager.getAllExercise(for: selectedCategoryID) {
             exercise = Array(result)
         }
     }
@@ -126,7 +127,7 @@ extension ExerciseViewController: ExerciseTableViewCellDelegate {
             let vc = ExerciseEditViewController(exercise: exercise)
             self.navigationController?.pushViewController(vc, animated: true)
         }, removeCompletion: {
-            Exercise.deleteExercise(exercise)
+            self.manager.deleteExercise(exercise)
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
                 self.reloadExercise()
             }

@@ -20,6 +20,7 @@ class MyInfoViewController: BaseUIViewController {
     private lazy var rowStackView = UIStackView()
 
     // MARK: - 변수
+    private var manager = MyInfoManager.shared
     private var myInfo: MyInfo?
     private var postedDate: Date = Date() {
         willSet {
@@ -145,7 +146,7 @@ class MyInfoViewController: BaseUIViewController {
 extension MyInfoViewController {
     
     private func changeDisplayTextField(toDate date: Date) {
-        if let result = MyInfo.getMyInfo(for: date) {
+        if let result = manager.getMyInfo(for: date) {
             myInfo = result
             weightTextField.text = myInfo?.weight ?? "0.0"
             muscleTextField.text = myInfo?.muscle ?? "0.0"
@@ -177,12 +178,12 @@ extension MyInfoViewController {
     }
     
     private func saveMyInfo(_ myInfo: MyInfo) {
-        MyInfo.addMyInfo(myInfo)
+        manager.addMyInfo(myInfo)
         showAlertOneButton(title: "", message: "저장했습니다")
     }
     
     private func updateMyInfo(for newMyInfo: MyInfo) {
-        MyInfo.updateMyInfo(myInfo!, newInfo: newMyInfo)
+        manager.updateMyInfo(myInfo!, newInfo: newMyInfo)
         showAlertOneButton(title: "", message: "저장했습니다")
     }
 }

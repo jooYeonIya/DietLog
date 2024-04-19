@@ -13,8 +13,8 @@ enum YoutubeAPI {
     static let URL: String = "https://youtube.googleapis.com/youtube/v3/"
 }
 
-class YoutubeAPIManager {
-    static let shared = YoutubeAPIManager()
+class YoutubeAPIService {
+    static let shared = YoutubeAPIService()
     private init() {}
     
     func saveExercise(with url: String, categoryID: ObjectId) {
@@ -25,7 +25,7 @@ class YoutubeAPIManager {
         let videoId = extractVideoId(from: url)
         
         getVideoInfo(for: exercise, from: videoId) {
-            Exercise.addExercise(exercise)
+            ExerciseManager.shared.addExercise(exercise)
         }
     }
     

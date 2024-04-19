@@ -34,6 +34,8 @@ class ExerciseEditViewController: BaseUIViewController {
     }()
     
     // MARK: - 변수
+    private var catergoryManager = ExerciseCatergoryManager.shared
+    private var exerciseManager = ExerciseManager.shared
     private let cellSpacing = CGFloat(4)
     private var exercise: Exercise?
     private var selectedCategoryId: ObjectId?
@@ -159,7 +161,7 @@ class ExerciseEditViewController: BaseUIViewController {
 extension ExerciseEditViewController {
     
     private func reloadCategories() {
-        if let result = ExerciseCategory.getAllExerciseCategories() {
+        if let result = catergoryManager.getAllExerciseCategories() {
             categories = Array(result)
         }
         
@@ -202,9 +204,9 @@ extension ExerciseEditViewController {
             guard let url = URLtextField.text, let categoryID = selectedCategoryId else { return }
             
             if let exercise = exercise {
-                Exercise.updateExercise(exercise, newCategoryID: categoryID)
+                exerciseManager.updateExercise(exercise, newCategoryID: categoryID)
             } else {
-                YoutubeAPIManager.shared.saveExercise(with: url, categoryID: categoryID)
+                YoutubeAPIService.shared.saveExercise(with: url, categoryID: categoryID)
             }
             
             self.showAlertOneButton(title: "", message: "저장했습니다") {
