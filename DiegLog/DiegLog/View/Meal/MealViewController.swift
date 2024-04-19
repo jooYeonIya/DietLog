@@ -17,7 +17,7 @@ class MealViewController: BaseUIViewController {
     private lazy var noDataLabel = UILabel()
     
     // MARK: - 변수
-    private var manager = MealManager.shaerd
+    private var manager = MealManager.shared
     private var selectedDate: Date = Date.now
     private var mealsData: [Meal] = [] {
         didSet {

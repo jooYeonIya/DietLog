@@ -10,7 +10,7 @@ import RealmSwift
 
 class MealManager: RealmManager {
     
-    static let shaerd = MealManager()
+    static let shared = MealManager()
     
     func addMeal(_ meal: Meal) {
         do {

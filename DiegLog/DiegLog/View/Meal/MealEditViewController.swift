@@ -21,7 +21,7 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoTextView = UITextView()
     
     // MARK: - 변수
-    private var manager = MealManager.shaerd
+    private var manager = MealManager.shared
     private var selectedDate: Date
     private let mealId: ObjectId?
     private var mealData: Meal? {
