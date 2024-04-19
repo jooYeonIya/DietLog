@@ -14,6 +14,8 @@
 		0AB9BF192BCF4CBE004A9DEB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */; };
 		0AB9BF1C2BCF4DE6004A9DEB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */; };
 		0AB9BF1E2BD1213F004A9DEB /* ImageFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */; };
+		0AB9BF322BD26D1B004A9DEB /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF312BD26D1B004A9DEB /* RealmManager.swift */; };
+		0AB9BF342BD26D62004A9DEB /* MyInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF332BD26D62004A9DEB /* MyInfoManager.swift */; };
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
@@ -60,6 +62,8 @@
 		0AB9BF182BCF4CBE004A9DEB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		0AB9BF1B2BCF4DE5004A9DEB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFileManager.swift; sourceTree = "<group>"; };
+		0AB9BF312BD26D1B004A9DEB /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		0AB9BF332BD26D62004A9DEB /* MyInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoManager.swift; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -149,6 +153,36 @@
 			path = Web;
 			sourceTree = "<group>";
 		};
+		0AB9BF2E2BD26C91004A9DEB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0AECFAF42BC55B5E00BC773C /* MyInfoModel.swift */,
+				0AECFAF62BC5610B00BC773C /* MealModel.swift */,
+				0AECFAF82BC5615100BC773C /* ExerciseCategoryModel.swift */,
+				0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0AB9BF2F2BD26CFF004A9DEB /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */,
+				0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */,
+				0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */,
+				0AB9BF312BD26D1B004A9DEB /* RealmManager.swift */,
+				0AB9BF332BD26D62004A9DEB /* MyInfoManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		0AB9BF302BD26D09004A9DEB /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		0AC3F81C2BC010BF00995AF4 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,13 +262,9 @@
 		0AF4542C2BBE445D005EBDD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0AECFAF42BC55B5E00BC773C /* MyInfoModel.swift */,
-				0AECFAF62BC5610B00BC773C /* MealModel.swift */,
-				0AECFAF82BC5615100BC773C /* ExerciseCategoryModel.swift */,
-				0AECFAFA2BC5617200BC773C /* ExerciseModel.swift */,
-				0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPI.swift */,
-				0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */,
-				0AB9BF1D2BD1213F004A9DEB /* ImageFileManager.swift */,
+				0AB9BF302BD26D09004A9DEB /* Service */,
+				0AB9BF2F2BD26CFF004A9DEB /* Manager */,
+				0AB9BF2E2BD26C91004A9DEB /* Model */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -412,6 +442,7 @@
 				0AF4546C2BBE6D72005EBDD9 /* AppTabBarItem.swift in Sources */,
 				0AC3F8202BC01D5E00995AF4 /* ExerciseViewController.swift in Sources */,
 				0AECFAE62BC12DAA00BC773C /* ExerciseEditViewController.swift in Sources */,
+				0AB9BF322BD26D1B004A9DEB /* RealmManager.swift in Sources */,
 				0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */,
 				0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */,
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
@@ -426,6 +457,7 @@
 				0AC3F81E2BC010FA00995AF4 /* CategoryCollectionViewCell.swift in Sources */,
 				0AF454782BBEBBC8005EBDD9 /* FSCalendarExtension.swift in Sources */,
 				0AECFAF72BC5610B00BC773C /* MealModel.swift in Sources */,
+				0AB9BF342BD26D62004A9DEB /* MyInfoManager.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
 				0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPI.swift in Sources */,
 				0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */,
