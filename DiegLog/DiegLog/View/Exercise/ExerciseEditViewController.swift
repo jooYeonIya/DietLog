@@ -35,6 +35,7 @@ class ExerciseEditViewController: BaseUIViewController {
     
     // MARK: - 변수
     private var catergoryManager = ExerciseCatergoryManager.shared
+    private var exerciseManager = ExerciseManager.shared
     private let cellSpacing = CGFloat(4)
     private var exercise: Exercise?
     private var selectedCategoryId: ObjectId?
@@ -203,7 +204,7 @@ extension ExerciseEditViewController {
             guard let url = URLtextField.text, let categoryID = selectedCategoryId else { return }
             
             if let exercise = exercise {
-                Exercise.updateExercise(exercise, newCategoryID: categoryID)
+                exerciseManager.updateExercise(exercise, newCategoryID: categoryID)
             } else {
                 YoutubeAPIManager.shared.saveExercise(with: url, categoryID: categoryID)
             }

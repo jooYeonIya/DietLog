@@ -26,7 +26,8 @@ class CategoryViewController: BaseUIViewController {
     }()
     
     // MARK: - 변수
-    private var manager = ExerciseCatergoryManager.shared
+    private var categoryManager = ExerciseCatergoryManager.shared
+    private var exerciseManager = ExerciseManager.shared
     private var newTitle: String = ""
     private let cellSpacing = CGFloat(16)
     private var categories: [ExerciseCategory] = [] {
@@ -111,7 +112,7 @@ class CategoryViewController: BaseUIViewController {
 extension CategoryViewController: CategoryCollectionViewCellDelegate {
     
     private func reloadCategories() {
-        if let result = manager.getAllExerciseCategories() {
+        if let result = categoryManager.getAllExerciseCategories() {
             categories = Array(result)
         }
     }
@@ -123,18 +124,18 @@ extension CategoryViewController: CategoryCollectionViewCellDelegate {
         
         showActionSheet(modifyCompletion: {
             self.showAlertWithTextField() {
-                self.manager.updateExerciseCategory(category, newTitle: self.newTitle)
+                self.categoryManager.updateExerciseCategory(category, newTitle: self.newTitle)
                 self.showAlertOneButton(title: "", message: "수정했습니다.")
                 self.reloadCategories()
             }
         }, removeCompletion: {
-            if let exercise = Exercise.getAllExercise(for: category.id) {
+            if let exercise = self.exerciseManager.getAllExercise(for: category.id) {
                 exercise.forEach {
-                    Exercise.deleteExercise($0)
+                    self.exerciseManager.deleteExercise($0)
                 }
             }
             
-            self.manager.deleteExerciseCategory(category)
+            self.categoryManager.deleteExerciseCategory(category)
             
             self.showAlertOneButton(title: "", message: "삭제했습니다") {
                 self.reloadCategories()

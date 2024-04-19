@@ -25,7 +25,7 @@ class YoutubeAPIManager {
         let videoId = extractVideoId(from: url)
         
         getVideoInfo(for: exercise, from: videoId) {
-            Exercise.addExercise(exercise)
+            ExerciseManager.shared.addExercise(exercise)
         }
     }
     
