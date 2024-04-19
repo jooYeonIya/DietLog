@@ -10,22 +10,23 @@ import RealmSwift
 
 class ExerciseViewController: BaseUIViewController {
     
+    // MARK: - Componenet
     private lazy var noDatalabel = UILabel()
-    private lazy var tableView = UITableView()
+    private lazy var exerciseTableView = UITableView()
     private lazy var floatingButton = UIButton()
     
+    // MARK: - 변수
     let selectedCategoryID: ObjectId
-    
-    var exercise: [Exercise]? {
+    var exercise: [Exercise] = [] {
         didSet {
-            guard let hasCategorieds = exercise?.isEmpty else { return }
-            
-            noDatalabel.isHidden = !hasCategorieds
-            tableView.isHidden = hasCategorieds
-            tableView.reloadData()
+            let hasCategorieds = !exercise.isEmpty
+            noDatalabel.isHidden = hasCategorieds
+            exerciseTableView.isHidden = !hasCategorieds
+            exerciseTableView.reloadData()
         }
     }
     
+    // MARK: - 초기화
     init(categoryID: ObjectId) {
         self.selectedCategoryID = categoryID
         super.init(nibName: nil, bundle: nil)
@@ -35,6 +36,7 @@ class ExerciseViewController: BaseUIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -43,40 +45,43 @@ class ExerciseViewController: BaseUIViewController {
         reloadExercise()
     }
     
-    func reloadExercise() {
-        if let result = Exercise.getAllExercise(for: selectedCategoryID) {
-            exercise = Array(result)
-        }
-    }
-    
+    // MARK: - Setup UI
     override func setUI() {
         setNoDataLabelUI()
-        setTableViewUI()
-        setButtonUI()
+        setExerciseTableViewUI()
+        setFloatingButtonUI()
     }
     
+    private func setNoDataLabelUI() {
+        noDatalabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
+        view.addSubview(noDatalabel)
+    }
+    
+    private func setExerciseTableViewUI() {
+        exerciseTableView.register(ExerciseTableViewCell.self,
+                                   forCellReuseIdentifier: ExerciseTableViewCell.identifier)
+        view.addSubview(exerciseTableView)
+    }
+    
+    private func setFloatingButtonUI() {
+        floatingButton.setUpFloatingButton()
+        view.addSubview(floatingButton)
+    }
+    
+    // MARK: - Setup Layout
     override func setLayout() {
         setNoDataLabelLayout()
         setTableLayout()
         setButtonLayout()
     }
     
-    override func setDelegate() {
-        setTableDalegate()
+    private func setNoDataLabelLayout() {
+        noDatalabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
     }
     
-    func setNoDataLabelUI() {
-        noDatalabel.setupLabel(text: "데이터를 기록해 주세요", font: .body)
-        view.addSubview(noDatalabel)
-    }
-    
-    func setButtonUI() {
-        floatingButton.setUpFloatingButton()
-        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
-        view.addSubview(floatingButton)
-    }
-    
-    func setButtonLayout() {
+    private func setButtonLayout() {
         floatingButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
             make.trailing.equalToSuperview().inset(12)
@@ -84,41 +89,38 @@ class ExerciseViewController: BaseUIViewController {
         }
     }
     
-    func setNoDataLabelLayout() {
-        noDatalabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
-    }
-    
-    @objc func didTappedFloatingButton() {
-        let vc = ExerciseEditViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource, ExerciseDetailTableViewCellDelegate {
-
-    func setTableViewUI() {
-        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: "ExerciseDetailTableViewCell")
-        view.addSubview(tableView)
-    }
-    
-    func setTableLayout() {
-        tableView.snp.makeConstraints { make in
+    private func setTableLayout() {
+        exerciseTableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().inset(24)
+            make.leading.trailing.equalToSuperview().inset(24)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
     
-    func setTableDalegate() {
-        tableView.dataSource = self
-        tableView.delegate = self
+    // MARK: - Setup Delegate
+    override func setDelegate() {
+        exerciseTableView.dataSource = self
+        exerciseTableView.delegate = self
+    }
+
+    // MARK: - Setup AddTarget
+    override func setAddTartget() {
+        floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+    }
+}
+// MARK: - 메서드
+extension ExerciseViewController: ExerciseTableViewCellDelegate {
+    
+    private func reloadExercise() {
+        if let result = Exercise.getAllExercise(for: selectedCategoryID) {
+            exercise = Array(result)
+        }
     }
     
-    func didTappedOptionButton(_ cell: ExerciseDetailTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell), let exercise = exercise?[indexPath.row] else { return }
+    func didTappedOptionButton(_ cell: ExerciseTableViewCell) {
+        guard let indexPath = exerciseTableView.indexPath(for: cell) else { return }
+        
+        let exercise = exercise[indexPath.row]
         
         showActionSheet(modifyCompletion: {
             let vc = ExerciseEditViewController(exercise: exercise)
@@ -130,16 +132,31 @@ extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource, Ex
             }
         })
     }
+}
+
+// MARK: - @objc 메서드
+extension ExerciseViewController {
     
-    // 내장 메소드
+    @objc func didTappedFloatingButton() {
+        let vc = ExerciseEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - TableView
+extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exercise?.count ?? 0
+        return exercise.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseDetailTableViewCell", for: indexPath) as? ExerciseDetailTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.identifier,
+                                                       for: indexPath) as? ExerciseTableViewCell
+        else { return UITableViewCell() }
         
-        guard let exercise = exercise?[indexPath.row] else { return UITableViewCell() }
+        let exercise = exercise[indexPath.row]
+        
         cell.delegate = self
         cell.configure(with: exercise)
         return cell
@@ -150,7 +167,7 @@ extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource, Ex
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = WebViewController(youtubeURL: exercise?[indexPath.row].URL ?? "https://www.youtube.com/")
+        let vc = WebViewController(youtubeURL: exercise[indexPath.row].URL)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -24,8 +24,6 @@ class CategoryEditViewController: BaseUIViewController {
         textField.setUpTextField()
         
         view.addSubViews([label, textField])
-
-        navigationItem.rightBarButtonItem = rightButton
     }
     
     // MARK: - Setup Layout
@@ -46,6 +44,7 @@ class CategoryEditViewController: BaseUIViewController {
     // MARK: - Setup AddTarget
     override func setAddTartget() {
         rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveCategory))
+        navigationItem.rightBarButtonItem = rightButton
     }
     
     @objc func saveCategory() {
