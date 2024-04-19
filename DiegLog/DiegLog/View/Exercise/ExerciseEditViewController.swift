@@ -34,6 +34,7 @@ class ExerciseEditViewController: BaseUIViewController {
     }()
     
     // MARK: - 변수
+    private var catergoryManager = ExerciseCatergoryManager.shared
     private let cellSpacing = CGFloat(4)
     private var exercise: Exercise?
     private var selectedCategoryId: ObjectId?
@@ -159,7 +160,7 @@ class ExerciseEditViewController: BaseUIViewController {
 extension ExerciseEditViewController {
     
     private func reloadCategories() {
-        if let result = ExerciseCategory.getAllExerciseCategories() {
+        if let result = catergoryManager.getAllExerciseCategories() {
             categories = Array(result)
         }
         

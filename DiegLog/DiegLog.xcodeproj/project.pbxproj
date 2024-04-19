@@ -17,6 +17,7 @@
 		0AB9BF322BD26D1B004A9DEB /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF312BD26D1B004A9DEB /* RealmManager.swift */; };
 		0AB9BF342BD26D62004A9DEB /* MyInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF332BD26D62004A9DEB /* MyInfoManager.swift */; };
 		0AB9BF382BD27543004A9DEB /* MealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF372BD27543004A9DEB /* MealManager.swift */; };
+		0AB9BF3A2BD27633004A9DEB /* ExerciseCategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF392BD27633004A9DEB /* ExerciseCategoryManager.swift */; };
 		0AC3F8132BBF892D00995AF4 /* MealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */; };
 		0AC3F8152BBF93F400995AF4 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */; };
 		0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */; };
@@ -66,6 +67,7 @@
 		0AB9BF312BD26D1B004A9DEB /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		0AB9BF332BD26D62004A9DEB /* MyInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoManager.swift; sourceTree = "<group>"; };
 		0AB9BF372BD27543004A9DEB /* MealManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealManager.swift; sourceTree = "<group>"; };
+		0AB9BF392BD27633004A9DEB /* ExerciseCategoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCategoryManager.swift; sourceTree = "<group>"; };
 		0AC3F8122BBF892D00995AF4 /* MealEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditViewController.swift; sourceTree = "<group>"; };
 		0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				0AB9BF312BD26D1B004A9DEB /* RealmManager.swift */,
 				0AB9BF332BD26D62004A9DEB /* MyInfoManager.swift */,
 				0AB9BF372BD27543004A9DEB /* MealManager.swift */,
+				0AB9BF392BD27633004A9DEB /* ExerciseCategoryManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				0AB9BF322BD26D1B004A9DEB /* RealmManager.swift in Sources */,
 				0AF4545E2BBE5ED9005EBDD9 /* AppTabBarController.swift in Sources */,
 				0AF454562BBE57E1005EBDD9 /* UIFontExtension.swift in Sources */,
+				0AB9BF3A2BD27633004A9DEB /* ExerciseCategoryManager.swift in Sources */,
 				0AF454532BBE5784005EBDD9 /* BaseUIViewController.swift in Sources */,
 				0AC3F8172BBF975D00995AF4 /* UIViewExtension.swift in Sources */,
 				0AF454182BBE3C87005EBDD9 /* AppDelegate.swift in Sources */,
