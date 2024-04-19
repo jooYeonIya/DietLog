@@ -17,6 +17,7 @@ class MealViewController: BaseUIViewController {
     private lazy var noDataLabel = UILabel()
     
     // MARK: - 변수
+    private var manager = MealManager.shaerd
     private var selectedDate: Date = Date.now
     private var mealsData: [Meal] = [] {
         didSet {
@@ -132,7 +133,7 @@ class MealViewController: BaseUIViewController {
 extension MealViewController {
     
     private func reloadMealsData() {
-        if let result = Meal.getMeals(for: selectedDate) {
+        if let result = manager.getMeals(for: selectedDate) {
             mealsData = Array(result)
         }
     }

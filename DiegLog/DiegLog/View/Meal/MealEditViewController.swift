@@ -21,6 +21,7 @@ class MealEditViewController: BaseUIViewController {
     private lazy var memoTextView = UITextView()
     
     // MARK: - 변수
+    private var manager = MealManager.shaerd
     private var selectedDate: Date
     private let mealId: ObjectId?
     private var mealData: Meal? {
@@ -184,7 +185,7 @@ extension MealEditViewController {
     
     private func reloadMealData() {
         if let id = mealId {
-            mealData = Meal.getMeal(for: id)
+            mealData = manager.getMeal(for: id)
         }
     }
     
@@ -226,19 +227,19 @@ extension MealEditViewController {
             return
         }
         let newMeal = createMealData()
-        Meal.addMeal(newMeal)
+        manager.addMeal(newMeal)
     }
     
     private func updateMealData() {
         guard let mealData = mealData, let imagePath = mealData.imagePath else { return }
         let newMeal = createMealData()
-        Meal.updateMeal(mealData, newMeal: newMeal)
+        manager.updateMeal(mealData, newMeal: newMeal)
         ImageFileManager.shared.removeImage(with: imagePath)
     }
     
     private func removeMealData() {
         guard let mealData = self.mealData, let imagePath = mealData.imagePath else { return }
-        Meal.deleteMeal(mealData)
+        manager.deleteMeal(mealData)
         ImageFileManager.shared.removeImage(with: imagePath)
         self.showAlertOneButton(title: "", message: "삭제했습니다") {
             self.navigationController?.popViewController(animated: true)
