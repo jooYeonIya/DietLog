@@ -17,6 +17,8 @@ class RecentSearchWordCollectionViewCell: UICollectionViewCell {
     lazy var deleteButton = UIButton()
     
     weak var delegate: RecentSearchWordCollectionViewCellDelegate?
+    
+    static let identifier = "RecentSearchWordCollectionViewCell"
 
     func configure(with text: String) {
         recentSearchWordlabel.setupLabel(text: text, font: .smallBody)
