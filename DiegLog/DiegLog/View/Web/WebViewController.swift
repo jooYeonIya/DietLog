@@ -11,7 +11,7 @@ import WebKit
 class WebViewController: BaseUIViewController {
     private lazy var wkWebView = WKWebView()
 
-    let youtubeURL: String?
+    private let youtubeURL: String?
         
     init(youtubeURL: String) {
         self.youtubeURL = youtubeURL

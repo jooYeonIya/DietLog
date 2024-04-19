@@ -64,7 +64,7 @@ class ExerciseViewController: BaseUIViewController {
     }
     
     private func setFloatingButtonUI() {
-        floatingButton.setUpFloatingButton()
+        floatingButton.setupFloatingButton()
         view.addSubview(floatingButton)
     }
     

@@ -10,11 +10,14 @@ import SnapKit
 import Photos
 
 class SignInViewController: BaseUIViewController {
+    
+    // MARK: - Componenet
     private lazy var welcomTitleLabel = UILabel()
     private lazy var welcomSubTitleLabel = UILabel()
     private lazy var nickNameTextField = UITextField()
     private lazy var saveButton = UIButton()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -23,22 +26,21 @@ class SignInViewController: BaseUIViewController {
         checkPhotoStatus()
     }
     
+    // MARK: - Setup UI
     override func setUI() {
         welcomTitleLabel.setupLabel(text: "안녕하세요!", font: .largeTitle)
         welcomSubTitleLabel.setupLabel(text: "접근 권한 설정이 필요합니다", font: .body)
 
         nickNameTextField.placeholder = "닉네임"
         nickNameTextField.isUserInteractionEnabled = false
-        nickNameTextField.setUpTextField()
+        nickNameTextField.setupTextField()
         
-        saveButton.setUpButton(title: "저장", titleSize: .body)
+        saveButton.setupButton(title: "저장", titleSize: .body)
         
-        view.addSubview(welcomTitleLabel)
-        view.addSubview(welcomSubTitleLabel)
-        view.addSubview(nickNameTextField)
-        view.addSubview(saveButton)
+        view.addSubViews([welcomTitleLabel, welcomSubTitleLabel, nickNameTextField, saveButton])
     }
     
+    // MARK: - Setup Layout
     override func setLayout() {
         welcomTitleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview().dividedBy(2)
@@ -64,25 +66,13 @@ class SignInViewController: BaseUIViewController {
         }
     }
     
+    // MARK: - Setup AddTarget
     override func setAddTartget() {
         saveButton.addTarget(self, action: #selector(didTappedSaveButton), for: .touchUpInside)
     }
-    
-    @objc func didTappedSaveButton() {
-
-        if nickNameTextField.text != "" {
-            UserDefaults.standard.setValue(nickNameTextField.text, forKey: UserDefaultsKeys.nickName)
-            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.isFirstLaunch)
-            
-            let tabBarViewController = AppTabBarController()
-            view.window?.rootViewController = tabBarViewController
-            view.window?.makeKeyAndVisible()
-        } else {
-            showAlertOneButton(title: "", message: "닉네임을 입력해 주세요")
-        }
-    }
 }
 
+// MARK: - 메서드
 extension SignInViewController {
     
     private func checkPhotoStatus() {
@@ -118,6 +108,19 @@ extension SignInViewController {
         alertController.addAction(cancel)
         
         present(alertController, animated: true)
+    }
+    
+    @objc func didTappedSaveButton() {
+        if nickNameTextField.text != "" {
+            UserDefaults.standard.setValue(nickNameTextField.text, forKey: UserDefaultsKeys.nickName)
+            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.isFirstLaunch)
+            
+            let tabBarViewController = AppTabBarController()
+            view.window?.rootViewController = tabBarViewController
+            view.window?.makeKeyAndVisible()
+        } else {
+            showAlertOneButton(title: "", message: "닉네임을 입력해 주세요")
+        }
     }
 }
     

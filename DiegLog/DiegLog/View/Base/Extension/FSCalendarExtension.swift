@@ -46,9 +46,6 @@ extension FSCalendar {
         // 오늘 날짜 선택 표시
         self.appearance.todayColor = .clear
         
-        // 평일, 주말 색깔 선택
-//        self.appearance.titleDefaultColor = .black
-//        self.appearance.titleWeekendColor = .red
         
         //이벤트 색깔
         self.appearance.eventDefaultColor = UIColor.green

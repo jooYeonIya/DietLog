@@ -71,7 +71,7 @@ class MyInfoViewController: BaseUIViewController {
             let label2 = UILabel()
             label2.setupLabel(text: "kg", font: .body)
             
-            textFields[i].setUpTextField()
+            textFields[i].setupTextField()
             changeDisplayTextField(toDate: Date.now)
             
             let columnStackView = UIStackView(arrangedSubviews: [label1, textFields[i], label2])

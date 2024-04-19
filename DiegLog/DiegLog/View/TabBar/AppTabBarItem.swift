@@ -11,15 +11,6 @@ enum AppTabBarItem: Int {
     
     case meal, myInfo, exercise, search
     
-    func toInt() -> Int {
-        switch self {
-        case .meal: return 0
-        case .myInfo: return 1
-        case .exercise: return 2
-        case .search: return 3
-        }
-    }
-    
     func toTabTitle() -> String {
         switch self {
         case .meal: return "식단"

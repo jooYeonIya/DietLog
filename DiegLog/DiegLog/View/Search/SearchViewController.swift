@@ -71,7 +71,7 @@ class SearchViewController: BaseUIViewController {
         searchBar.placeholder = "검색어를 입력하세요"
         searchBar.searchBarStyle = .minimal
         
-        searchBar.searchTextField.setUpTextField()
+        searchBar.searchTextField.setupTextField()
         searchBar.searchTextField.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
