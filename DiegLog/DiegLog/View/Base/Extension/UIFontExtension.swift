@@ -14,14 +14,14 @@ struct FontName {
 
 extension UIFont {
     class var largeTitle: UIFont {
-        guard let font = UIFont(name: FontName.bold, size: 30) else {
+        guard let font = UIFont(name: FontName.bold, size: 28) else {
             return UIFont.boldSystemFont(ofSize: 28)
         }
         return font
     }
     
     class var title: UIFont {
-        guard let font = UIFont(name: FontName.bold, size: 26) else {
+        guard let font = UIFont(name: FontName.bold, size: 24) else {
             return UIFont.boldSystemFont(ofSize: 24)
         }
         return font
