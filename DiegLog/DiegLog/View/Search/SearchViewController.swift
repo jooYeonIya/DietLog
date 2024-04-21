@@ -72,10 +72,12 @@ class SearchViewController: BaseUIViewController {
         searchBar.searchBarStyle = .minimal
         
         searchBar.searchTextField.setupTextField()
+        searchBar.searchTextField.borderStyle = .none
+        
         searchBar.searchTextField.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(48)
+            make.height.equalTo(44)
         }
         
         view.addSubview(searchBar)

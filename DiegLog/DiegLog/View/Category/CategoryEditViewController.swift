@@ -40,7 +40,7 @@ class CategoryEditViewController: BaseUIViewController {
         textField.snp.makeConstraints { make in
             make.top.equalTo(label.snp.bottom).offset(12)
             make.leading.trailing.equalTo(label)
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
     }
     

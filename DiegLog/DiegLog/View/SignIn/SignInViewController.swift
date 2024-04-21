@@ -56,7 +56,7 @@ class SignInViewController: BaseUIViewController {
         nickNameTextField.snp.makeConstraints { make in
             make.top.equalTo(welcomSubTitleLabel.snp.bottom).offset(60)
             make.leading.trailing.equalTo(welcomTitleLabel)
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
         
         saveButton.snp.makeConstraints { make in
