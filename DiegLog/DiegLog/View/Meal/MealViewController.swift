@@ -11,6 +11,7 @@ import FSCalendar
 class MealViewController: BaseUIViewController {
     
     // MARK: - Component
+    private lazy var topView = UIView()
     private lazy var calendarView = FSCalendar()
     private lazy var mealsDataTableView = UITableView()
     private lazy var floatingButton = UIButton()
@@ -40,10 +41,16 @@ class MealViewController: BaseUIViewController {
     
     // MARK: - Setup UI
     override func setUI() {
+        setTopViewUI()
         setCalendarViewUI()
         setTableViewUI()
         setFloatingButtonUI()
         setNoDataLabelUI()
+    }
+    
+    private func setTopViewUI() {
+        topView.backgroundColor = .customYellow
+        view.addSubview(topView)
     }
     
     private func setCalendarViewUI() {
@@ -70,23 +77,31 @@ class MealViewController: BaseUIViewController {
     
     // MARK: - Setup Layout
     override func setLayout() {
+        setTopViewLayout()
         setCalendarViewLayout()
         setTableViewLayout()
         setFloatingButtonLayout()
         setNoDataLabelLayout()
     }
     
+    private func setTopViewLayout() {
+        topView.snp.makeConstraints { make in
+            make.top.trailing.leading.equalToSuperview()
+            make.height.equalTo(140)
+        }
+    }
+    
     private func setCalendarViewLayout() {
         calendarView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(24)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalToSuperview().inset(24)
-            make.height.equalTo(300)
+            make.height.equalTo(360)
         }
     }
     
     private func setTableViewLayout() {
         mealsDataTableView.snp.makeConstraints { make in
-            make.top.equalTo(calendarView.snp.bottom).offset(8)
+            make.top.equalTo(calendarView.snp.bottom)
             make.leading.trailing.equalTo(calendarView)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -166,18 +181,6 @@ extension MealViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
         reloadMealsData()
-    }
-    
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        let day = Calendar.current.component(.weekday, from: date) - 1
-        
-        if Calendar.current.shortWeekdaySymbols[day] == "일" {
-            return .systemRed
-        } else if Calendar.current.shortWeekdaySymbols[day] == "토" {
-            return .systemBlue
-        } else {
-            return .label
-        }
     }
     
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {

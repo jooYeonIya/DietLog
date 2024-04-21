@@ -16,8 +16,10 @@ class MealsDataTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.image = mealDataImage
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = 24
         imageView.layer.masksToBounds = true
+        imageView.layer.borderColor = UIColor.customGray.cgColor
+        imageView.layer.borderWidth = 1.0
         
         contentView.addSubview(imageView)
         
