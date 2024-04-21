@@ -18,7 +18,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     func configure(text: String) {
         let view = UIView()
-        view.backgroundColor = .systemCyan
+        view.backgroundColor = .customGreen
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
         contentView.addSubview(view)
@@ -32,6 +32,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
+        label.textColor = .white
         
         let button = UIButton()
         button.setImage(UIImage(systemName: "photo"), for: .normal)

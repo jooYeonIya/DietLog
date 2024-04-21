@@ -62,5 +62,9 @@ extension AppTabBarController {
         tabBar.layer.shadowOpacity = 0.5
         tabBar.layer.shadowOffset = CGSize(width: 0, height: 2)
         tabBar.layer.shadowRadius = 2
+        
+        let appearance = UITabBarItem.appearance()
+        let attributes = [NSAttributedString.Key.font: UIFont(name: FontName.regular, size: 10)]
+        appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal)
     }
 }

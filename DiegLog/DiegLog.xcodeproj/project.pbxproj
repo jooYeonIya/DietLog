@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A68A8A22BD5722000780E36 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68A8A12BD5722000780E36 /* UIColorExtension.swift */; };
+		0A68A8BC2BD599C600780E36 /* LINESeedKR-Bd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A68A8BA2BD599C600780E36 /* LINESeedKR-Bd.otf */; };
+		0A68A8BD2BD599C600780E36 /* LINESeedKR-Rg.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A68A8BB2BD599C600780E36 /* LINESeedKR-Rg.otf */; };
 		0AB9BF092BCD56A4004A9DEB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF082BCD56A4004A9DEB /* Alamofire */; };
 		0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPIService.swift */; };
 		0AB9BF132BCF0636004A9DEB /* RecentSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */; };
@@ -61,6 +63,8 @@
 
 /* Begin PBXFileReference section */
 		0A68A8A12BD5722000780E36 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		0A68A8BA2BD599C600780E36 /* LINESeedKR-Bd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LINESeedKR-Bd.otf"; sourceTree = "<group>"; };
+		0A68A8BB2BD599C600780E36 /* LINESeedKR-Rg.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LINESeedKR-Rg.otf"; sourceTree = "<group>"; };
 		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPIService.swift; sourceTree = "<group>"; };
 		0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = YoutubeAPIKey.xcconfig; sourceTree = "<group>"; };
 		0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchManager.swift; sourceTree = "<group>"; };
@@ -127,6 +131,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A68A8A32BD579EE00780E36 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				0A68A8BA2BD599C600780E36 /* LINESeedKR-Bd.otf */,
+				0A68A8BB2BD599C600780E36 /* LINESeedKR-Rg.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		0AB9BF0F2BCED2EA004A9DEB /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +253,7 @@
 		0AF454162BBE3C87005EBDD9 /* DiegLog */ = {
 			isa = PBXGroup;
 			children = (
+				0A68A8A32BD579EE00780E36 /* Font */,
 				0AF4542D2BBE447F005EBDD9 /* Controller */,
 				0AF4542C2BBE445D005EBDD9 /* Model */,
 				0AF4542B2BBE444B005EBDD9 /* View */,
@@ -437,6 +451,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A68A8BD2BD599C600780E36 /* LINESeedKR-Rg.otf in Resources */,
+				0A68A8BC2BD599C600780E36 /* LINESeedKR-Bd.otf in Resources */,
 				0AF454242BBE3C88005EBDD9 /* LaunchScreen.storyboard in Resources */,
 				0AF454212BBE3C88005EBDD9 /* Assets.xcassets in Resources */,
 			);
