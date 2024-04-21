@@ -108,7 +108,8 @@ class ExerciseEditViewController: BaseUIViewController {
     
     private func setPlusCategoryButtonUI() {
         plusCategoryButton.setTitle("추가하기", for: .normal)
-        plusCategoryButton.setTitleColor(.blue, for: .normal)
+        plusCategoryButton.setTitleColor(.black, for: .normal)
+        plusCategoryButton.titleLabel?.font = .smallBody
         view.addSubview(plusCategoryButton)
     }
 
