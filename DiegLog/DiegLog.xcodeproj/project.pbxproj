@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A68A8A22BD5722000780E36 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68A8A12BD5722000780E36 /* UIColorExtension.swift */; };
 		0AB9BF092BCD56A4004A9DEB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0AB9BF082BCD56A4004A9DEB /* Alamofire */; };
 		0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPIService.swift */; };
 		0AB9BF132BCF0636004A9DEB /* RecentSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A68A8A12BD5722000780E36 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		0AB9BF0A2BCD56FA004A9DEB /* YoutubeAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeAPIService.swift; sourceTree = "<group>"; };
 		0AB9BF0E2BCD89F4004A9DEB /* YoutubeAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = YoutubeAPIKey.xcconfig; sourceTree = "<group>"; };
 		0AB9BF122BCF0636004A9DEB /* RecentSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchManager.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				0AF454772BBEBBC8005EBDD9 /* FSCalendarExtension.swift */,
 				0AC3F8142BBF93F400995AF4 /* DateFormatterExtension.swift */,
 				0AC3F8162BBF975D00995AF4 /* UIViewExtension.swift */,
+				0A68A8A12BD5722000780E36 /* UIColorExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				0AB9BF382BD27543004A9DEB /* MealManager.swift in Sources */,
 				0AB9BF342BD26D62004A9DEB /* MyInfoManager.swift in Sources */,
 				0AF4546F2BBE6DF8005EBDD9 /* MyInfoViewController.swift in Sources */,
+				0A68A8A22BD5722000780E36 /* UIColorExtension.swift in Sources */,
 				0AB9BF0B2BCD56FA004A9DEB /* YoutubeAPIService.swift in Sources */,
 				0AECFAEB2BC2E3E300BC773C /* SearchViewController.swift in Sources */,
 				0AF454732BBE6E0F005EBDD9 /* MealViewController.swift in Sources */,
