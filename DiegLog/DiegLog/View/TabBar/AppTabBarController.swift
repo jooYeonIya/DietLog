@@ -20,9 +20,11 @@ class AppTabBarController: UITabBarController {
         melaView.tabBarItem = UITabBarItem(title: AppTabBarItem.meal.toTabTitle(),
                                            image: AppTabBarItem.meal.toTabImage(),
                                            tag: AppTabBarItem.meal.rawValue)
+        
         myInfoView.tabBarItem = UITabBarItem(title: AppTabBarItem.myInfo.toTabTitle(),
                                              image: AppTabBarItem.myInfo.toTabImage(),
                                              tag: AppTabBarItem.myInfo.rawValue)
+        
         exerciseView.tabBarItem = UITabBarItem(title: AppTabBarItem.exercise.toTabTitle(),
                                                image: AppTabBarItem.exercise.toTabImage(),
                                                tag: AppTabBarItem.exercise.rawValue)
@@ -30,6 +32,8 @@ class AppTabBarController: UITabBarController {
         searchView.tabBarItem = UITabBarItem(title: AppTabBarItem.search.toTabTitle(),
                                                image: AppTabBarItem.search.toTabImage(),
                                                tag: AppTabBarItem.search.rawValue)
+        
+        searchView.tabBarItem.imageInsets = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
         
         let mealNavigationController = UINavigationController(rootViewController: melaView)
         let myInfoNavigationController = UINavigationController(rootViewController: myInfoView)
