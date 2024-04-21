@@ -29,7 +29,7 @@ class CategoryViewController: BaseUIViewController {
     private var categoryManager = ExerciseCatergoryManager.shared
     private var exerciseManager = ExerciseManager.shared
     private var newTitle: String = ""
-    private let cellSpacing = CGFloat(16)
+    private let cellSpacing = CGFloat(8)
     private var categories: [ExerciseCategory] = [] {
         didSet {
             let hasCategorieds = !categories.isEmpty
@@ -190,7 +190,8 @@ extension CategoryViewController: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width - 48 - cellSpacing) / 2
-        return CGSize(width: width, height: width)
+        let height = width / 1.6
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

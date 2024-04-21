@@ -18,7 +18,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     func configure(text: String) {
         let view = UIView()
-        view.backgroundColor = .customGreen
+        view.backgroundColor = .customYellow
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
         contentView.addSubview(view)
@@ -28,14 +28,14 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         }
         
         let label = UILabel()
-        label.setupLabel(text: text, font: .smallBody)
+        label.setupLabel(text: text, font: .body)
         label.textAlignment = .center
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
-        label.textColor = .white
+        label.textColor = .black
         
         let button = UIButton()
-        button.setImage(UIImage(systemName: "photo"), for: .normal)
+        button.setImage(UIImage(named: "OptionMenu"), for: .normal)
         button.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
         
         view.addSubViews([label, button])
