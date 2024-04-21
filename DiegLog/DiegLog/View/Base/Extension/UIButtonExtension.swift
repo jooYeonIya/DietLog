@@ -9,15 +9,15 @@ import UIKit
 
 extension UIButton {
     func setupButton(title: String, titleSize : UIFont) {
-        layer.cornerRadius = 12
+        layer.cornerRadius = 22
         layer.masksToBounds = true
         
         setTitle(title, for: .normal)
-        setTitleColor(.black, for: .normal)
+        setTitleColor(.white, for: .normal)
         
-        backgroundColor = .systemBlue
+        self.titleLabel?.setupLabel(text: title, font: .subTitle)
         
-        frame.size.height = 40
+        backgroundColor = .customYellow
     }
     
     func setupFloatingButton() {

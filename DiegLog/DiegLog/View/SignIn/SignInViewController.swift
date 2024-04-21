@@ -12,6 +12,8 @@ import Photos
 class SignInViewController: BaseUIViewController {
     
     // MARK: - Componenet
+    private lazy var topTitle = UILabel()
+    private lazy var backgroudView = UIView()
     private lazy var welcomTitleLabel = UILabel()
     private lazy var welcomSubTitleLabel = UILabel()
     private lazy var nickNameTextField = UITextField()
@@ -20,6 +22,7 @@ class SignInViewController: BaseUIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .customGray
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,8 +31,20 @@ class SignInViewController: BaseUIViewController {
     
     // MARK: - Setup UI
     override func setUI() {
-        welcomTitleLabel.setupLabel(text: "안녕하세요!", font: .largeTitle)
-        welcomSubTitleLabel.setupLabel(text: "접근 권한 설정이 필요합니다", font: .body)
+        
+        topTitle.setupLabel(text: "DIET LOG", font: .largeTitle)
+        topTitle.textAlignment = .center
+        topTitle.textColor = .customGreen
+        topTitle.numberOfLines = 2
+        
+        backgroudView.backgroundColor = .white
+        backgroudView.layer.shadowOpacity = 0.4
+        backgroudView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        backgroudView.layer.shadowRadius = 2
+        backgroudView.layer.cornerRadius = 16
+        
+        welcomTitleLabel.setupLabel(text: "안녕하세요!", font: .title)
+        welcomSubTitleLabel.setupLabel(text: "사진 앨범에 대한 권한 설정을 해주세요", font: .body)
 
         nickNameTextField.placeholder = "닉네임"
         nickNameTextField.isUserInteractionEnabled = false
@@ -37,32 +52,47 @@ class SignInViewController: BaseUIViewController {
         
         saveButton.setupButton(title: "저장", titleSize: .body)
         
-        view.addSubViews([welcomTitleLabel, welcomSubTitleLabel, nickNameTextField, saveButton])
+        view.addSubViews([topTitle,
+                          backgroudView,
+                          welcomTitleLabel,
+                          welcomSubTitleLabel,
+                          nickNameTextField,
+                          saveButton])
     }
     
     // MARK: - Setup Layout
     override func setLayout() {
-        welcomTitleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().dividedBy(2)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
+        backgroudView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(24)
+            make.height.equalTo(view.snp.height).dividedBy(3)
         }
         
+        topTitle.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(backgroudView.snp.top).offset(-48)
+        }
+        
+        welcomTitleLabel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(backgroudView).inset(24)
+        }
+
         welcomSubTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(welcomTitleLabel.snp.bottom).offset(4)
             make.leading.trailing.equalTo(welcomTitleLabel)
         }
-        
+
         nickNameTextField.snp.makeConstraints { make in
-            make.top.equalTo(welcomSubTitleLabel.snp.bottom).offset(60)
+            make.top.lessThanOrEqualTo(welcomSubTitleLabel.snp.bottom).offset(60)
             make.leading.trailing.equalTo(welcomTitleLabel)
             make.height.equalTo(44)
         }
-        
+
         saveButton.snp.makeConstraints { make in
-            make.top.equalTo(nickNameTextField.snp.bottom).offset(24)
+            make.top.equalTo(nickNameTextField.snp.bottom).offset(12)
+            make.bottom.greaterThanOrEqualTo(backgroudView.snp.bottom).inset(24)
             make.leading.trailing.equalTo(welcomTitleLabel)
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
     }
     
@@ -82,7 +112,7 @@ extension SignInViewController {
                 case .notDetermined, .restricted, .denied, .limited:
                     self.displaySettingsApp()
                 case .authorized:
-                    self.welcomSubTitleLabel.setupLabel(text: "앞으로 사용할 닉네임을 등록해주세요", font: .body)
+                    self.welcomSubTitleLabel.setupLabel(text: "앞으로 사용할 닉네임을 등록해 주세요", font: .body)
                     self.nickNameTextField.isUserInteractionEnabled = true
                 @unknown default:
                     fatalError("Unknown authorization status")
