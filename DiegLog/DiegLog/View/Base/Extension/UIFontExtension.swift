@@ -15,35 +15,35 @@ struct FontName {
 extension UIFont {
     class var largeTitle: UIFont {
         guard let font = UIFont(name: FontName.bold, size: 30) else {
-            return UIFont.boldSystemFont(ofSize: 30)
+            return UIFont.boldSystemFont(ofSize: 28)
         }
         return font
     }
     
     class var title: UIFont {
         guard let font = UIFont(name: FontName.bold, size: 26) else {
-            return UIFont.boldSystemFont(ofSize: 26)
+            return UIFont.boldSystemFont(ofSize: 24)
         }
         return font
     }
     
     class var subTitle: UIFont {
-        guard let font = UIFont(name: FontName.regular, size: 22) else {
-            return UIFont.systemFont(ofSize: 22)
+        guard let font = UIFont(name: FontName.bold, size: 20) else {
+            return UIFont.boldSystemFont(ofSize: 20)
         }
         return font
     }
     
     class var body: UIFont {
-        guard let font = UIFont(name: FontName.regular, size: 18) else {
-            return UIFont.systemFont(ofSize: 18)
+        guard let font = UIFont(name: FontName.regular, size: 16) else {
+            return UIFont.systemFont(ofSize: 16)
         }
         return font
     }
     
     class var smallBody: UIFont {
-        guard let font = UIFont(name: FontName.regular, size: 14) else {
-            return UIFont.systemFont(ofSize: 14)
+        guard let font = UIFont(name: FontName.regular, size: 12) else {
+            return UIFont.systemFont(ofSize: 12)
         }
         return font
     }
