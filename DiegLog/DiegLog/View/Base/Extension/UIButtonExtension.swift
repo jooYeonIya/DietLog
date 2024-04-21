@@ -21,15 +21,16 @@ extension UIButton {
     }
     
     func setupFloatingButton() {
-        layer.cornerRadius = 30
-        backgroundColor = .systemBlue
+        layer.cornerRadius = 26
+        backgroundColor = .customGreen
         
         let buttonImage = UIImage(systemName: "plus",
-                                  withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
+                                  withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium))
         setImage(buttonImage, for: .normal)
         tintColor = .white
         
-        layer.shadowRadius = 4
+        layer.shadowRadius = 3
         layer.shadowOpacity = 0.4
+        layer.shadowOffset = CGSize(width: 1, height: 1)
     }
 }

@@ -77,7 +77,7 @@ class CategoryViewController: BaseUIViewController {
         floatingButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
             make.trailing.equalToSuperview().inset(12)
-            make.height.width.equalTo(60)
+            make.height.width.equalTo(52)
         }
     }
     
