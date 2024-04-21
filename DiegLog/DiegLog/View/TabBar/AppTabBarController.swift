@@ -12,6 +12,8 @@ class AppTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setTabBarUI()
+        
         let melaView = MealViewController()
         let myInfoView = MyInfoViewController()
         let exerciseView = CategoryViewController()
@@ -45,6 +47,20 @@ class AppTabBarController: UITabBarController {
                            searchView]
         
         selectedViewController = myInfoNavigationController
+    }
+}
 
+extension AppTabBarController {
+    
+    private func setTabBarUI() {
+        tabBar.tintColor = .customGreen
+        
+        tabBar.shadowImage = UIImage()
+        tabBar.backgroundImage = UIImage()
+        tabBar.backgroundColor = .white
+        tabBar.layer.shadowColor = UIColor.black.cgColor
+        tabBar.layer.shadowOpacity = 0.5
+        tabBar.layer.shadowOffset = CGSize(width: 0, height: 2)
+        tabBar.layer.shadowRadius = 2
     }
 }
