@@ -31,7 +31,6 @@ class SignInViewController: BaseUIViewController {
     
     // MARK: - Setup UI
     override func setUI() {
-        
         topTitle.setupLabel(text: "DIET LOG", font: .largeTitle)
         topTitle.textAlignment = .center
         topTitle.textColor = .customGreen
@@ -45,8 +44,9 @@ class SignInViewController: BaseUIViewController {
         
         welcomTitleLabel.setupLabel(text: "안녕하세요!", font: .title)
         welcomSubTitleLabel.setupLabel(text: "사진 앨범에 대한 권한 설정을 해주세요", font: .body)
+        
+        nickNameTextField.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요", attributes: [NSAttributedString.Key.font: UIFont.body])
 
-        nickNameTextField.placeholder = "닉네임"
         nickNameTextField.isUserInteractionEnabled = false
         nickNameTextField.setupTextField()
         
