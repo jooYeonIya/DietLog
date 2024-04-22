@@ -58,33 +58,33 @@ class ExerciseTableViewCell: UITableViewCell {
     private func setTitleLabel() {
         guard let exercise = exercise else { return }
         
-        titleLabel.setupLabel(text: exercise.title, font: .smallBody)
+        titleLabel.setupLabel(text: exercise.title, font: .body)
         titleLabel.lineBreakMode = .byCharWrapping
         titleLabel.numberOfLines = 0
     }
     
     private func setOptionButton() {
-        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        optionButton.setImage(UIImage(named: "OptionMenu"), for: .normal)
         optionButton.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
     }
     
     private func setLayout() {
         thumbnailImageView.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(8)
-            make.height.equalTo(contentView.snp.height).offset(-16)
-            make.width.equalTo(thumbnailImageView.snp.height).multipliedBy(2)
+            make.top.equalToSuperview().inset(12)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(thumbnailImageView.snp.width).dividedBy(2)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(thumbnailImageView)
-            make.leading.equalTo(thumbnailImageView.snp.trailing).offset(8)
+            make.top.equalTo(thumbnailImageView.snp.bottom).offset(8)
+            make.leading.equalTo(thumbnailImageView.snp.leading).inset(8)
             make.trailing.equalTo(optionButton.snp.leading)
-
+            make.bottom.equalToSuperview().inset(12)
         }
-        
+
         optionButton.snp.makeConstraints { make in
-            make.top.equalTo(thumbnailImageView)
-            make.trailing.equalToSuperview().inset(8)
+            make.top.equalTo(thumbnailImageView.snp.bottom).offset(8)
+            make.trailing.equalTo(thumbnailImageView.snp.trailing).inset(8)
             make.width.height.equalTo(20)
         }
     }

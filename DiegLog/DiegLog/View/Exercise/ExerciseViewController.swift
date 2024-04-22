@@ -61,6 +61,7 @@ class ExerciseViewController: BaseUIViewController {
     private func setExerciseTableViewUI() {
         exerciseTableView.register(ExerciseTableViewCell.self,
                                    forCellReuseIdentifier: ExerciseTableViewCell.identifier)
+        exerciseTableView.separatorStyle = .none
         view.addSubview(exerciseTableView)
     }
     
@@ -146,9 +147,23 @@ extension ExerciseViewController {
 
 // MARK: - TableView
 extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 8
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return exercise.count
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exercise.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,17 +171,18 @@ extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource {
                                                        for: indexPath) as? ExerciseTableViewCell
         else { return UITableViewCell() }
         
-        let exercise = exercise[indexPath.row]
+        let exercise = exercise[indexPath.section]
         
         cell.delegate = self
         cell.configure(with: exercise)
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return UITableView.automaticDimension
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = WebViewController(youtubeURL: exercise[indexPath.row].URL)
         navigationController?.pushViewController(vc, animated: true)
