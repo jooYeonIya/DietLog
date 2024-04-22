@@ -124,7 +124,7 @@ class ExerciseEditViewController: BaseUIViewController {
         URLtextField.snp.makeConstraints { make in
             make.top.equalTo(URLlabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(URLlabel)
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
         
         categoryLabel.snp.makeConstraints { make in
