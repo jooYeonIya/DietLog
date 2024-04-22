@@ -20,7 +20,16 @@ class BaseUIViewController: UIViewController {
         setAddTartget()
     }
     
-    func setupNavigationBar() {}
+    func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        if isDisplayBackButton {
+            let backButton = UIBarButtonItem(image: UIImage(named: "NavigationBackIcon"), style: .plain, target: self, action: #selector(didTappedBackButton))
+            navigationItem.leftBarButtonItem = backButton
+        }
+        
+        let attributes = [NSAttributedString.Key.font: UIFont.body]
+        navigationController?.navigationBar.titleTextAttributes = attributes
+        navigationController?.navigationBar.tintColor = .black
+    }
     
     func setUI() {}
 
@@ -29,6 +38,10 @@ class BaseUIViewController: UIViewController {
     func setDelegate() {}
     
     func setAddTartget() {}
+    
+    @objc func didTappedBackButton() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 extension BaseUIViewController {

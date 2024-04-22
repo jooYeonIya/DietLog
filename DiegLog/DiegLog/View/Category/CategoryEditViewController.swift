@@ -50,6 +50,11 @@ class CategoryEditViewController: BaseUIViewController {
         navigationItem.rightBarButtonItem = rightButton
     }
     
+    // MARK: - Setup NavigationBar
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
+    }
+    
     @objc func saveCategory() {
         guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else {
             showAlertOneButton(title: "", message: "카테고리 이름을 입력해 주세요")

@@ -152,7 +152,8 @@ class MealEditViewController: BaseUIViewController {
     }
     
     // MARK: - Setup NavigationBar
-    override func setupNavigationBar() {
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
         navigationItem.rightBarButtonItem = setNavigationRightButton(isEditable)
     }
     

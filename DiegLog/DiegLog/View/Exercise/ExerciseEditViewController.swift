@@ -156,6 +156,11 @@ class ExerciseEditViewController: BaseUIViewController {
         rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveURL))
         navigationItem.rightBarButtonItem = rightButton
     }
+    
+    // MARK: - Setup NavigationBar
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
+    }
 }
 
 // MARK: - 메서드

@@ -192,6 +192,11 @@ class SearchViewController: BaseUIViewController {
                                                action: #selector(didTappedDeleteRecentSearchWordButton),
                                                for: .touchUpInside)
     }
+    
+    // MARK: - Setup NavigationBar
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
+    }
 }
 
 // MARK: - 메서드

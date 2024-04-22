@@ -110,6 +110,15 @@ class ExerciseViewController: BaseUIViewController {
     override func setAddTartget() {
         floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
     }
+    
+    // MARK: - Setup NavagationBar
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
+        
+        if let category = ExerciseCatergoryManager.shared.getExerciseCategory(at: selectedCategoryID) {
+            navigationItem.title = category.title
+        }
+    }
 }
 // MARK: - 메서드
 extension ExerciseViewController: ExerciseTableViewCellDelegate {
