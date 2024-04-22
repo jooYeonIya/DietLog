@@ -13,6 +13,7 @@ protocol ExerciseTableViewCellDelegate: AnyObject {
 
 class ExerciseTableViewCell: UITableViewCell {
     
+    private lazy var shadowView = UIView()
     private lazy var thumbnailImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var optionButton = UIButton()
@@ -26,13 +27,22 @@ class ExerciseTableViewCell: UITableViewCell {
     func configure(with exercise: Exercise) {
         self.exercise = exercise
         
+        setShadowView()
         setImageView()
         setTitleLabel()
         setOptionButton()
 
-        contentView.addSubViews([thumbnailImageView, titleLabel, optionButton])
+        contentView.addSubViews([shadowView, thumbnailImageView, titleLabel, optionButton])
         
         setLayout()
+    }
+    
+    private func setShadowView() {
+        shadowView.backgroundColor = .customYellow
+        shadowView.layer.shadowOpacity = 0.4
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        shadowView.layer.shadowRadius = 2
+        shadowView.layer.cornerRadius = 12
     }
     
     private func setImageView() {
@@ -69,9 +79,13 @@ class ExerciseTableViewCell: UITableViewCell {
     }
     
     private func setLayout() {
+        shadowView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(4)
+        }
+        
         thumbnailImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(12)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalTo(shadowView).inset(12)
             make.height.equalTo(thumbnailImageView.snp.width).dividedBy(2)
         }
         

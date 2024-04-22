@@ -62,6 +62,7 @@ class ExerciseViewController: BaseUIViewController {
         exerciseTableView.register(ExerciseTableViewCell.self,
                                    forCellReuseIdentifier: ExerciseTableViewCell.identifier)
         exerciseTableView.separatorStyle = .none
+        exerciseTableView.showsVerticalScrollIndicator = false
         view.addSubview(exerciseTableView)
     }
     
@@ -95,7 +96,7 @@ class ExerciseViewController: BaseUIViewController {
         exerciseTableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.leading.trailing.equalToSuperview().inset(24)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-24)
         }
     }
     
@@ -122,7 +123,7 @@ extension ExerciseViewController: ExerciseTableViewCellDelegate {
     func didTappedOptionButton(_ cell: ExerciseTableViewCell) {
         guard let indexPath = exerciseTableView.indexPath(for: cell) else { return }
         
-        let exercise = exercise[indexPath.row]
+        let exercise = exercise[indexPath.section]
         
         showActionSheet(modifyCompletion: {
             let vc = ExerciseEditViewController(exercise: exercise)
@@ -149,7 +150,7 @@ extension ExerciseViewController {
 extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 8
+        return 0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -184,7 +185,7 @@ extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = WebViewController(youtubeURL: exercise[indexPath.row].URL)
+        let vc = WebViewController(youtubeURL: exercise[indexPath.section].URL)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
