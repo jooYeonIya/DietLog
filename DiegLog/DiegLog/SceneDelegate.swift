@@ -17,7 +17,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
             
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController()
+        
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isFirstLaunch)
+        
+        if isFirstLaunch {
+            window?.rootViewController = AppTabBarController()
+        } else {
+            window?.rootViewController = SignInViewController()
+        }
+
         window?.makeKeyAndVisible()
     }
 

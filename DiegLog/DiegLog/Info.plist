@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>LINESeedKR-Bd.otf</string>
+		<string>LINESeedKR-Rg.otf</string>
+	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>사진 앨범에 접근이 필요합니다</string>
+	<key>YoutubeAPIKey</key>
+	<string>$(YOUTUBE_API_KEY)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
