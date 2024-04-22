@@ -89,7 +89,7 @@ class ExerciseEditViewController: BaseUIViewController {
             URLtextField.text = exercise.URL
             URLtextField.isUserInteractionEnabled = false
         } else {
-            URLtextField.setupTextField()
+            URLtextField.setupTextField(44)
         }
         
         view.addSubview(URLtextField)

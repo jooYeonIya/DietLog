@@ -72,7 +72,7 @@ class SearchViewController: BaseUIViewController {
         searchBar.placeholder = "검색어를 입력하세요"
         searchBar.searchBarStyle = .minimal
         
-        searchBar.searchTextField.setupTextField()
+        searchBar.searchTextField.setupTextField(44)
         searchBar.searchTextField.borderStyle = .none
         
         searchBar.searchTextField.snp.makeConstraints { make in

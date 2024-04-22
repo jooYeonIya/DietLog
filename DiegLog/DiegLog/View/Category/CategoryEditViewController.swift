@@ -24,7 +24,7 @@ class CategoryEditViewController: BaseUIViewController {
     // MARK: - Setup UI
     override func setUI() {
         label.setupLabel(text: "카테고리 이름", font: .body)
-        textField.setupTextField()
+        textField.setupTextField(44)
         
         view.addSubViews([label, textField])
     }

@@ -48,7 +48,7 @@ class SignInViewController: BaseUIViewController {
         nickNameTextField.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요", attributes: [NSAttributedString.Key.font: UIFont.body])
 
         nickNameTextField.isUserInteractionEnabled = false
-        nickNameTextField.setupTextField()
+        nickNameTextField.setupTextField(44)
         
         saveButton.setupButton(title: "저장", titleSize: .body)
         
