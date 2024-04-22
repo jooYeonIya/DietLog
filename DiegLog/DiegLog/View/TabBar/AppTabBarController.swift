@@ -40,11 +40,12 @@ class AppTabBarController: UITabBarController {
         let mealNavigationController = UINavigationController(rootViewController: melaView)
         let myInfoNavigationController = UINavigationController(rootViewController: myInfoView)
         let exerciseNavigationController = UINavigationController(rootViewController: exerciseView)
+        let searchNavigationController = UINavigationController(rootViewController: searchView)
         
         viewControllers = [mealNavigationController,
                            myInfoNavigationController,
                            exerciseNavigationController,
-                           searchView]
+                           searchNavigationController]
         
         selectedViewController = myInfoNavigationController
     }

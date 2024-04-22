@@ -22,9 +22,10 @@ class RecentSearchWordCollectionViewCell: UICollectionViewCell {
 
     func configure(with text: String) {
         recentSearchWordlabel.setupLabel(text: text, font: .smallBody)
+        recentSearchWordlabel.textColor = .white
         
-        deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        deleteButton.tintColor = .black
+        deleteButton.setImage(UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12)), for: .normal)
+        deleteButton.tintColor = .white
         deleteButton.addTarget(self, action: #selector(deleteSearch(_:)), for: .touchUpInside)
         
         contentView.addSubViews([recentSearchWordlabel, deleteButton])
@@ -43,8 +44,7 @@ class RecentSearchWordCollectionViewCell: UICollectionViewCell {
         
         contentView.layer.cornerRadius = 12
         contentView.layer.masksToBounds = true
-        contentView.layer.borderColor = UIColor.blue.cgColor
-        contentView.layer.borderWidth = 1.0
+        contentView.backgroundColor = .customGreen
     }
     
     @objc func deleteSearch(_ sender: UIButton) {

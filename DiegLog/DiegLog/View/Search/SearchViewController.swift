@@ -54,6 +54,7 @@ class SearchViewController: BaseUIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         reloadRecentSearchData()
+        reloadSearchData()
     }
     
     // MARK: - Setup UI
@@ -101,8 +102,9 @@ class SearchViewController: BaseUIViewController {
     }
     
     private func setResultTableViewUI() {
-        searchResultTableView.register(ExerciseTableViewCell.self,
-                                       forCellReuseIdentifier: ExerciseTableViewCell.identifier)
+        searchResultTableView.register(SearchResultTableViewCell.self,
+                                       forCellReuseIdentifier: SearchResultTableViewCell.identifier)
+        searchResultTableView.showsVerticalScrollIndicator = false
         view.addSubview(searchResultTableView)
     }
     
@@ -193,8 +195,7 @@ class SearchViewController: BaseUIViewController {
 }
 
 // MARK: - 메서드
-extension SearchViewController {
-    
+extension SearchViewController: SearchResultTableViewCellDelegate, RecentSearchWordCollectionViewCellDelegate {
     private func reloadRecentSearchData() {
         recentSearchWords = RecentSearchManager.shared.getAllRecentSearchWord()
     }
@@ -207,8 +208,26 @@ extension SearchViewController {
     }
     
     func didTappedDelegateButton() {
+        searchBar.searchTextField.text = nil
         reloadRecentSearchData()
         reloadSearchData()
+    }
+    
+    func didTappedOptionButton(_ cell: SearchResultTableViewCell) {
+        guard let indexPath = searchResultTableView.indexPath(for: cell) else { return }
+        
+        let result = searchResults[indexPath.row]
+        
+        showActionSheet(modifyCompletion: {
+            let vc = ExerciseEditViewController(exercise: result)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }, removeCompletion: {
+            ExerciseManager.shared.deleteExercise(result)
+            self.showAlertOneButton(title: "", message: "삭제했습니다") {
+                self.reloadRecentSearchData()
+                self.reloadSearchData()
+            }
+        })
     }
 }
 
@@ -241,7 +260,7 @@ extension SearchViewController: UISearchBarDelegate {
 }
 
 // MARK: - CollectionView
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RecentSearchWordCollectionViewCellDelegate {
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return recentSearchWords.count == 0 ? 0 : recentSearchWords.count
@@ -261,7 +280,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let text = recentSearchWords[indexPath.row]
-        let font = UIFont.systemFont(ofSize: 14)
+        let font = UIFont.smallBody
         let textAttributes = [NSAttributedString.Key.font: font]
         let textWidth = (text as NSString).size(withAttributes: textAttributes).width
 
@@ -285,16 +304,24 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.identifier,
-                                                       for: indexPath) as? ExerciseTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier,
+                                                       for: indexPath) as? SearchResultTableViewCell
         else { return UITableViewCell() }
         
         let result = searchResults[indexPath.row]
         cell.configure(with: result)
+        cell.delegate = self
+        cell.separatorInset.left = 8
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = WebViewController(youtubeURL: searchResults[indexPath.row].URL)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
