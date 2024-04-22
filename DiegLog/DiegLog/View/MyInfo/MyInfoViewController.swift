@@ -53,7 +53,7 @@ class MyInfoViewController: BaseUIViewController {
         }
         
         stackShadowView.backgroundColor = .white
-        shadowView.backgroundColor = .customGreen
+        shadowView.backgroundColor = .customYellow
 
         view.addSubViews([stackShadowView, shadowView])
     }
@@ -66,7 +66,8 @@ class MyInfoViewController: BaseUIViewController {
     
     private func setCalendarViewUI() {
         calendarView.configure()
-        calendarView.appearance.subtitleTodayColor = .white
+        calendarView.appearance.subtitleTodayColor = .gray
+        calendarView.appearance.selectionColor = .customRightGreen
         calendarView.appearance.headerTitleOffset = CGPoint(x: 0, y: 0)
         view.addSubview(calendarView)
     }
@@ -92,7 +93,7 @@ class MyInfoViewController: BaseUIViewController {
             let label2 = UILabel()
             label2.setupLabel(text: "kg", font: .body)
             
-            textFields[i].setupTextField(22)
+            textFields[i].setupTextField(28)
             changeDisplayTextField(toDate: Date.now)
             
             let columnStackView = UIStackView(arrangedSubviews: [label1, textFields[i], label2])
@@ -101,7 +102,7 @@ class MyInfoViewController: BaseUIViewController {
             columnStackView.spacing = 8
             
             columnStackView.snp.makeConstraints { make in
-                make.height.equalTo(22)
+                make.height.equalTo(28)
             }
             
             rowStackView.addArrangedSubview(columnStackView)
@@ -111,7 +112,7 @@ class MyInfoViewController: BaseUIViewController {
     }
     
     private func setEditButtonUI() {
-        editButton.setupFloatingButton()
+        editButton.setupFloatingButton(isUsedPlusSymbol: false)
         view.addSubview(editButton)
     }
     
@@ -125,7 +126,7 @@ class MyInfoViewController: BaseUIViewController {
     
     private func setNickNameLabelLayot() {
         nickNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-12)
             make.leading.trailing.equalToSuperview().inset(24)
         }
     }
@@ -144,7 +145,7 @@ class MyInfoViewController: BaseUIViewController {
         stackShadowView.snp.makeConstraints { make in
             make.top.equalTo(calendarView.snp.bottom).offset(12)
             make.leading.trailing.equalTo(nickNameLabel)
-            make.bottom.equalTo(editButton.snp.top).offset(-12)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-12)
         }
         
         rowStackView.snp.makeConstraints { make in
@@ -155,8 +156,8 @@ class MyInfoViewController: BaseUIViewController {
     
     private func setEditButtonLayout() {
         editButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
-            make.trailing.equalToSuperview().inset(12)
+            make.centerY.equalTo(rowStackView)
+            make.trailing.equalTo(rowStackView).offset(-12)
             make.height.width.equalTo(52)
         }
     }
