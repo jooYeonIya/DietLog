@@ -61,6 +61,8 @@ class ExerciseViewController: BaseUIViewController {
     private func setExerciseTableViewUI() {
         exerciseTableView.register(ExerciseTableViewCell.self,
                                    forCellReuseIdentifier: ExerciseTableViewCell.identifier)
+        exerciseTableView.separatorStyle = .none
+        exerciseTableView.showsVerticalScrollIndicator = false
         view.addSubview(exerciseTableView)
     }
     
@@ -86,7 +88,7 @@ class ExerciseViewController: BaseUIViewController {
         floatingButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
             make.trailing.equalToSuperview().inset(12)
-            make.height.width.equalTo(60)
+            make.height.width.equalTo(52)
         }
     }
     
@@ -94,7 +96,7 @@ class ExerciseViewController: BaseUIViewController {
         exerciseTableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.leading.trailing.equalToSuperview().inset(24)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-24)
         }
     }
     
@@ -107,6 +109,15 @@ class ExerciseViewController: BaseUIViewController {
     // MARK: - Setup AddTarget
     override func setAddTartget() {
         floatingButton.addTarget(self, action: #selector(didTappedFloatingButton), for: .touchUpInside)
+    }
+    
+    // MARK: - Setup NavagationBar
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
+        
+        if let category = ExerciseCatergoryManager.shared.getExerciseCategory(at: selectedCategoryID) {
+            navigationItem.title = category.title
+        }
     }
 }
 // MARK: - 메서드
@@ -121,7 +132,7 @@ extension ExerciseViewController: ExerciseTableViewCellDelegate {
     func didTappedOptionButton(_ cell: ExerciseTableViewCell) {
         guard let indexPath = exerciseTableView.indexPath(for: cell) else { return }
         
-        let exercise = exercise[indexPath.row]
+        let exercise = exercise[indexPath.section]
         
         showActionSheet(modifyCompletion: {
             let vc = ExerciseEditViewController(exercise: exercise)
@@ -146,9 +157,23 @@ extension ExerciseViewController {
 
 // MARK: - TableView
 extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return exercise.count
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exercise.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,19 +181,20 @@ extension ExerciseViewController: UITableViewDelegate, UITableViewDataSource {
                                                        for: indexPath) as? ExerciseTableViewCell
         else { return UITableViewCell() }
         
-        let exercise = exercise[indexPath.row]
+        let exercise = exercise[indexPath.section]
         
         cell.delegate = self
         cell.configure(with: exercise)
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return UITableView.automaticDimension
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = WebViewController(youtubeURL: exercise[indexPath.row].URL)
+        let vc = WebViewController(youtubeURL: exercise[indexPath.section].URL)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

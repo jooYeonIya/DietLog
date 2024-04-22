@@ -13,8 +13,8 @@ class ExerciseEditCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            contentView.layer.borderColor = isSelected ? UIColor.blue.cgColor : UIColor.black.cgColor
-            contentView.layer.borderWidth = isSelected ? 1.5 : 1.0
+            contentView.layer.borderColor = isSelected ? UIColor.customRightGreen.cgColor : UIColor.customYellow.cgColor
+            contentView.layer.borderWidth = isSelected ? 1.5 : 1.2
         }
     }
     
@@ -25,7 +25,7 @@ class ExerciseEditCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.textAlignment = .center
         
-        contentView.layer.cornerRadius = 12
+        contentView.layer.cornerRadius = 24
         contentView.layer.masksToBounds = true
         contentView.addSubview(label)
         

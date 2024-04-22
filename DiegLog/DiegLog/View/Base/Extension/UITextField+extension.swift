@@ -8,15 +8,17 @@
 import UIKit
 
 extension UITextField {
-    func setupTextField(){
-        self.layer.cornerRadius = 12
-        self.layer.masksToBounds = true
+    func setupTextField(_ width: CGFloat) {
+        font = .body
         
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.black.cgColor
+        layer.cornerRadius = width / 2
+        layer.masksToBounds = true
+        
+        layer.borderWidth = 1.2
+        layer.borderColor = UIColor.customYellow.cgColor
         
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.size.height))
-        self.leftView = leftPaddingView
-        self.leftViewMode = .always
+        leftView = leftPaddingView
+        leftViewMode = .always
     }
 }

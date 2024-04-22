@@ -11,6 +11,8 @@ import FSCalendar
 class MyInfoViewController: BaseUIViewController {
     
     // MARK: - Component
+    private lazy var shadowView = UIView()
+    private lazy var stackShadowView = UIView()
     private lazy var nickNameLabel = UILabel()
     private lazy var calendarView = FSCalendar()
     private lazy var editButton = UIButton()
@@ -35,10 +37,25 @@ class MyInfoViewController: BaseUIViewController {
     
     // MARK: - Setup UI
     override func setUI() {
+        setShadowViewUI()
         setNickNameLabelUI()
         setCalendarViewUI()
         setStackViewUI()
         setEditButtonUI()
+    }
+    
+    private func setShadowViewUI() {
+        [stackShadowView, shadowView].forEach {
+            $0.layer.shadowOpacity = 0.4
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
+            $0.layer.cornerRadius = 16
+        }
+        
+        stackShadowView.backgroundColor = .white
+        shadowView.backgroundColor = .customYellow
+
+        view.addSubViews([stackShadowView, shadowView])
     }
     
     private func setNickNameLabelUI() {
@@ -49,6 +66,9 @@ class MyInfoViewController: BaseUIViewController {
     
     private func setCalendarViewUI() {
         calendarView.configure()
+        calendarView.appearance.subtitleTodayColor = .gray
+        calendarView.appearance.selectionColor = .customRightGreen
+        calendarView.appearance.headerTitleOffset = CGPoint(x: 0, y: 0)
         view.addSubview(calendarView)
     }
     
@@ -68,17 +88,22 @@ class MyInfoViewController: BaseUIViewController {
             
             let label1 = UILabel()
             label1.setupLabel(text: title[i], font: .body)
+            label1.textAlignment = .right
             
             let label2 = UILabel()
             label2.setupLabel(text: "kg", font: .body)
             
-            textFields[i].setupTextField()
+            textFields[i].setupTextField(28)
             changeDisplayTextField(toDate: Date.now)
             
             let columnStackView = UIStackView(arrangedSubviews: [label1, textFields[i], label2])
             columnStackView.axis = .horizontal
             columnStackView.distribution = .fillEqually
             columnStackView.spacing = 8
+            
+            columnStackView.snp.makeConstraints { make in
+                make.height.equalTo(28)
+            }
             
             rowStackView.addArrangedSubview(columnStackView)
         }
@@ -87,8 +112,7 @@ class MyInfoViewController: BaseUIViewController {
     }
     
     private func setEditButtonUI() {
-        editButton.setTitle("저장", for: .normal)
-        editButton.setTitleColor(.blue, for: .normal)
+        editButton.setupFloatingButton(isUsedPlusSymbol: false)
         view.addSubview(editButton)
     }
     
@@ -102,31 +126,39 @@ class MyInfoViewController: BaseUIViewController {
     
     private func setNickNameLabelLayot() {
         nickNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-12)
             make.leading.trailing.equalToSuperview().inset(24)
         }
     }
     
     private func setCalendarViewLayout() {
-        calendarView.snp.makeConstraints { make in
-            make.top.equalTo(nickNameLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalTo(nickNameLabel)
-            make.height.equalTo(300)
+        [shadowView, calendarView].forEach {
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(nickNameLabel.snp.bottom).offset(12)
+                make.leading.trailing.equalTo(nickNameLabel)
+                make.height.equalTo(360)
+            }
         }
     }
     
     private func setStackViewLayout() {
-        rowStackView.snp.makeConstraints { make in
+        stackShadowView.snp.makeConstraints { make in
             make.top.equalTo(calendarView.snp.bottom).offset(12)
+            make.leading.trailing.equalTo(nickNameLabel)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-12)
+        }
+        
+        rowStackView.snp.makeConstraints { make in
+            make.centerY.equalTo(stackShadowView)
             make.leading.trailing.equalTo(nickNameLabel)
         }
     }
     
     private func setEditButtonLayout() {
         editButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(12)
-            make.trailing.equalToSuperview().inset(12)
-            make.height.width.equalTo(60)
+            make.centerY.equalTo(rowStackView)
+            make.trailing.equalTo(rowStackView).offset(-12)
+            make.height.width.equalTo(52)
         }
     }
     
@@ -179,12 +211,10 @@ extension MyInfoViewController {
     
     private func saveMyInfo(_ myInfo: MyInfo) {
         manager.addMyInfo(myInfo)
-        showAlertOneButton(title: "", message: "저장했습니다")
     }
     
     private func updateMyInfo(for newMyInfo: MyInfo) {
         manager.updateMyInfo(myInfo!, newInfo: newMyInfo)
-        showAlertOneButton(title: "", message: "저장했습니다")
     }
 }
 
@@ -205,6 +235,10 @@ extension MyInfoViewController {
         } else {
             updateMyInfo(for: newMyInfo)
         }
+        
+        showAlertOneButton(title: "", message: "저장했습니다") {
+            self.view.endEditing(true)
+        }
     }
 }
 
@@ -221,18 +255,6 @@ extension MyInfoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCale
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         postedDate = date
-    }
-    
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        let day = Calendar.current.component(.weekday, from: date) - 1
-        
-        if Calendar.current.shortWeekdaySymbols[day] == "일" {
-            return .systemRed
-        } else if Calendar.current.shortWeekdaySymbols[day] == "토" {
-            return .systemBlue
-        } else {
-            return .label
-        }
     }
     
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {

@@ -89,7 +89,7 @@ class ExerciseEditViewController: BaseUIViewController {
             URLtextField.text = exercise.URL
             URLtextField.isUserInteractionEnabled = false
         } else {
-            URLtextField.setupTextField()
+            URLtextField.setupTextField(44)
         }
         
         view.addSubview(URLtextField)
@@ -108,7 +108,8 @@ class ExerciseEditViewController: BaseUIViewController {
     
     private func setPlusCategoryButtonUI() {
         plusCategoryButton.setTitle("추가하기", for: .normal)
-        plusCategoryButton.setTitleColor(.blue, for: .normal)
+        plusCategoryButton.setTitleColor(.black, for: .normal)
+        plusCategoryButton.titleLabel?.font = .smallBody
         view.addSubview(plusCategoryButton)
     }
 
@@ -123,7 +124,7 @@ class ExerciseEditViewController: BaseUIViewController {
         URLtextField.snp.makeConstraints { make in
             make.top.equalTo(URLlabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(URLlabel)
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
         
         categoryLabel.snp.makeConstraints { make in
@@ -154,6 +155,11 @@ class ExerciseEditViewController: BaseUIViewController {
         
         rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveURL))
         navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    // MARK: - Setup NavigationBar
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
     }
 }
 

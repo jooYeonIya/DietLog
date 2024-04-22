@@ -66,7 +66,7 @@ class MealEditViewController: BaseUIViewController {
     
     private func setDateLabelUI() {
         let dateString = DateFormatter.toString(from: selectedDate)
-        let text = isEditable ? "\(dateString) ▽" : "\(dateString)"
+        let text = isEditable ? "\(dateString) ⌵" : "\(dateString)"
         dateLabel.setupLabel(text: text, font: .subTitle)
         dateLabel.textAlignment = .left
 
@@ -152,7 +152,8 @@ class MealEditViewController: BaseUIViewController {
     }
     
     // MARK: - Setup NavigationBar
-    override func setupNavigationBar() {
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
         navigationItem.rightBarButtonItem = setNavigationRightButton(isEditable)
     }
     
@@ -192,8 +193,8 @@ extension MealEditViewController {
     private func createMealData() -> Meal {
         let meal = Meal()
         
-        if let folderName = dateLabel.text, let image = imageView.image {
-            
+        if let image = imageView.image {
+            let folderName = DateFormatter.toString(from: selectedDate)
             let imageName = UUID().uuidString
             ImageFileManager.shared.saveImage(folderName: folderName, imageName: "\(imageName).png", image: image)
             
@@ -208,7 +209,7 @@ extension MealEditViewController {
     
     private func toggleEditSetup(isEditable: Bool) {
         let dateString = DateFormatter.toString(from: selectedDate)
-        let text = isEditable ? "\(dateString) ▽" : "\(dateString)"
+        let text = isEditable ? "\(dateString) ⌵" : "\(dateString)"
         dateLabel.setupLabel(text: text, font: .subTitle)
         dateLabel.isUserInteractionEnabled.toggle()
         imageEditButton.isHidden.toggle()
@@ -267,7 +268,7 @@ extension MealEditViewController {
 
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             let text = DateFormatter.toString(from: self.datePickerView.date)
-            self.dateLabel.text = "\(text) ▽"
+            self.dateLabel.text = "\(text) ⌵"
             self.selectedDate = self.datePickerView.date
         }
         

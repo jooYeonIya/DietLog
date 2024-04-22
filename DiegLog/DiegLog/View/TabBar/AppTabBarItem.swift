@@ -23,10 +23,10 @@ enum AppTabBarItem: Int {
     // 이미지는 추후 수정
     func toTabImage() -> UIImage {
         switch self {
-        case .meal: return UIImage(systemName: "tray") ?? UIImage()
-        case .myInfo: return UIImage(systemName: "tray") ?? UIImage()
-        case .exercise: return UIImage(systemName: "tray") ?? UIImage()
-        case .search: return UIImage(systemName: "tray") ?? UIImage()
+        case .meal: return UIImage(named: "Meal") ?? UIImage()
+        case .myInfo: return UIImage(named: "MyInfo") ?? UIImage()
+        case .exercise: return UIImage(named: "Exercise") ?? UIImage()
+        case .search: return UIImage(named: "Search") ?? UIImage()
         }
     }
 }

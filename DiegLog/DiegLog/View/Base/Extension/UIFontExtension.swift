@@ -7,24 +7,44 @@
 
 import UIKit
 
+struct FontName {
+    static let bold = "LINESeedSansKR-Bold"
+    static let regular = "LINESeedSansKR-Regular"
+}
+
 extension UIFont {
     class var largeTitle: UIFont {
-        return UIFont.boldSystemFont(ofSize: 30)
+        guard let font = UIFont(name: FontName.bold, size: 28) else {
+            return UIFont.boldSystemFont(ofSize: 28)
+        }
+        return font
     }
     
     class var title: UIFont {
-        return UIFont.boldSystemFont(ofSize: 26)
+        guard let font = UIFont(name: FontName.bold, size: 24) else {
+            return UIFont.boldSystemFont(ofSize: 24)
+        }
+        return font
     }
     
     class var subTitle: UIFont {
-        return UIFont.systemFont(ofSize: 22)
+        guard let font = UIFont(name: FontName.bold, size: 20) else {
+            return UIFont.boldSystemFont(ofSize: 20)
+        }
+        return font
     }
     
     class var body: UIFont {
-        return UIFont.systemFont(ofSize: 18)
+        guard let font = UIFont(name: FontName.regular, size: 16) else {
+            return UIFont.systemFont(ofSize: 16)
+        }
+        return font
     }
     
     class var smallBody: UIFont {
-        return UIFont.systemFont(ofSize: 14)
+        guard let font = UIFont(name: FontName.regular, size: 12) else {
+            return UIFont.systemFont(ofSize: 12)
+        }
+        return font
     }
 }

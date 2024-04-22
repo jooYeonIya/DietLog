@@ -13,6 +13,7 @@ protocol ExerciseTableViewCellDelegate: AnyObject {
 
 class ExerciseTableViewCell: UITableViewCell {
     
+    private lazy var shadowView = UIView()
     private lazy var thumbnailImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var optionButton = UIButton()
@@ -26,13 +27,22 @@ class ExerciseTableViewCell: UITableViewCell {
     func configure(with exercise: Exercise) {
         self.exercise = exercise
         
+        setShadowView()
         setImageView()
         setTitleLabel()
         setOptionButton()
 
-        contentView.addSubViews([thumbnailImageView, titleLabel, optionButton])
+        contentView.addSubViews([shadowView, thumbnailImageView, titleLabel, optionButton])
         
         setLayout()
+    }
+    
+    private func setShadowView() {
+        shadowView.backgroundColor = .customYellow
+        shadowView.layer.shadowOpacity = 0.4
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        shadowView.layer.shadowRadius = 2
+        shadowView.layer.cornerRadius = 12
     }
     
     private func setImageView() {
@@ -58,33 +68,37 @@ class ExerciseTableViewCell: UITableViewCell {
     private func setTitleLabel() {
         guard let exercise = exercise else { return }
         
-        titleLabel.setupLabel(text: exercise.title, font: .smallBody)
+        titleLabel.setupLabel(text: exercise.title, font: .body)
         titleLabel.lineBreakMode = .byCharWrapping
         titleLabel.numberOfLines = 0
     }
     
     private func setOptionButton() {
-        optionButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        optionButton.setImage(UIImage(named: "OptionMenu"), for: .normal)
         optionButton.addTarget(self, action: #selector(didTappedOptionButton), for: .touchUpInside)
     }
     
     private func setLayout() {
+        shadowView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(4)
+        }
+        
         thumbnailImageView.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(8)
-            make.height.equalTo(contentView.snp.height).offset(-16)
-            make.width.equalTo(thumbnailImageView.snp.height).multipliedBy(2)
+            make.top.equalToSuperview().inset(12)
+            make.leading.trailing.equalTo(shadowView).inset(12)
+            make.height.equalTo(thumbnailImageView.snp.width).dividedBy(2)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(thumbnailImageView)
-            make.leading.equalTo(thumbnailImageView.snp.trailing).offset(8)
+            make.top.equalTo(thumbnailImageView.snp.bottom).offset(8)
+            make.leading.equalTo(thumbnailImageView.snp.leading).inset(8)
             make.trailing.equalTo(optionButton.snp.leading)
-
+            make.bottom.equalToSuperview().inset(12)
         }
-        
+
         optionButton.snp.makeConstraints { make in
-            make.top.equalTo(thumbnailImageView)
-            make.trailing.equalToSuperview().inset(8)
+            make.top.equalTo(thumbnailImageView.snp.bottom).offset(8)
+            make.trailing.equalTo(thumbnailImageView.snp.trailing).inset(8)
             make.width.height.equalTo(20)
         }
     }

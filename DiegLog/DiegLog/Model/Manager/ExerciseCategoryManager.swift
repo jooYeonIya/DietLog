@@ -25,6 +25,11 @@ class ExerciseCatergoryManager: RealmManager {
     func getAllExerciseCategories() -> Results<ExerciseCategory>? {
         return realm.objects(ExerciseCategory.self)
     }
+    
+    func getExerciseCategory(at id: ObjectId) -> ExerciseCategory? {
+        let query = NSPredicate(format: "id == %@", id)
+        return realm.objects(ExerciseCategory.self).filter(query).first
+    }
 
     func updateExerciseCategory(_ category: ExerciseCategory, newTitle: String){
         do {

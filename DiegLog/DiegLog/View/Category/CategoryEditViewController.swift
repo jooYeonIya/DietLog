@@ -24,7 +24,7 @@ class CategoryEditViewController: BaseUIViewController {
     // MARK: - Setup UI
     override func setUI() {
         label.setupLabel(text: "카테고리 이름", font: .body)
-        textField.setupTextField()
+        textField.setupTextField(44)
         
         view.addSubViews([label, textField])
     }
@@ -40,7 +40,7 @@ class CategoryEditViewController: BaseUIViewController {
         textField.snp.makeConstraints { make in
             make.top.equalTo(label.snp.bottom).offset(12)
             make.leading.trailing.equalTo(label)
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
     }
     
@@ -48,6 +48,11 @@ class CategoryEditViewController: BaseUIViewController {
     override func setAddTartget() {
         rightButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveCategory))
         navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    // MARK: - Setup NavigationBar
+    override func setupNavigationBar(isDisplayBackButton: Bool = false) {
+        super.setupNavigationBar(isDisplayBackButton: true)
     }
     
     @objc func saveCategory() {
